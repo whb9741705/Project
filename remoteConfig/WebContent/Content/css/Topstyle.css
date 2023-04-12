@@ -1,0 +1,50 @@
+/* CSS Document */
+
+@charset "utf-8";
+/* CSS Document */
+/* site Css */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, form, fieldset, legend, textarea, input, button, blockquote, pre { margin: 0; padding: 0; font-family: "Microsoft YaHei"; }
+html { background: none repeat scroll 0 0 #FFFFFF; color: #666666; font: 12px Verdana,����; }
+div { margin: 0px; padding: 0px; /*overflow: hidden;Ӱ���ͼ��ʾ������ע��*/ text-align: left; }
+li { list-style: none outside none; }
+ul, li { margin: 0px; padding: 0px; list-style-type: none; }
+a { text-decoration: none; }
+a img { border: 0px; }
+a:hover { text-decoration: none; }
+body { overflow-x: hidden; overflow-y: hidden; overflow: hidden; }
+
+
+.header { width: 100%; height: 103px; background-repeat: repeat; -moz-box-shadow: 4px 4px 12px -2px rgba(20%,20%,40%,0.5); -webkit-box-shadow: 4px 4px 12px -2px rgba(20%,20%,40%,0.5); box-shadow: 4px 4px 12px -2px rgba(20%,20%,40%,0.5); z-index: 9999; /*position: absolute;*/ background-color: #506aa5; overflow:hidden;}
+.logo_zm { background-image: url(../images/logo_zm.png);background-repeat: no-repeat;  width: 320px; height: 62px; float: left; margin-right: 50px; margin-top: 20px; }
+.logo_xy { background-image: url(../images/logo_xy.png);background-repeat: no-repeat;  width: 320px; height: 62px; float: left; margin-right: 50px; margin-top: 20px; }
+.logo_wh { background-image: url(../images/logo_wh.png);background-repeat: no-repeat;  width: 320px; height: 62px; float: left; margin-right: 50px; margin-top: 20px; }
+.logo_tz { background-image: url(../images/logo_tz.png);background-repeat: no-repeat;  width: 320px; height: 62px; float: left; margin-right: 50px; margin-top: 20px; }
+.logo { background-image: url(../images/logo.png);background-repeat: no-repeat;  width: 320px; height: 62px; float: left; margin-right: 50px; margin-top: 20px; }
+.loginimg { width: 350px; height: 119px; float: right; background-color: #355294; overflow:hidden;}
+
+.navigation ul { margin-top: 15px; margin-left: 50px; }
+.navigation ul li a { text-align: center; display: block; padding-top: 70px; color: #8fc258; cursor: pointer; }
+
+.navigation ul li:hover { background-color: #355294; width: 101px; border-top: 8px solid #fba013; color: #4f7c31; }
+
+#main_nav { /*margin-top:20px;*/ }
+#main_nav ul li { display: inline; float: left; margin: 0; position: relative; bottom: 0; margin-right: 10px; width: 80px; }
+#main_nav li a { font-family: "Microsoft YaHei"; font-size: 14px; display: block; position: relative; text-align: center;  padding-top: 60px; color: #ffffff; margin-top: -60px; height: 100px; }
+#main_nav li a:hover { color: #5ad59d; }
+#main_nav ul li a span { display: block; margin: 0px auto; width: 58px; height: 59px; margin-top: 10px; overflow: hidden; }
+#main_nav ul li a img { border: 0px; display: block; margin: 0 auto; margin-top: 10px; width: 58px; height: 59px; }
+.current { background: #355294; }
+#main_nav a:after { color: #333; content: attr(data-description); font-size: 12px; display: block; text-align: right; margin-top: 2px; }
+#main_nav li:hover { color: #75aa3b; background: #355294; }
+#main_nav li a.selected { /*CSS class that's dynamically added to the currently active menu items' LI A element*/ background: #58978c url(../img/menu-bg-righ.png) no-repeat right; color: #fff; }
+.imgmargintop { margin: 0 auto; display: block; padding-top: 10px; }
+
+.logintxt { font-family: "Microsoft YaHei"; font-size: 15px; color: #ffffff; margin: 30px auto auto 10px; }
+.logintxt li { line-height: 50px; }
+.logintxt li a { color: #868672; cursor: pointer; }
+.logintxt li a:hover { color: #75a93f; cursor: pointer; }
+.addweixin { width: 199px; height: 97px; float: right; margin-right: 10px; background-image: url(/Content/webui/images/layout/addweixin.png); }
+.reddote { display: block; margin-top: -51px; margin-left: 27px; border: 0; }
+.data { display: block; margin-top: -35px; margin-left: 34px; font-size: 12px; cursor: pointer; }
+
+.maincontent { height:100%;width:100%;margin:0px;padding:0px; margin-top:-5px;position:relative; }

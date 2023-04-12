@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="background-color: #f2f2f2;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="width=device-width,height=device-height,maximum-scale=1.0,user-scalable=no">
+    <title>设备配置平台</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./config.css">
+    <script src="../Scripts/remote/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../Scripts/remote/remoteDetail.js"></script>
+    <script src="../Scripts/user/Login.js"></script>
+
+    <script>
+        var user = "admin";
+        var ref = decodeURI(window.location.href);
+        var rid = ref.split('?rid=')[1];
+        var node = remoteDetail.basic(rid)[0];
+        console.log(node);
+        var analogParams = remoteDetail.analogArray(rid);
+        var modbusParams = remoteDetail.modbusArray(rid);
+        var avsParams = remoteDetail.avsArray(rid);
+    </script>
+    <script src="../Scripts/remote/websocketQr.js"></script>
+    <script src="../Scripts/remote/nodeDataQr.js"></script>
+</head>
+
+
+<body>
+    <!-- 登陆页 -->
+    <div id="loginPage" class="layui-col-xs12"
+        style="position: absolute;padding: 20px;width: 100%;height: 100%;z-index: 10000;background: #f2f2f2;">
+        <div id="logo" style="width: 100%;height: 200px;">
+            <div></div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 50px;">用户名</label>
+                    <div class="layui-input-inline">
+                        <input id="username" type="text" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 50px;">密码</label>
+                    <div class="layui-input-inline">
+                        <input id="password" type="password" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button id="login" type="button" class="layui-btn" style="width: 100%;height: 45px;">登录</button>
+            </div>
+            <script>
+                $(function () {
+                    $("#login").on("click", function () {
+                        Login.authorize();
+                    })
+                })
+            </script>
+        </form>
+        <div style="color: #666;position: absolute;left: calc(50% - 113px);bottom: 20px;">©2021 CeyiTech. All rights
+            reserved.</div>
+    </div>
+    <!-- 首页 -->
+    <div id="page1" class="layui-col-xs12" style="position: absolute;padding: 15px;">
+        <!-- 设备信息 -->
+        <div class="layui-row">
+            <div class="layui-card" style="border-radius: 15px !important;">
+                <div class="layui-card-header">设备信息
+                    <div style="float: right;">
+                        <span id="voltage" style="padding-right: 20px;">电池电压：undefined</span>
+                        <span id="isonline">未连接</span>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table id="basicTable" class="layui-table" lay-skin="nob" style="word-break:break-all">
+                        <colgroup>
+                            <col width="90">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">RID：</td>
+                                <td id="rid">N/A</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">TNS：</td>
+                                <td id="tns">N/A</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">IP：</td>
+                                <td id="ip">N/A</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">PORT：</td>
+                                <td id="port">N/A</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">软件版本：</td>
+                                <td id="svr">N/A</td>
+                            </tr>
+                        </tbody>
+                        <script>
+                            $("#basicTable td").css("padding", "9px 0px");
+                        </script>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="pageCard" class="layui-row layui-col-space15" style="padding-top: 15px;">
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-set"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;">
+                    </i>
+                    <div style="text-align: center;line-height: 3;">基本参数设置</div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-slider"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;"></i>
+                    <div style="text-align: center;line-height: 3;">通道参数设置</div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-rss"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;"></i>
+                    <div style="text-align: center;line-height: 3;">报警参数设置</div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-transfer"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;"></i>
+                    <div style="text-align: center;line-height: 3;">其它平台参数</div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-log"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;"></i>
+                    <div style="text-align: center;line-height: 3;">实时采集数据</div>
+                </div>
+            </div>
+            <!-- <div class="layui-col-xs6">
+                <div class="layui-card" style="border-radius: 15px !important;">
+                    <i class="layui-icon layui-icon-upload-drag"
+                        style="font-size: 40px; position: relative;left: calc(50% - 20px);top: 7px;color: #666;"></i>
+                    <div style="text-align: center;line-height: 3;">固件升级</div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- 基本参数设置 -->
+    <div id="basicConfig" class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;z-index: 10;">
+            <div class="layui-card-header">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                基本参数设置
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" lay-filter="basicParams">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">设备编号</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <input id="tns" type="text" class="layui-input" name="tns" placeholder=""
+                                    autocomplete="off">
+                            </div>
+                            <div class="layui-btn-group" style="margin-left: 109px;">
+                                <button id="tnsRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="tnsWrite" type="button" class="layui-btn">写入</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">系统时间</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <input id="systemtime" type="text" class="layui-input" name="systemtime" placeholder=""
+                                    autocomplete="off" readonly>
+                            </div>
+                            <button id="systemtimeWrite" type="button" class="layui-btn"
+                                style="width: 132px;margin-left: 109px;">写入系统时间</button>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin: 0px 14px;">日期</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <input id="date" type="date" class="layui-input" name="date" placeholder="yyyy-MM-dd"
+                                    autocomplete="off" style="line-height: 38px;">
+                            </div>
+                            <div class="layui-btn-group" style="margin-left: 109px;">
+                                <button id="dateRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="dateWrite" type="button" class="layui-btn">写入</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin: 0px 14px;">时间</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <input id="time" type="time" class="layui-input" name="time" placeholder="hh:mm:ss"
+                                    autocomplete="off" style="line-height: 38px;">
+                            </div>
+                            <div class="layui-btn-group" style="margin-left: 109px;">
+                                <button id="timeRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="timeWrite" type="button" class="layui-btn">写入</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">工作模式</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <select id="wms" name="wms" lay-verify="required">
+                                    <option value="00" selected>正常模式</option>
+                                    <option value="01">应急模式</option>
+                                    <option value="02">低功耗模式</option>
+                                </select>
+                            </div>
+                            <div class="layui-btn-group" style="margin-left: 109px;">
+                                <button id="wmsRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="wmsWrite" type="button" class="layui-btn">写入</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采集间隔</label>
+                            <div class="layui-input-inline" style="width: 114px;">
+                                <input id="cst" type="text" class="layui-input" name="cst" placeholder="hh:mm:ss"
+                                    autocomplete="off">
+                            </div>
+                            <div class="layui-btn-group" style="margin-left: 109px;">
+                                <button id="cstRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="cstWrite" type="button" class="layui-btn">写入</button>
+                            </div>
+                        </div>
+                        <!-- 提交 -->
+                        <script>
+                            $("#tnsRead").on("click", function () {
+                                Control.tnsRead();
+                            });
+                            $("#tnsWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.tnsWrite($("#tns").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                            $("#systemtimeWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.timeWrite($("#systemtime").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+
+                            $("#dateRead").on("click", function () {
+                                Control.dateRead();
+                            });
+                            $("#dateWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.dateWrite($("#date").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                            $("#timeRead").on("click", function () {
+                                Control.timeRead();
+                            });
+                            $("#timeWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.timeWrite($("#time").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                            $("#wmsRead").on("click", function () {
+                                Control.wmsRead();
+                            });
+                            $("#wmsWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.wmsWrite($("#wms").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                            $("#cstRead").on("click", function () {
+                                Control.cstRead();
+                            });
+                            $("#cstWrite").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.cstWrite($("#cst").val());
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 通道参数设置 -->
+    <div id="channelPage" class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card layui-col-xs12" style="border-radius: 15px !important;margin-bottom: 8px;">
+            <div class="layui-card-body" style="padding: 5px 15px;">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                通道参数设置
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15" id="channelCard">
+        </div>
+    </div>
+    <div id="analogConfig" class="layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;z-index: 10;">
+            <div class="layui-card-header" style="color: rgb(0,0,0,0.5);">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                通道参数设置 —
+                <span id="analogHead"></span>
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="analogParams">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采集</label>
+                            <div class="layui-input-inline">
+                                <select id="csps" name="s" lay-verify="required">
+                                    <option value="0">0.OFF</option>
+                                    <option value="1">1.ON</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">编号</label>
+                            <div class="layui-input-inline">
+                                <input id="cspa" type="text" name="a" lay-verify="required" placeholder="101"
+                                    autocomplete="off" maxlength="3" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">P</label>
+                            <div class="layui-input-inline">
+                                <input id="cspp" type="text" name="p" placeholder="0" autocomplete="off"
+                                    class="layui-input" maxlength="1" lay-verify="cspp">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" title="系数">K</label>
+                            <div class="layui-input-inline">
+                                <input id="cspk" type="text" name="k" placeholder="+0.000000" autocomplete="off"
+                                    class="layui-input" maxlength="9" lay-verify="float_9">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">B</label>
+                            <div class="layui-input-inline">
+                                <input id="cspb" type="text" name="b" placeholder="+0.000000" autocomplete="off"
+                                    class="layui-input" maxlength="9" lay-verify="float_9">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-btn-group" style="margin-left: 109px;">
+                            <button id="analogRead" type="button"
+                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                            <button class="layui-btn" lay-submit lay-filter="analogWrite">写入</button>
+                        </div>
+                        <script>
+                            var analogIndex;
+                            layui.use('form', function () {
+                                var form = layui.form;
+                                //验证
+                                form.verify({
+                                    csmp: function (value, item) {
+                                        if (!new RegExp("^[0-2][0-7]$").test(value)) {
+                                            layer.msg("第一位为0～2表字节数，第二位为0～7表精度", {
+                                                time: 1500
+                                            });
+                                            return true;
+                                        }
+                                    },
+                                    cspp: function (value, item) { //value：表单的值、item：表单的DOM对象
+                                        // if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                                        //     return true;
+                                        // }
+                                        if (!new RegExp("^[0-7]$").test(value)) {
+                                            layer.msg("精度为0~7", {
+                                                time: 1500
+                                            });
+                                            return true;
+                                        }
+
+                                    },
+                                    float_9: function (value, item) {
+                                        var count = 0;
+                                        var i = 0
+                                        while (value.indexOf(".", i) != -1) {
+                                            i = value.indexOf(".", i) + 1;
+                                            count++;
+                                        }
+                                        if (value.length < 1) {
+                                            layer.msg("请输入参数", {
+                                                time: 1500
+                                            });
+                                            return true;
+                                        } else if (!(new RegExp("^[\+\-][0-9\.]{8,8}$").test(value) && count === 1)) {
+                                            layer.msg("参数格式错误", {
+                                                time: 1500
+                                            });
+                                            return true;
+                                        }
+                                    }
+                                });
+
+                                //提交
+                                //写入设备
+                                form.on('submit(analogWrite)', function (data) {
+                                    var params = data.field;
+                                    params.index = analogIndex;
+                                    var index = layer.open({
+                                        title: '提示',
+                                        type: 1,
+                                        offset: 'auto',
+                                        id: 'layerDemo',
+                                        content: '<div style="padding: 20px 80px;">' + "设备将切换为应急模式" + '</div>',
+                                        btn: ['确定', '取消'],
+                                        btnAlign: 'c' //按钮居中
+                                        ,
+                                        shade: 0.3,
+                                        yes: function () {
+                                            Control.analogWrite(params);
+                                            layer.close(index);
+                                        },
+                                        btn2: function () {
+                                            layer.closeAll();
+                                        },
+                                        resize: false,
+                                        closeBtn: 0,
+                                        skin: 'layer-skin-lv',
+                                        move: false
+                                    });
+
+                                    return false;
+                                });
+                            });
+                            // 读取设备
+                            $("#analogRead").on("click", function () {
+                                Control.analogRead();
+                            })
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modbusConfig" class="layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;z-index: 10;">
+            <div class="layui-card-header" style="color: rgb(0,0,0,0.5);">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                通道参数设置 —
+                <span id="modbusHead"></span>
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="channelParams">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">采集</label>
+                            <div class="layui-input-inline">
+                                <select id="csms" name="s" lay-verify="required">
+                                    <option value="0">0.OFF</option>
+                                    <option value="1">1.MODBUS协议</option>
+                                    <option value="2">2.IEEE754协议</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">编号</label>
+                            <div class="layui-input-inline">
+                                <input id="csma" type="text" name="a" autocomplete="off" maxlength="3"
+                                    class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">P</label>
+                            <div class="layui-input-inline">
+                                <input id="csmp0" type="text" name="p0" autocomplete="off" class="layui-input"
+                                    maxlength="2" lay-verify="csmp">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input id="csmp1" type="text" name="p1" autocomplete="off" class="layui-input"
+                                    maxlength="2" lay-verify="csmp">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input id="csmp2" type="text" name="p2" autocomplete="off" class="layui-input"
+                                    maxlength="2" lay-verify="csmp">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input id="csmp3" type="text" name="p3" autocomplete="off" class="layui-input"
+                                    maxlength="2" lay-verify="csmp">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input id="csmp4" type="text" name="p4" autocomplete="off" class="layui-input"
+                                    maxlength="2" lay-verify="csmp">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">B</label>
+                            <div class="layui-input-inline">
+                                <input id="csmb" type="text" name="b" autocomplete="off" class="layui-input"
+                                    maxlength="2">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">M</label>
+                            <div class="layui-input-inline">
+                                <input id="csmm" type="text" name="m" autocomplete="off" class="layui-input"
+                                    maxlength="2">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">R</label>
+                            <div class="layui-input-inline" style="width: 60px;">
+                                <input id="csmr" type="text" name="r" autocomplete="off" class="layui-input"
+                                    maxlength="4">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">N</label>
+                            <div class="layui-input-inline" style="width: 60px;">
+                                <input id="csmn" type="text" name="n" autocomplete="off" class="layui-input"
+                                    maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-btn-group" style="margin-left: 109px;">
+                            <button id="modbusRead" type="button"
+                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                            <button class="layui-btn" lay-submit lay-filter="modbusWrite">写入</button>
+                        </div>
+                        <script>
+                            var modbusIndex;
+                            layui.use('form', function () {
+                                var form = layui.form;
+                                //提交
+                                //写入设备
+                                form.on('submit(modbusWrite)', function (data) {
+                                    var params = data.field;
+                                    params.index = modbusIndex;
+                                    var index = layer.open({
+                                        title: '提示',
+                                        type: 1,
+                                        offset: 'auto',
+                                        id: 'layerDemo',
+                                        content: '<div style="padding: 20px 80px;">' + "设备将切换为应急模式" + '</div>',
+                                        btn: ['确定', '取消'],
+                                        btnAlign: 'c' //按钮居中
+                                        ,
+                                        shade: 0.3,
+                                        yes: function () {
+                                            Control.modbusWrite(params);
+                                            layer.close(index);
+                                        },
+                                        btn2: function () {
+                                            layer.closeAll();
+                                        },
+                                        resize: false,
+                                        closeBtn: 0,
+                                        skin: 'layer-skin-lv',
+                                        move: false
+                                    });
+
+                                    return false;
+                                });
+                            });
+                            // 读取设备
+                            $("#modbusRead").on("click", function () {
+                                Control.modbusRead();
+                            })
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- 报警参数 -->
+    <div id="avsPage" class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card layui-col-xs12" style="border-radius: 15px !important;margin-bottom: 8px;">
+            <div class="layui-card-body" style="padding: 5px 15px;">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                报警参数设置
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15" id="avsCard">
+        </div>
+    </div>
+    <div id="avsConfig" class="layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;z-index: 10;">
+            <div class="layui-card-header" style="color: rgb(0,0,0,0.5);">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                报警参数设置 —
+                <span id="avsHead"></span>
+            </div>
+            <div class="layui-card-body">
+                <form id="avs" class="layui-form" action="" lay-filter="avsParams">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">报警类型</label>
+                            <div class="layui-input-inline">
+                                <select id="avss" name="s" lay-verify="required">
+                                    <option value="0">0.OFF</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">报警值上限</label>
+                            <div class="layui-input-inline">
+                                <input id="avsh" type="text" name="h" autocomplete="off" class="layui-input"
+                                    maxlength="9" lay-verify="float_9">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">报警值下限</label>
+                            <div class="layui-input-inline">
+                                <input id="avsl" type="text" name="l" autocomplete="off" class="layui-input"
+                                    maxlength="9" lay-verify="float_9">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">广播地址</label>
+                            <div class="layui-input-inline">
+                                <input id="avsa" type="text" name="a" autocomplete="off" class="layui-input"
+                                    maxlength="8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-btn-group" style="margin-left: 109px;">
+                            <button id="avsRead" type="button"
+                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                            <button class="layui-btn" lay-submit lay-filter="avsWrite">写入</button>
+                        </div>
+                        <script>
+                            var avsIndex;
+                            //提交
+                            //写入设备
+                            layui.use('form', function () {
+                                var form = layui.form;
+                                form.on('submit(avsWrite)', function (data) {
+                                    var params = data.field;
+                                    params.index = avsIndex;
+                                    var index = layer.open({
+                                        title: '提示',
+                                        type: 1,
+                                        offset: 'auto',
+                                        id: 'layerDemo',
+                                        content: '<div style="padding: 20px 80px;">' + "设备将切换为应急模式" + '</div>',
+                                        btn: ['确定', '取消'],
+                                        btnAlign: 'c' //按钮居中
+                                        ,
+                                        shade: 0.3,
+                                        yes: function () {
+                                            Control.avsWrite(params);
+                                            layer.close(index);
+                                        },
+                                        btn2: function () {
+                                            layer.closeAll();
+                                        },
+                                        resize: false,
+                                        closeBtn: 0,
+                                        skin: 'layer-skin-lv',
+                                        move: false
+                                    });
+
+                                    return false;
+                                });
+                            });
+                            // 读取设备
+                            $("#avsRead").on("click", function () {
+                                Control.avsRead();
+                            })
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 其它平台对接参数 -->
+    <div class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;">
+            <div class="layui-card-header">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                其它平台对接参数
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item" style="margin-top: 20px;">
+                        <div class="layui-col-xs4">数据推送平台</div>
+                        <div id="dms" class="layui-col-xs8">
+                            <input lay-filter="dms" type="checkbox" name="dizhi" title="四川省地质环境管理平台(01)">
+                            <input lay-filter="dms" type="checkbox" name="shuili" title="四川省水利信息化平台(02)">
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-btn-group" style="margin-left: 105px;margin-top: 10px;">
+                                <button id="dmsRead" type="button"
+                                    class="layui-btn layui-btn-primary border-turn">读取</button>
+                                <button id="dmsWrite" type="button" class="layui-btn" lay-submit
+                                    lay-filter="dmsWrite">写入</button>
+                            </div>
+                        </div>
+                        <script>
+                            layui.use(['form', 'jquery'], function () {
+                                var form = layui.form;
+                                var $ = layui.jquery;
+                                form.on('checkbox(dms)', function (data) {
+                                    $(this).siblings("input").each(function (click) {
+                                        this.checked = false;
+                                    });
+                                    form.render();
+                                });
+
+                                //写入设备
+                                form.on('submit(dmsWrite)', function (data) {
+                                    var params = data.field;
+                                    Control.dmsWrite(params);
+                                    return false;
+                                });
+                            });
+                            $("#dmsRead").on("click", function () {
+                                Control.dmsRead();
+                            });
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 实时采集数据 -->
+    <div class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;">
+            <div class="layui-card-header">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                实时采集数据
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="" style="padding-left: 20px;">
+                    <div class="layui-form-item" style="margin-bottom: 20px;">
+                        <div style="width: auto;margin-bottom: 0px;margin-top: 10px;">数据采集计数器</div>
+                        <div>
+                            <label class="layui-form-label" style="width: 130px;">采集数据计数序号</label>
+                            <label id="clre1" class="layui-form-label"></label>
+                        </div>
+                        <div>
+                            <label class="layui-form-label" style="width: 130px;">发送数据计数序号</label>
+                            <label id="clre2" class="layui-form-label"></label>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline" style="width: auto;margin-left: calc(50% - 150px);">
+                            <div class="layui-btn-group">
+                                <button id="clreRead" class="layui-btn layui-btn-primary border-turn"
+                                    type="button">读取计数</button>
+                                <button id="clreClear" class="layui-btn" type="button">清空缓存</button>
+                                <button id="clrsClear" class="layui-btn layui-btn-danger" type="button">计数清零</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(function () {
+                            $("#clreRead").on("click", function () {
+                                Control.clreRead();
+                            });
+                            $("#clreClear").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "确定清空缓存吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.clreClear();
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                            $("#clrsClear").on("click", function () {
+                                var index = layer.open({
+                                    title: '提示',
+                                    type: 1,
+                                    offset: 'auto',
+                                    id: 'layerDemo',
+                                    content: '<div style="padding: 20px 80px;">' + "大约需要1分钟或更久，确定清零吗？" + '</div>',
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c' //按钮居中
+                                    ,
+                                    shade: 0.3,
+                                    yes: function () {
+                                        Control.clrsClear();
+                                        layer.close(index);
+                                    },
+                                    btn2: function () {
+                                        layer.closeAll();
+                                    },
+                                    resize: false,
+                                    closeBtn: 0,
+                                    skin: 'layer-skin-lv',
+                                    move: false
+                                });
+                            });
+                        });
+                    </script>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 固件升级 -->
+    <div class="page2 layui-col-xs12 layui-hide" style="position: absolute;padding: 15px;">
+        <div class="layui-card" style="border-radius: 15px !important;">
+            <div class="layui-card-header">
+                <i class="layui-icon layui-icon-return"
+                    style="font-size: 20px;position: relative;top: 2px;color: #666;padding-right: 10px;"></i>
+                固件升级
+            </div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <button type="button" class="layui-btn" id="test1">
+                            <i class="layui-icon">&#xe67c;</i>上传固件程序
+                        </button>
+                        <script>
+                            layui.use('upload', function () {
+                                var upload = layui.upload;
+
+                                //执行实例
+                                var uploadInst = upload.render({
+                                    elem: '#test1' //绑定元素
+                                    ,
+                                    url: '/upload/' //上传接口
+                                    ,
+                                    done: function (res) {
+                                        //上传完毕回调
+                                    },
+                                    error: function () {
+                                        //请求异常回调
+                                    }
+                                });
+                                upload.render({
+                                    elem: '#id',
+                                    url: '/api/upload/',
+                                    progress: function (n, elem, res, index) {
+                                        var percent = n + '%' //获取进度百分比
+                                        element.progress('demo', percent); //可配合 layui 进度条元素使用
+
+                                        console.log(elem); //得到当前触发的元素 DOM 对象。可通过该元素定义的属性值匹配到对应的进度条。
+                                        console.log(res); //得到 progress 响应信息
+                                        console.log(index); //得到当前上传文件的索引，多文件上传时的进度条控制，如：
+                                        element.progress('demo-' + index, n + '%'); //进度条
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 禁用回车键
+    // document.onkeydown = function (e) {
+    //     var e = e || event;
+    //     if (e.keyCode == 13) {
+    //         return false;
+    //     }
+    // };
+</script>
+
+</html>

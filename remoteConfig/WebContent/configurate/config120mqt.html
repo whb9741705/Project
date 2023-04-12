@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="background-color: #f2f2f2">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./config.css">
+    <script src="../Scripts/remote/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../Scripts/remote/remoteDetail.js"></script>
+    <script>
+        var node = window.parent.node;
+        var user = window.parent.user;
+        
+        //window.alert(user.password);
+        
+    </script>
+    <script src="../Scripts/remote/nodeData.js"></script>
+    <script src="../Scripts/remote/websocket.js"></script>
+</head>
+<body>
+    <div style="padding: 30px;">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <!-- 设备信息 -->
+                <div class="layui-panel" style="height:40px;padding-top: 15px;color: black;border-radius:15px">
+                    <span  id=dtutype style="padding: 10px;">NAN</span>
+                    <span  id=terminalNum style="padding: 10px;">设备编号</span>
+                    <span  id=SVR style="padding: 10px;">SVR</span>
+                    <span  id=isonline style="padding: 10px;">未连接</span>
+                    <span  id=Lantitude style="padding: 10px;">Lantitude</span>
+                    <span  id=Longitude style="padding: 10px;">Longitude</span>
+                    <span  id=description style="vertical-align: top;">description</span>
+                    <span  id=svrReadbot style="vertical-align: top;float: right;margin-top:-7px;padding-right: calc(9% - 70px);"> 
+                    <button id="svrRead" type="button" style="width: 70px;text-align: center;"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                </span>
+                        <!--  <div style="float: right;">
+                            <span id="voltage" style="padding-right: 20px;">电池电压：undefined</span>
+                            <span id="isonline">未连接</span>
+                        </div>-->
+                </div>
+                    <!-- <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="nob" style="word-break:break-all">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td id="rid">N/A</td>
+                                    <td id="tns">N/A</td>
+                                    <td id="ip">N/A</td>
+                                    <td id="port">N/A</td>
+                                    <td id="svr">N/A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>-->
+               	<script>
+                
+               	</script>            
+            </div>
+                
+            <div class="layui-col-md8">
+                  <div class="layui-tab layui-tab-brief" style="background-color:white;box-shadow:1px 1px 4px rgb(0 0 0 / 8%);border-radius:15px">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this">基本参数设置</li>
+					    <li>模拟/脉冲通道设置</li>
+					    <li>RS485通道设置</li>
+					    <li>其它平台对接参数设置</li>
+					  </ul>
+					  <!-- <div id="js-tabNav-prev" class="btn radius btn-default size-S"
+						href="javascript:;">
+						<button>刷新</button>
+						</div> -->
+					  <div class="layui-tab-content">
+					    <div class="layui-tab-item layui-show">
+					    <!-- 基本参数 -->
+					    	<form id=basic class="layui-form" lay-filter="basicParams">
+	                                <div class="layui-form-item">
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">MCU编号</label>
+	                                        <div class="layui-input-inline" style="margin-left: -3px;margin-right: 218px;width: 255px;text-align: center">
+	                                            <input id="rid" type="text" class="layui-input" name="rid" placeholder=""
+	                                                autocomplete="off"readonly>
+	                                        </div>
+	                                        <div class="layui-btn-group" style="text-align: center;margin-right: 12px;">
+	                                            <button id="ridRead" type="button" style="width: 130px;text-align: center;margin-right: 30px;"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                        </div>
+	                                        <!-- <button id="tnsWrite" type="button" class="layui-btn" style="width: 132px;margin-right: 20px;">写入设备编号</button> -->
+	                                    </div>
+	                                    <div class="layui-inline">
+	                                    <label class="layui-form-label"style="margin: 0px 7px;">版本号</label>
+	                                        <div class="layui-input-inline" style="width: 175px;">
+	                                            <input id="svr" type="text" class="layui-input" name="svr"
+	                                                 autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="svrRead" type="button"style="text-align: center;margin-right: 30px;"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                        </div>
+	                                    </div>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">采集间隔</label>
+	                                        <div class="layui-input-inline" style="width: 110px;">
+	                                            <input id="cst" type="text" class="layui-input" name="cst"
+	                                                placeholder="hh:mm:ss" autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="cstRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="cstWrite" type="button" class="layui-btn">写入</button>
+	                                        </div>
+	                                    </div>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label"style="margin: 0px 14px;">TNS</label>
+	                                        <div class="layui-input-inline" style="width: 110px;text-align: center">
+	                                            <input id="tns" type="text" class="layui-input" name="tns"
+	                                                placeholder="" autocomplete="off" >
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="tnsRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="tnsWrite" type="button" class="layui-btn">写入</button>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">系统时间</label>
+	                                        <div class="layui-input-inline" style="width: 110px;text-align: center">
+	                                            <input id="systemtime" type="text" class="layui-input" name="systemtime"
+	                                                placeholder="" autocomplete="off" readonly>
+	                                        </div>
+	                                         <button id="systemtimeWrite" type="button" class="layui-btn"
+	                                            style="width: 130px;text-align: center;margin-right: 12px;">写入系统时间</button>
+	                                    </div>
+	
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label" style="margin: 0px 14px;">日期</label>
+	                                        <div class="layui-input-inline" style="width: 110px;">
+	                                            <input id="date" type="text" class="layui-input" name="date"
+	                                                placeholder="yyyy-MM-dd" autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="dateRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="dateWrite" type="button" class="layui-btn">写入</button>
+	                                        </div>
+	                                    </div>
+	                                    <script>
+	                                        layui.use('laydate', function () {
+	                                            var laydate = layui.laydate;
+	                                            //执行一个laydate实例
+	                                            laydate.render({
+	                                                elem: '#date', //指定元素
+	                                                btns: ['now', 'confirm']
+	                                            });
+	                                        });
+	                                    </script>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label" style="margin: 0px 14px;">时间</label>
+	                                        <div class="layui-input-inline" style="width: 110px;">
+	                                            <input id="time" type="text" class="layui-input" name="time"
+	                                                placeholder="hh:mm:ss" autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="timeRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="timeWrite" type="button" class="layui-btn">写入</button>
+	                                        </div>
+	
+	                                    </div>
+	                                    <script>
+	                                        layui.use('laydate', function () {
+	                                            var laydate = layui.laydate;
+	
+	                                            //执行一个laydate实例
+	                                            laydate.render({
+	                                                elem: '#time', //指定元素
+	                                                type: 'time',
+	                                                btns: ['now', 'confirm']
+	                                            });
+	                                        });
+	                                    </script>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">工作模式</label>
+	                                        <div class="layui-input-inline" style="width: 200px;margin-right: 20px">
+	                                        	<select id="wms1" name="wms1" lay-verify="required">
+	                                                <option value="0" selected>无累计流量计算</option>
+	                                                <option value="1">累计流量计算</option>
+	                                            </select>
+	                                        </div>
+	                                        <div class="layui-input-inline" style="width: 200px;margin-right: 53px;">
+	                                            <select id="wms2" name="wms2" lay-verify="required">
+	                                                <option value="0" selected>正常模式</option>
+	                                                <option value="1">应急模式</option>
+	                                                <option value="2">传感器透传模式</option>
+	                                                <option value="3">低功耗模式</option>
+	                                            </select>
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="wmsRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="wmsWrite" type="button" class="layui-btn">写入</button>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <script>
+	                                        layui.use('laydate', function () {
+	                                            var laydate = layui.laydate;
+	
+	                                            //执行一个laydate实例
+	                                            laydate.render({
+	                                                elem: '#cst', //指定元素
+	                                                type: 'time',
+	                                                btns: ['confirm']
+	                                            });
+	                                        });
+	                                    </script>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label" style="margin: 0px 7px;">经纬度</label>
+	                                        <div class="layui-input-inline" style="width: 200px;margin-right: 20px">
+	                                            <input id="lantitude" type="text" class="layui-input" name="lantitude"
+	                                                autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-input-inline" style="width: 200px;margin-right: 53px;">
+	                                            <input id="longitude" type="text" class="layui-input" name="longitude"
+	                                                autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" style="margin-right: 10px;">
+	                                            <button id="locationRead" type="button"style="width: 130px;text-align: center;margin-right: 30px;"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+	                                    	<legend>DTU设置</legend>
+	                                    	<div class="layui-form-item" style=" height: 50px;"lay-filter="dtuParams">
+	                                        	<label class="layui-form-label">4G数据通道</label>
+	                                            <div id=dtuchannel >
+													<input type="radio" name="dtuchannel" value="2" title="通道1" lay-filter="dtuch">
+													<input type="radio" name="dtuchannel" value="3" title="通道2" lay-filter="dtuch">
+													<input type="radio" name="dtuchannel" value="6" title="通道3" lay-filter="dtuch">
+													<input type="radio" name="dtuchannel" value="7" title="通道4" lay-filter="dtuch">
+												</div>
+										 	</div>
+	                                    <div class="layui-inline">
+	                                    	<label class="layui-form-label">通道类型</label>
+	                                        <div class="layui-input-inline" style="width: 70px;margin-right: 0px;margin-left: 50px;">
+	                                            <input id="dtutypetype" type="text" class="layui-input" name="dtutypetype" autocomplete="off"readonly>
+	                                        </div>
+	                                        <label class="layui-form-label">地址或域名</label>
+	                                        <div class="layui-input-inline" style="width: 150px;margin-right: 0px;margin-left: 15px;">
+	                                            <input id="dtuIp" type="text" class="layui-input" name="dtuIp" autocomplete="off">
+	                                        </div>
+	                                        <label class="layui-form-label">服务器端口号</label>
+	                                        <div  class="layui-input-inline" style="width: 70px;margin-left: 20px;display:block;">
+	                                            <input id="dtuPort" type="text" class="layui-input" name="dtuPort" autocomplete="off">
+	                                        </div>     
+	                                    </div>
+	                                    <div class="layui-form-item" id="mqtt1"style="display:none;">
+	                                    <div class="layui-inline" >
+	                                    	<label class="layui-form-label" >MQTT登陆账号</label>
+	                                        <div  class="layui-input-inline" style="width: 150px;margin-right: 0px;margin-left: 10px;">
+	                                            <input id="mqttadmin" type="text" class="layui-input" name="mqttadmin" autocomplete="off">
+	                                        </div>
+	                                        <label class="layui-form-label" >MQTT登陆密码</label>
+	                                        <div class="layui-input-inline" style="width: 150px;margin-right: 0px;margin-left: 10px;">
+	                                            <input id="mqttpassword" type="text" class="layui-input" name="mqttpassword" autocomplete="off">
+	                                        </div>
+	                                    </div>
+	                                    </div>
+	                                    <div class="layui-form-item"id="mqtt2" style="display:none;">
+	                                    <div class="layui-inline">
+	                                    	<label class="layui-form-label" >发布消息主题</label>
+	                                        <div  class="layui-input-inline" style="width: 200px;margin-right: 0px;margin-left: 20px;">
+	                                            <input id="mqttmessage" type="text" class="layui-input" name="mqttmessage" autocomplete="off">
+	                                        </div>
+	                                        <label class="layui-form-label" >客户端ID</label>
+	                                        <div class="layui-input-inline" style="width: 150px;margin-right: 0px;margin-left: 0px;">
+	                                            <input id="mqttclientID" type="text" class="layui-input" name="mqttclientID" autocomplete="off">
+	                                        </div>
+	                                    </div>
+	                                    </div>
+	                                    <div class="layui-form-item">
+	                                    <div class="layui-inline"style="float: right;padding-right: calc(60% - 150px)">
+	                                    <div class="layui-btn-group" style="margin-right: 10px;text-align:center">
+	                                            <button id="dtuRead" type="button" class="layui-btn layui-btn-primary border-turn "style="margin-right: 10px;text-align:center">读取</button>
+	                                            <button id="dtuWrite" type="button" class="layui-btn"lay-submit lay-filter="dtuWrite" style="margin-right: 10px;text-align:center">写入</button>
+	                                            <button id="dtuReceive" type="button" class="layui-btn layui-btn-primary border-turn"lay-submit lay-filter="dtuReceive" style="margin-right: 10px;text-align:center">保存</button>
+	                                   </div>
+	                                    </div>
+	                                    </div>
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">4G信号强度(CSQ)</label>
+	                                        <div class="layui-input-inline" style="width: 70px;margin-left:-9px;">
+	                                            <input id="csq" type="text" class="layui-input" name="csq"autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" >
+	                                            <button id="csqRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">卡号(ICCID)</label>
+	                                        <div class="layui-input-inline" style="width: 200px;margin-left: 30px;">
+	                                            <input id="iccid" type="text" class="layui-input" name="iccid"autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" >
+	                                            <button id="iccidRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="layui-inline">
+	                                        <label class="layui-form-label">设备识别码(IMEI)</label>
+	                                        <div class="layui-input-inline" style="width: 210px;margin-left:-3px;">
+	                                            <input id="imei" type="text" class="layui-input" name="imei"autocomplete="off">
+	                                        </div>
+	                                        <div class="layui-btn-group" >
+	                                            <button id="imeiRead" type="button"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            </div>
+	                                    </div>
+	                                    
+	                                    
+	                                    </fieldset>
+	                                    <!-- 提交 -->
+	                                    <script>
+	            					   
+	            						$(function () {    
+	            							var input = node.terminalNum;
+	            							//window.alert(input);
+	            							basicdetailFill(input);
+	            					    });
+	            						$("#svrRead").on("click", function () {
+	            		                	Control.svrRead()
+	            		                });
+	                                    $("#csqRead").on("click", function () {
+                                        	Control.csqRead()
+                                        });
+	                                    $("#iccidRead").on("click", function () {
+                                        	Control.iccidRead()
+                                        });
+	                                    $("#imeiRead").on("click", function () {
+                                        	Control.imeiRead()
+                                        });
+	                                    $("#locationRead").on("click", function () {
+                                        	Control.locationRead()
+                                        });
+	                                    
+	                                        $("#ridRead").on("click", function () {
+	                                        	Control.ridRead()
+	                                        });
+	                                        $("#tnsRead").on("click", function () {
+	                                        	Control.tnsRead()
+	                                        });
+	                                        $("#tnsWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.tnsWrite($("#tns").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	                                        $("#systemtimeWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.timeWrite($("#systemtime").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	
+	                                        $("#dateRead").on("click", function () {
+	                                            Control.dateRead();
+	                                        });
+	                                        $("#dateWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.dateWrite($("#date").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	                                        $("#timeRead").on("click", function () {
+	                                            Control.timeRead();
+	                                        });
+	                                        $("#timeWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.timeWrite($("#time").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	                                        $("#wmsRead").on("click", function () {
+	                                            Control.wmsRead();
+	                                        });
+	                                        $("#wmsWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.wmsWrite($("#wms1").val(),$("#wms2").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	                                        $("#cstRead").on("click", function () {
+	                                            Control.cstRead();
+	                                        });
+	                                        $("#cstWrite").on("click", function () {
+	                                            var index = layer.open({
+	                                                title: '提示',
+	                                                type: 1,
+	                                                offset: 'auto',
+	                                                id: 'layerDemo',
+	                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                btn: ['确定', '取消'],
+	                                                btnAlign: 'c' //按钮居中
+	                                                ,
+	                                                shade: 0.3,
+	                                                yes: function () {
+	                                                    Control.cstWrite($("#cst").val());
+	                                                    layer.close(index);
+	                                                },
+	                                                btn2: function () {
+	                                                    layer.closeAll();
+	                                                },
+	                                                resize: false,
+	                                                closeBtn: 0,
+	                                                skin: 'layer-skin-lv',
+	                                                move: false
+	                                            });
+	                                        });
+	                                        $("#dtuReceive").on("click", function () {
+	                                            Control.dtuReceive();
+	                                        });
+	                                        $("#dtuRead").on("click", function () {
+	                                            var checked = $("#basic [lay-filter='dtuch']:checked")
+	                                            //console.log("aa"+checked.val()+"bb")
+	                                            if(checked.val()==null)
+	                                            {var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "未选中通道" + '</div>',
+	                                                    btn: ['关闭'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    btn2: function () {
+	                                                    	layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });}
+	                                            Control.dtuRead(checked.val());
+	                                        });
+	                                        layui.use('form', function () {
+	                                            var form = layui.form;
+	                                            //写入设备
+	                                            form.on('radio(dtuch)', function (data) {   
+	                                            	var b=$('#dtuchannel input[name="dtuchannel"]:checked ').val();
+	                                            	var input = node.tns;
+	    	            							//window.alert(input);
+	    	            							dtuFill(input,b);
+	                                            	if(b=="6"||b=="7"){
+	                                            		document.getElementById('mqtt1').style.display='block';
+	                                            		document.getElementById('mqtt2').style.display='block';
+	                                            		//document.getElementById('bottondtu1').style.display='none';
+	                                            		document.getElementById('dtutypetype').value="MQTT";
+	                                            	}
+	                                            	else{
+	                                            		document.getElementById('mqtt1').style.display='none';
+	                                            		document.getElementById('mqtt2').style.display='none';
+	                                            		//document.getElementById('bottondtu1').style.display='';
+	                                            		if(b=="2"||b=="3"){
+	                                            			document.getElementById('dtutypetype').value="TCP";
+	                                            		}
+	                                            	}
+                									form.render();
+            									});
+	                                           
+	                                            form.on('submit(dtuWrite)', function (data) {
+	                                                var params = data.field;
+	                                                //console.log(params)
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.dtuWrite(params);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        });
+	                                    </script>
+	                                </div>
+	                            </form>
+					    </div>
+					    <div class="layui-tab-item">
+					    	
+	                                <!-- 模拟通道 -->
+	                                <div id="analog" style="position: relative;">
+	                                <form id="analogg" class="layui-form" action="" lay-filter="analogchannelParams">
+	                                	<fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+										  	<legend>模拟通道</legend>
+										  	<div class="layui-form-item" style=" height: 50px;"lay-filter="analogParams">
+	                                        	<label class="layui-form-label">传感器通道号</label>
+	                                                <div id=csp >
+														<input type="radio" name="csp" value="03" title="通道1" lay-filter="analogchannel">
+														<input type="radio" name="csp" value="04" title="通道2" lay-filter="analogchannel">
+														<input type="radio" name="csp" value="05" title="通道3" lay-filter="analogchannel">
+														<input type="radio" name="csp" value="06" title="通道4" lay-filter="analogchannel">
+													</div>
+										 	</div>
+										 	<div class="layui-form-item">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label" style="margin:0px 7px;">传感器地址</label>
+	                                        		<div class="layui-input-inline" style="width: 50px;margin-right: 20px;">
+	                                                	<input type="text" id="cspa" name="cspa" autocomplete="off"class="layui-input" maxlength="3" >
+														
+													</div>
+													<label class="layui-form-label"id="beizhu"style="margin-left:-10px"></label>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label">数据采样开关</label>
+	                                        		<div class="layui-input-inline" id=csps_control>
+														<input type="radio" name="csps" value="1" title="采样" >
+														<input type="radio" name="csps" value="0" title="不采样" >
+													</div>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label">传感信号类型</label>
+	                                        		<span  id=cspt >
+														<input type="radio"  name="cspt" value="0" title="0-5V电压型" lay-filter="analogcspt">
+														<input type="radio"  name="cspt" value="1" title="4-2mA电流型" lay-filter="analogcspt">
+													</span>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 7px;">传感器类型</label>
+	                                        		<div class="layui-input-inline" style="width: 150px;margin-right: 20px;">
+	                                                	<select type="text" id="cspp12" name="cspp12" autocomplete="off"class="layui-input" maxlength="3" lay-filter="analogcspp12">
+	                                                		<option value="10" >水位传感器</option>
+	                                                		<option value="11" >拉线位移传感器</option>
+	                                                		<option value="12">压力传感器</option>
+	                                                		<option value="13">闸门</option>
+	                                                		<option value="14">流量</option>
+	                                                		<option value="15">累计流量</option>
+	                                                	</select>
+													</div>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 28px;">量程</label>
+	                                        		<div class="layui-input-inline" style="width: 60px;margin-right: -2px;">
+	                                                	<input type="text" id="rangemin" name="rangemin" autocomplete="off"class="layui-input" >
+													</div>
+													<label class="layui-form-label">至</label>
+													<div class="layui-input-inline" style="width: 60px;margin-right: -2px;">
+	                                                	<input type="text" id="rangemax" name="rangemax" autocomplete="off"class="layui-input" onblur="change()">
+													</div>
+													<label class="layui-form-label" id="unit">米</label>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<label class="layui-form-label">传感器分辨率</label>
+	                                        	<div id=cspp3 >
+													<input type="radio" name="cspp3" value="0" title="0位">
+													<input type="radio" name="cspp3" value="1" title="1位" >
+													<input type="radio" name="cspp3" value="2" title="2位">
+													<input type="radio" name="cspp3" value="3" title="3位" >
+													<input type="radio" name="cspp3" value="4" title="4位" >
+												</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 23.33px;">K参数</label>
+	                                        		<div class="layui-input-inline" style="width: 160px;margin-right: 50px;">
+	                                                	<input lay-verify="k_num" type="text" id="cspk" name="cspk" autocomplete="off"class="layui-input"placeholder="" maxlength="9"nullmsg="出场设备编号不能为空"onblur="check1()">
+													</div>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label" style="margin:0px 23.33px;">B参数</label>
+	                                        		<div id="b"class="layui-input-inline" style="width: 160px;margin-right: 0px;">
+	                                                	<input type="text" id="cspb" name="cspb" autocomplete="off"class="layui-input" minlength="9"maxlength="9"nullmsg="出场设备编号不能为空"onblur="check2()">
+													</div>
+										 		</div>
+										 	</div>
+										 	<!-- 按钮 -->	
+										 	<div class="layui-form-item">
+	                                    		<div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        		<div class="layui-input-inline" style="width: 280px;">
+	                                            		<div class="layui-btn-group">
+	                                                		<button id="analogchannelRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                               		 	<button id="analogchannelWrite"class="layui-btn" lay-submit lay-filter="analogchannelWrite">写入参数</button>
+	                                            		</div>
+	                                        		</div>
+	                                    		</div>
+	                                    	<script>
+	                                    	function check1()
+	                                        {   
+	                                    		var k=document.getElementById("cspk").value;
+	                                    		//window.alert(k.length);
+	                                    		if(k.length!=9||(k[0]!='+'&&k[0]!='-'))
+	                                    		{
+	                                    			var c=document.getElementById("cspk");
+	                                    			$(" #cspk").val("");
+	                                    			//c.setAttribute("value","");
+	                                    			c.setAttribute("placeholder","如：+0.000000(共9位)");
+	                                    			//window.alert("请输入9位带符号数字");
+	                                    		}
+	                                        }
+	                                    	function check2()
+	                                        {   
+	                                    		var b=document.getElementById("cspb").value;
+	                                    		if(b.length!=9||(b[0]!='+'&&b[0]!='-'))
+	                                    		{
+	                                    			var c=document.getElementById("cspb");
+	                                    			$(" #cspb").val("");
+	                                    			//c.setAttribute("value","");
+	                                    			c.setAttribute("placeholder","如：+0.000000(共9位)");
+	                                    			//window.alert("请输入9位带符号数字");
+	                                    		}
+	                                        }
+	                                        function change()
+	                                        {
+	                                        	var lc1=document.getElementById("rangemin").value;
+	                                        	var lc2=document.getElementById("rangemax").value;
+	                                        	var checked = $("#analog [lay-filter='analogcspt']:checked")
+	                                        	var signal=checked.val();
+	                                        	if(lc1==""){}
+	                                        	else if(lc1>=lc2||lc2<0)
+	                                        		{window.alert("量程输入错误");}
+	                                        	else{
+	                                        		
+	                                        		if(signal==0){//5v
+		                                        		var resk=(lc2-lc1)/5;
+			                                        	var resb=lc1/1;var temp;
+			                                        	if(Math.abs(resk)<10){temp="0"+Math.abs(resk).toFixed(5);}
+			                                        	else if(Math.abs(resk)<100){temp=Math.abs(resk).toFixed(5);}
+			                                        	else if(Math.abs(resk)<1000){temp=Math.abs(resk).toFixed(4);}
+			                                        	else if(Math.abs(resk)<10000){temp=Math.abs(resk).toFixed(3);}
+			                                        	else if(Math.abs(resk)<100000){temp=Math.abs(resk).toFixed(2);}
+			                                        	else if(Math.abs(resk)<1000000){temp=Math.abs(resk).toFixed(1);}
+			                                        	if(resk>=0){document.getElementById("cspk").value="+"+temp;}
+			                                        	else{document.getElementById("cspk").value="-"+temp;}
+			                                        	if(Math.abs(resb)<10){temp="0"+Math.abs(resb).toFixed(5);}
+			                                        	else if(Math.abs(resb)<100){temp=Math.abs(resb).toFixed(5);}
+			                                        	else if(Math.abs(resb)<1000){temp=Math.abs(resb).toFixed(4);}
+			                                        	else if(Math.abs(resb)<10000){temp=Math.abs(resb).toFixed(3);}
+			                                        	else if(Math.abs(resb)<100000){temp=Math.abs(resb).toFixed(2);}
+			                                        	else if(Math.abs(resb)<1000000){temp=Math.abs(resb).toFixed(1);}
+			                                        	if(resb>=0){document.getElementById("cspb").value="+"+temp;}
+			                                        	else{document.getElementById("cspb").value="-"+temp;}
+	                                        		}
+	                                        		else if(signal==1){//mA
+	                                        			var resk=(lc2-lc1)/16;
+			                                        	var resb=(5*lc1 - lc2)/4;var temp;
+			                                        	if(Math.abs(resk)<10){temp="0"+Math.abs(resk).toFixed(5);}
+			                                        	else if(Math.abs(resk)<100){temp=Math.abs(resk).toFixed(5);}
+			                                        	else if(Math.abs(resk)<1000){temp=Math.abs(resk).toFixed(4);}
+			                                        	else if(Math.abs(resk)<10000){temp=Math.abs(resk).toFixed(3);}
+			                                        	else if(Math.abs(resk)<100000){temp=Math.abs(resk).toFixed(2);}
+			                                        	else if(Math.abs(resk)<1000000){temp=Math.abs(resk).toFixed(1);}
+			                                        	if(resk>=0){document.getElementById("cspk").value="+"+temp;}
+			                                        	else{document.getElementById("cspk").value="-"+temp;}
+			                                        	if(Math.abs(resb)<10){temp="0"+Math.abs(resb).toFixed(5);}
+			                                        	else if(Math.abs(resb)<100){temp=Math.abs(resb).toFixed(5);}
+			                                        	else if(Math.abs(resb)<1000){temp=Math.abs(resb).toFixed(4);}
+			                                        	else if(Math.abs(resb)<10000){temp=Math.abs(resb).toFixed(3);}
+			                                        	else if(Math.abs(resb)<100000){temp=Math.abs(resb).toFixed(2);}
+			                                        	else if(Math.abs(resb)<1000000){temp=Math.abs(resb).toFixed(1);}
+			                                        	if(resb>=0){document.getElementById("cspb").value="+"+temp;}
+			                                        	else{document.getElementById("cspb").value="-"+temp;}
+	                                        		}
+	                                        		else{window.alert("请选择传感器信号类型");}
+	                                        	}
+	                                        }
+	                                        
+	                                       function address1()
+	                                        { 
+	   	            							
+	                                        	var a=document.getElementById("cspp12").value;
+	                                        	var checked = $("#analog [lay-filter='analogchannel']:checked");
+	                                        	var b=checked.val().substring(1,2);
+	                                        	var c="(建议："+a+b+")";
+	                                        	//console.log(b);
+	                                        	if(a!=""&&b!=null)
+	                                        	{document.getElementById("beizhu").innerHTML=c;}//document.getElementById("cspa").value=c;}
+	                                       else{document.getElementById("beizhu").innerHTML="";}
+	                                       		if(a=="11")
+	                                        	{var label=document.getElementById("unit");
+	                                        	label.innerHTML="mm";
+	                                        	}
+	                                        	else if(a=="12")
+	                                        	{
+	                                        		var label=document.getElementById("unit");
+		                                        	label.innerHTML="Kpa";
+	                                        	}
+	                                        	else
+	                                        	{
+	                                        		var label=document.getElementById("unit");
+		                                        	label.innerHTML="米";
+	                                        	}
+	                                        }
+	                                        layui.use('form', function () {
+	                                            var form = layui.form;
+	                                            //写入设备
+	                                           
+	                                            form.on('radio(analogchannel)', function (data) {   
+	                                            	var input = node.tns;
+		   	            							//window.alert(input);
+	                                            	var b=$('#csp input[name="csp"]:checked ').val();
+	                                            	
+	                                            	
+	                                            	channelFill(input,b);
+	                                            	
+	                                            	var a=document.getElementById("cspp12").value;
+	                                            	//window.alert(a);
+	                                            	var c=a+b.substring(1,2);
+	                                            	if(a!=""&&b!=null)
+		                                        	{document.getElementById("cspa").value=c;}//document.getElementById("cspa").value=c;}
+	                                            	else{
+	                                            		document.getElementById("cspa").value=""
+	                                            	}
+	                                            	if(a=="11")
+		                                        	{var label=document.getElementById("unit");
+		                                        	label.innerHTML="mm";
+		                                        	}
+		                                        	else if(a=="12")
+		                                        	{
+		                                        		var label=document.getElementById("unit");
+			                                        	label.innerHTML="Kpa";
+		                                        	}
+		                                        	else
+		                                        	{
+		                                        		var label=document.getElementById("unit");
+			                                        	label.innerHTML="米";
+		                                        	}
+	                                            	
+                									form.render();
+            									});
+	                                            form.on('select(analogcspp12)', function (data) { 
+	                                            	//window.alert("a");
+	                                            	var b=$('#csp input[name="csp"]:checked ').val();
+	                                            	var a=document.getElementById("cspp12").value;
+	                                            	var c=a+b.substring(1,2);
+	                                            	//window.alert(a);
+		                                        	if(a!=""&&b!=null)
+		                                        	{document.getElementById("cspa").value=c;}//document.getElementById("cspa").value=c;}
+	                                            	else{
+	                                            		document.getElementById("cspa").value=""
+	                                            	}
+		                                        	form.render();
+            									});
+	                                            $(function () { 
+	                                                $('input').iCheck({
+	                                                    checkboxClass: 'icheckbox_square-blue',
+	                                                    radioClass: 'iradio_square-blue',
+	                                                    increaseArea: '20%'
+	                                                });
+	                                                //验证表单
+	                                                
+	                                                });
+	                                            form.on('submit(analogchannelWrite)', function (data) {
+	                                                var params = data.field;
+	                                                //console.log(params)
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.analogWrite(params);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        });
+	                                        // 读取设备
+	                                        $("#analogchannelRead").on("click", function () {
+	                                        	//console.log(document.getElementById('csp').value);
+	                                            var checked = $("#analog [lay-filter='analogchannel']:checked")
+	                                            Control.channelRead(checked.val());
+	                                            
+	                                        })
+	                                    	</script>
+	                                	</div>			 	
+										</fieldset>
+									</form>
+									</div>	
+									
+									<!-- 脉冲通道 -->
+	                                <div id="pulse" style="position: relative;">
+	                                <form id="pulse" class="layui-form" action="" lay-filter="pulsechannelParams">
+	                                	<fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+										  	<legend>脉冲通道</legend>
+										  	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<label class="layui-form-label">传感器通道号</label>
+	                                                <div id=csp_pulse>
+														<input type="radio" name="csp_pulse" value="01" title="通道1" lay-filter="pulsechannel">
+														<input type="radio" name="csp_pulse" value="02" title="通道2" lay-filter="pulsechannel">
+													</div>
+										 	</div>
+										 	<div class="layui-form-item">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 7px;">传感器地址</label>
+	                                        		<div class="layui-input-inline" style="width: 50px;margin-right: 20px;">
+	                                                	<input type="text" id="pcspa" name="pcspa" autocomplete="off"class="layui-input" maxlength="3" >
+													</div>
+													<label class="layui-form-label"id="pcspabeizhu"style="margin-left:-10px"></label>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label">数据采样开关</label>
+	                                        		<div class="layui-input-inline" id=pcsps>
+														<input type="radio" name="pcsps" value="1" title="采样" >
+														<input type="radio" name="pcsps" value="0" title="不采样" >
+													</div>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label" style="margin:0px 7px;">传感器类型</label>
+	                                        		<div class="layui-input-inline" style="width: 200px;margin-right: 20px;">
+	                                                	<select type="text" id="pcspp12" name="pcspp12" autocomplete="off"class="layui-input"lay-filter="pulsepcspp12" >
+	                                                		<option value="10">雨量传感器(0.1mm)</option>
+	                                                		<option value="11">雨量传感器(0.2mm)</option>
+	                                                		<option value="12">雨量传感器(0.5mm)</option>
+	                                                		<option value="13">风速传感器</option>
+	                                                		<option value="14">压力传感器</option>
+	                                                		<option value="15">闸门</option>
+	                                                		<option value="16">水位</option>
+	                                                		<option value="17">流量</option>
+	                                                		<option value="18">累计流量</option>
+	                                                	</select>
+													</div>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<label class="layui-form-label"style="margin:0px 7px;">传感分辨率</label>
+	                                        	<div id=pcspp3>
+													<input type="radio" name="pcspp3" value="0" title="0位" >
+													<input type="radio" name="pcspp3" value="1" title="1位" >
+													<input type="radio" name="pcspp3" value="2" title="2位" >
+													<input type="radio" name="pcspp3" value="3" title="3位" >
+													<input type="radio" name="pcspp3" value="4" title="4位" >
+												</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label" style="margin:0px 23.33px;">K参数</label>
+	                                        		<div class="layui-input-inline" style="width: 150px;margin-right: 50px;">
+	                                                	<input type="text" id="pcspk" name="pcspk" autocomplete="off"class="layui-input" >
+													</div>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 23.33px;">B参数</label>
+	                                        		<div class="layui-input-inline" style="width: 150px;margin-right: 0px;">
+	                                                	<input type="text" id="pcspb" name="pcspb" autocomplete="off"class="layui-input" >
+													</div>
+										 		</div>
+										 	</div>	
+										 	<!-- 按钮 -->	
+										 	<div class="layui-form-item">
+	                                   		 	<div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        		<div class="layui-input-inline" style="width: 280px;">
+	                                            		<div class="layui-btn-group">
+	                                                		<button id="pulsechannelRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                                		<button id="pulsechannelWrite"class="layui-btn" lay-submit lay-filter="pulsechannelWrite">写入参数</button>
+	                                            		</div>
+	                                        		</div>
+	                                    		</div>
+	                                    	<script>
+	                                        //提交
+	                                          
+	                                       function address2()
+	                                        {
+                                           	var checked = $("#pulse [lay-filter='pulsechannel']:checked");
+	                                        	var b=checked.val();
+	                                        	var a=document.getElementById("pcspp12").value;
+	                                        	
+	                                        	var c="(建议："+a+b.substring(1,2)+")";
+	                                        	if(a!=""&&b!=null)
+	                                        	{document.getElementById("pcspabeizhu").innerHTML=c;}
+	                                        	else{
+	                                        		document.getElementById("pcspabeizhu").innerHTML="";}
+	                                        }
+	                                        layui.use('form', function () {
+	                                            var form = layui.form;
+	                                            form.on('radio(pulsechannel)', function (data) {   
+	 	                                    	   var input = node.tns;
+	 	   	            							//window.alert(input);
+	                                            	var checked = $("#pulse [lay-filter='pulsechannel']:checked");
+		                                        	var b=checked.val();
+	                                           	channelFill(input,b);
+	                                           	var a=document.getElementById("pcspp12").value;
+                                            	var c=a+b.substring(1,2);
+	                                           	if(a!=""&&b!=null)
+	                                        	{document.getElementById("pcspa").value=c;}//document.getElementById("cspa").value=c;}
+                                            else{
+                                            	document.getElementById("pcspa").value="";
+                                            }
+            									});
+	                                            form.on('select(pulsepcspp12)', function (data) {   
+	                                            	var b=$('#csp_pulse input[name="csp_pulse"]:checked ').val();
+	                                            	var a=document.getElementById("pcspp12").value;
+	                                            	var c=a+b.substring(1,2);
+		                                        	//console.log(b);
+		                                        	if(a!=""&&b!=null)
+		                                        	{document.getElementById("pcspa").value=c;}//document.getElementById("cspa").value=c;}
+	                                            else{
+	                                            	document.getElementById("pcspa").value="";
+	                                            }
+	                                            
+	                                            if(a=="11")
+	                                            	{
+	                                            	document.getElementById("pcspk").value="+00.20000";
+	                                            	}
+	                                            else if(a=="12")
+	                                            {
+	                                            	document.getElementById("pcspk").value="+00.50000";
+	                                            	}
+	                                            else
+	                                            	{
+	                                            	document.getElementById("pcspk").value="+00.10000";
+	                                            	}
+            									});
+	                                            //写入设备
+	                                            form.on('submit(pulsechannelWrite)', function (data) {
+	                                                var params = data.field;
+	                                                console.log(params)
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.pulseWrite(params);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        });
+	                                        // 读取设备
+	                                        $("#pulsechannelRead").on("click", function () {
+	                                            var checked = $("#pulse [lay-filter='pulsechannel']:checked");
+	                                            Control.channelRead(checked.val());
+	                                        })
+	                                    	</script>
+	                                	</div>			 				 	
+										</fieldset>
+									</form>
+									</div>	
+									<!-- 继电器通道 -->
+	                                <div id="relay" style="position: relative;">
+	                                <form id="relay" class="layui-form" action="" lay-filter="relaychannelParams">
+	                                	<fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+										  	<legend>继电器通道</legend>
+										 	<div class="layui-form-item">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 7px;">传感器地址</label>
+	                                        		<div class="layui-input-inline" style="width: 50px;margin-right: 20px;">
+	                                                	<input type="text" id="cspa_j" name="cspa_j" autocomplete="off"class="layui-input" value="107" maxlength="3" >
+													</div>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label">电源控制开关</label>
+	                                        		<div class="layui-input-inline" id=relay_control >
+														<input type="radio" name="csp_j" value="1" title="启用" lay-filter="jidianqichannel">
+														<input type="radio" name="csp_j" value="0" title="不启用" lay-filter="jidianqichannel">
+													</div>
+										 		</div>
+										 	</div>
+										 	<div class="layui-form-item" style=" height: 50px;">
+	                                        	<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 14px;">接通时间</label>
+	                                        		<div class="layui-input-inline" style="width: 150px;margin-right: 50px;">
+	                                                	<input type="text" id="connect" name="connect" autocomplete="off"class="layui-input" >
+													</div>
+										 		</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 14px;">断开时间</label>
+	                                        		<div class="layui-input-inline" style="width: 150px;margin-right: 0px;">
+	                                                	<input type="text" id="disconnect" name="disconnect" autocomplete="off"class="layui-input" >
+													</div>
+										 		</div>
+										 	</div>	
+										 	<script>
+	                                        layui.use('laydate', function () {
+	                                            var laydate = layui.laydate;
+	
+	                                            //执行一个laydate实例
+	                                            laydate.render({
+	                                                elem: '#connect', //指定元素
+	                                                type: 'time',
+	                                                btns: ['now', 'confirm']
+	                                            });
+	                                        });
+	                                        layui.use('laydate', function () {
+	                                            var laydate = layui.laydate;
+	
+	                                            //执行一个laydate实例
+	                                            laydate.render({
+	                                                elem: '#disconnect', //指定元素
+	                                                type: 'time',
+	                                                btns: ['now', 'confirm']
+	                                            });
+	                                        });
+	                                    </script>	
+	                                    <!-- 按钮 -->	
+										<div class="layui-form-item">
+	                                    	<div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        	<div class="layui-input-inline" style="width: 280px;">
+	                                            	<div class="layui-btn-group">
+	                                               	 	<button id="jchannelRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                                	<button id="jchannelWrite"class="layui-btn" lay-submit lay-filter="jchannelWrite">写入参数</button>
+	                                            	</div>
+	                                        	</div>
+	                                    	</div>
+	                                    <script>
+	                                        //提交
+	                                        layui.use('form', function () {
+	                                            var form = layui.form;
+	                                            var input = node.tns;
+ 	   	            							//window.alert(input);
+                                           	channelFill(input,"07");
+	                                            //写入设备
+	                                            form.on('submit(jchannelWrite)', function (data) {
+	                                                var params = data.field;
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.relayWrite(params);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        });
+	                                        // 读取设备
+	                                        $("#jchannelRead").on("click", function () {
+	                                        	Control.channelRead("07");
+	                                        })
+	                                    </script>
+	                                </div>			 			 	
+										</fieldset>
+									</form>
+									</div>	
+	                        
+					    </div>
+					    <!-- 485通道 -->
+					    <div class="layui-tab-item">
+					    	<form id="modubuschannel" class="layui-form" action="" lay-filter="modubusParams">
+	                                 <div id="485" style="position: relative;">
+										 <div class="layui-form-item" >
+	                                        <label class="layui-form-label">传感器通道号</label>
+	                                               <div id=csm>
+													<input lay-filter="csmchannel"type="radio" name="csm" value="01" title="通道1" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="02" title="通道2" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="03" title="通道3" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="04" title="通道4" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="05" title="通道5" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="06" title="通道6" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="07" title="通道7" >
+													<input lay-filter="csmchannel"type="radio" name="csm" value="08" title="通道8" >
+												</div>
+										 	</div>
+										 <fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label">数据采样开关</label>
+	                                        	<div id=csms>
+													<input  type="radio" name="csms"id="csms" value="1" title="整型 " >&nbsp;&nbsp;
+													<input  type="radio" name="csms"id="csms" value="2" title="IEEE754小端" >
+													<input type="radio" name="csms"id="csms" value="3" title="IEEE754大端" >
+													<input type="radio" name="csms"id="csms" value="0" title="不采样" >
+													</div>
+										 </div>
+										 <div class="layui-form-item" style=" height: 50px;">
+	                                        <div class="layui-inline">
+	                                        	<label class="layui-form-label"style="margin:0px 7px;">传感器类型</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;margin-right: 20px;">
+	                                                <select lay-filter="csma12" type="text" id="csma12_" name="csma12_" autocomplete="off"class="layui-input" maxlength="3">
+	                                                <option value="03">水位传感器</option>
+	                                                <option value="04">流速传感器</option>
+	                                                <option value="05">流量传感器</option>
+	                                                </select>
+												</div>
+										 	</div>
+										 		<div class="layui-inline">
+	                                        		<label class="layui-form-label"style="margin:0px 28px;">传感器地址</label>
+	                                        		<div class="layui-input-inline" style="width: 100px;">
+	                                                	<input type="text" id="csma" name="csma" autocomplete="off"class="layui-input" datatype="*3-3" >
+													</div>
+													<label id="csmbeizhu"class="layui-form-label"style="margin-left:-10px;"></label>
+										 		</div>
+										 	</div>
+										 <hr>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label" style="margin:0px 4px;">数据1字节数</label>
+	                                        	<div id=csmp0_1>
+													<input type="radio" id="csmp0_1" name="csmp0_1" value="0" title="0字节" lay-filter="aaa">
+													<input type="radio" id="csmp0_1" name="csmp0_1" value="2" title="2字节" lay-filter="aaa">
+													<input type="radio" id="csmp0_1" name="csmp0_1" value="4" title="4字节" lay-filter="aaa">
+												</div>
+										 </div>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label" style="margin:0px 4px;">数据1分辨率</label>
+	                                        	<div  id=csmp0_2>
+													<input type="radio" id="csmp0_2" name="csmp0_2" value="0" title="0位&emsp;" >
+													<input type="radio" id="csmp0_2" name="csmp0_2" value="1" title="1位&emsp;" >
+													<input type="radio" id="csmp0_2" name="csmp0_2" value="2" title="2位&emsp;" >
+													<input type="radio" id="csmp0_2" name="csmp0_2" value="3" title="3位&emsp;" >
+													<input type="radio" id="csmp0_2" name="csmp0_2" value="4" title="4位&emsp;" >
+												</div>
+										 </div>
+										 <hr>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label" style="margin:0px 4px;">数据2字节数</label>
+	                                        	<div  id=csmp1_1>
+													<input type="radio" id="csmp1_1" name="csmp1_1" value="0" title="0字节" lay-filter="aaa">
+													<input type="radio" id="csmp1_1" name="csmp1_1" value="2" title="2字节" lay-filter="aaa">
+													<input type="radio" id="csmp1_1" name="csmp1_1" value="4" title="4字节" lay-filter="aaa">
+												</div>
+										 </div>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label"style="margin:0px 4px;">数据2分辨率</label>
+	                                        	<div  id=csmp1_2>
+													<input type="radio" id="csmp1_2" name="csmp1_2" value="0" title="0位&emsp;" >
+													<input type="radio" id="csmp1_2" name="csmp1_2" value="1" title="1位&emsp;" >
+													<input type="radio" id="csmp1_2" name="csmp1_2" value="2" title="2位&emsp;" >
+													<input type="radio" id="csmp1_2" name="csmp1_2" value="3" title="3位&emsp;" >
+													<input type="radio" id="csmp1_2" name="csmp1_2" value="4" title="4位&emsp;" >
+												</div>
+										 </div>
+										 <hr>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label" style="margin:0px 4px;">数据3字节数</label>
+	                                        	<div id=csmp2_1>
+													<input type="radio" id="csmp2_1" name="csmp2_1" value="0" title="0字节 " lay-filter="aaa">
+													<input type="radio" id="csmp2_1" name="csmp2_1" value="2" title="2字节" lay-filter="aaa">
+													<input type="radio" id="csmp2_1" name="csmp2_1" value="4" title="4字节" lay-filter="aaa">
+												</div>
+										 </div>
+										 <div class="layui-form-item">
+	                                        	<label class="layui-form-label"style="margin:0px 4px;">数据3分辨率</label>
+	                                        	<div  id=csmp2_2>
+													<input type="radio" id="csmp2_2" name="csmp2_2" value="0" title="0位&emsp;" >
+													<input type="radio" id="csmp2_2" name="csmp2_2" value="1" title="1位&emsp;" >
+													<input type="radio" id="csmp2_2" name="csmp2_2" value="2" title="2位&emsp;" >
+													<input type="radio" id="csmp2_2" name="csmp2_2" value="3" title="3位&emsp;" >
+													<input type="radio" id="csmp2_2" name="csmp2_2" value="4" title="4位&emsp;" >
+												</div>
+										</div>
+										 <hr>
+										 <div class="layui-form-item" style=" height: 50px;">
+										 	<div class="layui-inline">
+	                                        	<label title="提示" class="layui-form-label"style="margin:0px 7px;">MODBUS地址</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        		<input type="text" id="csmb" name="csmb" autocomplete="off"class="layui-input" >
+												</div>
+											</div>
+											<div class="layui-inline">
+	                                        	<label title="提示" class="layui-form-label"style="margin:0px 45px;">读取长度</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        		<input type="text" id="csmn" name="csmn" autocomplete="off"class="layui-input" readonly>
+												</div>
+											</div>
+										 </div>
+										 <div class="layui-form-item" style=" height: 50px;">
+										 	<div class="layui-inline">
+	                                        	<label title="提示" class="layui-form-label">MODBUS功能码</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        		<input type="text" id="csmm" name="csmm" autocomplete="off"class="layui-input" >
+												</div>
+											</div>
+											<div class="layui-inline">
+	                                        	<label title="提示" class="layui-form-label">MODBUS起始读取地址</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        		<input type="text" id="csmr" name="csmr" autocomplete="off"class="layui-input" >
+												</div>
+											</div>
+										 </div>
+										 
+									
+	
+	
+	                                <!-- 提交 -->
+	                                <div class="layui-form-item">
+	                                    <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        <div class="layui-input-inline" style="width: 280px;">
+	                                            <div class="layui-btn-group">
+	                                                <button id="modubusRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                                <button class="layui-btn" lay-submit lay-filter="modubusWrite">写入参数</button>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <script>
+	                                        //提交	
+	                                        function address()
+	                                        {
+	                                        	var a=document.getElementById("csma12_").value;
+	                                        	var checked = $("#modubuschannel [lay-filter='csmchannel']:checked");
+	                                        	var b=checked.val();
+	                                        	var c="(建议："+a+b.substring(1,2)+")";
+	                                        	if(a!=""&&b!=null&&c!=null)
+                                            	{document.getElementById("csmbeizhu").innerHTML=c;}
+	                                        	else
+	                                        		{document.getElementById("csmbeizhu").innerHTML="";}
+	                                        }
+	                                        layui.use('form', function () {
+	                                            var form = layui.form;
+	                                            //写入设备
+	                                            form.on('radio(aaa)', function (data) {   
+	                                            	var a=$('#csmp0_1 input[name="csmp0_1"]:checked ').val();
+	                                            	var b=$('#csmp1_1 input[name="csmp1_1"]:checked ').val();
+	                                            	var c=$('#csmp2_1 input[name="csmp2_1"]:checked ').val();
+	                                            	document.getElementById("csmbeizhu").innerHTML="";
+	                                            	if(a!=null&&b!=null&&c!=null)
+	                                            	{var d=(Number(a)+Number(b)+Number(c))/2;
+	                                            	document.getElementById("csmn").value="000"+d.toString();}
+                									form.render();
+            									});
+	                                            form.on('select(csma12)', function (data) {   
+	                                            	var b=$('#csm input[name="csm"]:checked ').val();
+	                                            	var a=document.getElementById("csma12_").value;
+	                                            	if(b!=null)
+	                                            	{document.getElementById("csmb").value="01";
+	                                            	document.getElementById("csmm").value="03";
+	                                            	document.getElementById("csmr").value="0001";
+	                                            	if (a!=""&&b!=null)
+	                                            		{
+	                                            		document.getElementById("csma").value=a+b.substring(1,2);
+	                                            		}
+	                                            	else
+	                                            		{
+	                                            		document.getElementById("csma").value="";
+	                                            		}
+	                                            	}
+                									form.render();
+            									});
+	                                            form.on('radio(csmchannel)', function (data) {   
+	                                            	var input = node.tns;
+	 	   	            							//window.alert(input);
+	                                            	var b=$('#csm input[name="csm"]:checked ').val();
+	                                            	//window.alert(b);
+	                                           		csmFill(input,b);
+	                                            	
+	                                            	var a=document.getElementById("csma12_").value;
+	                                            	if(b!=null)
+	                                            	{document.getElementById("csmb").value="01";
+	                                            	document.getElementById("csmm").value="03";
+	                                            	document.getElementById("csmr").value="0001";
+	                                            	if (a!=""&&b!=null)
+                                            		{
+                                            		document.getElementById("csma").innerHTML=a+b.substring(1,2);
+                                            		}
+                                            	else
+                                            		{
+                                            		document.getElementById("csma").innerHTML="";
+                                            		}
+	                                            	}
+                									form.render();
+            									});
+	                                            form.on('submit(modubusWrite)', function (data) {
+	                                                var params = data.field;
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.csmWrite(params);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        });
+	                                        // 读取设备
+	                                        $("#modubusRead").on("click", function () {
+	                                            var checked = $("#modubuschannel [lay-filter='csmchannel']:checked");
+	                                            Control.csmRead(checked.val());
+	                                        })
+	                                    </script>
+	                                </div>
+	                                </fieldset>
+	                                </div>
+	                                
+	                                <fieldset class="layui-elem-field" style="border-width: 2px;padding:10px;border-color: #009688;">
+	                                <legend>485基值设置</legend>
+	                                	<div class="layui-form-item" style=" height: 50px;">
+										 	<div class="layui-inline">
+	                                        	<label title="基值+/-观测值" class="layui-form-label">基值+/-观测值</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        	<select id="jizhiadd" name="jizhiadd" lay-verify="required">
+	                                                <option value="0" selected>加</option>
+	                                                <option value="1">减</option>
+	                                            </select>
+												</div>
+											</div>
+											<div class="layui-inline">
+	                                        	<label title="基值" class="layui-form-label">基值</label>
+	                                        	<div class="layui-input-inline" style="width: 150px;">
+	                                        		<input type="text" id="jizhi" name="jizhi" autocomplete="off"class="layui-input" placeholder="" maxlength="9"onblur="check1()">
+												</div>
+											</div>
+										 </div>
+										 <div class="layui-form-item">
+										  <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        <div class="layui-input-inline" style="width: 280px;">
+	                                            <div class="layui-btn-group">
+	                                                <button id="jizhiRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                                <button class="layui-btn" lay-submit lay-filter="jizhiWrite">写入参数</button>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    </div>
+	                                </fieldset>
+	                                <script>
+	                                function check1()
+                                    {   
+                                		var k=document.getElementById("jizhi").value;
+                                		//window.alert(k.length);
+                                		if(k.length!=9||(k[0]!='+'&&k[0]!='-'))
+                                		{
+                                			var c=document.getElementById("jizhi");
+                                			$(" #jizhi").val("");
+                                			//c.setAttribute("value","");
+                                			c.setAttribute("placeholder","如：+0.000000(共9位)");
+                                			//window.alert("请输入9位带符号数字");
+                                		}
+                                    }
+	                                layui.use('form', function () {
+                                        var form = layui.form;
+	                                form.on('submit(jizhiWrite)', function (data) {
+                                        var params = data.field;
+                                        var index = layer.open({
+                                            title: '提示',
+                                            type: 1,
+                                            offset: 'auto',
+                                            id: 'layerDemo',
+                                            content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                            btn: ['确定', '取消'],
+                                            btnAlign: 'c' //按钮居中
+                                            ,
+                                            shade: 0.3,
+                                            yes: function () {
+                                                Control.jizhiWrite(params);
+                                                layer.close(index);
+                                            },
+                                            btn2: function () {
+                                                layer.closeAll();
+                                            },
+                                            resize: false,
+                                            closeBtn: 0,
+                                            skin: 'layer-skin-lv',
+                                            move: false
+                                        });
+                                        return false;
+                                    });
+	                                });
+                                // 读取设备
+                                $("#jizhiRead").on("click", function () {
+                                    var checked = $("#modubuschannel [lay-filter='csmchannel']:checked");
+                                    var a=parseInt (checked.val())+7;
+                                    if(a<10){a="0"+a;}
+                                    Control.jizhiRead(a);
+                                })
+                                </script>
+	                            </form>
+	                        
+					    </div>
+					    <div class="layui-tab-item">
+					    	<form class="layui-form" action=""lay-filter="rtuParams">
+	                                <div class="layui-form-item">
+	                                    <label class="layui-form-label" style="margin-right: 20px;">数据推送平台</label>
+	                                    <div id="dms" class="layui-input-block">
+	                                        <input lay-filter="dms" type="checkbox" name="dizhi" title="四川省地质环境管理平台(02)">
+	                                        
+	                                    </div>
+	                                    <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+	                                        <div class="layui-input-inline" style="width: 280px;">
+	                                            <div class="layui-btn-group">
+	                                                <button id="dmsRead" class="layui-btn layui-btn-primary border-turn"
+	                                                    type="button">读取参数</button>
+	                                                <button class="layui-btn" lay-submit lay-filter="dmsWrite">写入参数</button>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="layui-form-item" style=" height: 50px;margin-top:10px">
+										 	<div class="layui-inline">
+	                                        	<label title="提示" class="layui-form-label">测站编码</label>
+	                                        	<div class="layui-input-inline" style="width: 280px;margin-left:50px">
+	                                        		<input type="text" id="rtunum" name="rtunum" autocomplete="off"class="layui-input" >
+												</div>
+											</div>
+											<div class="layui-btn-group" style="margin-right: 10px;margin-left: 30px;">
+	                                            <button id="rtunumRead" type="button"style="width: 100px;"
+	                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+	                                            <button id="rtunumWrite" type="button" style="width: 100px;"class="layui-btn"lay-submit lay-filter="rtunumWrite">写入</button>
+	                                        </div>
+										 </div>
+	                                    <script>
+	                                        layui.use(['form', 'jquery'], function () {
+	                                            var form = layui.form;
+	                                            var $ = layui.jquery;
+	                                            form.on('checkbox(dms)', function (data) {
+	                                                $(this).siblings("input").each(function (click) {
+	                                                    this.checked = false;
+	                                                });
+	                                                form.render();
+	                                            });
+	                                            //写入设备
+	                                            form.on('submit(dmsWrite)', function (data) {
+	                                                //var params = data.field;
+	                                                var a=$('#dms input[name="dizhi"]:checked ').val();
+	                                                var b=$('#dms input[name="shuili"]:checked ').val();
+	                                                var p;
+	                                                if(a=="on"){p="01";}
+	                                                else if(b=="on"){p="03";}
+	                                                var index = layer.open({
+	                                                    title: '提示',
+	                                                    type: 1,
+	                                                    offset: 'auto',
+	                                                    id: 'layerDemo',
+	                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+	                                                    btn: ['确定', '取消'],
+	                                                    btnAlign: 'c' //按钮居中
+	                                                    ,
+	                                                    shade: 0.3,
+	                                                    yes: function () {
+	                                                        Control.dmsWrite(p);
+	                                                        layer.close(index);
+	                                                    },
+	                                                    btn2: function () {
+	                                                        layer.closeAll();
+	                                                    },
+	                                                    resize: false,
+	                                                    closeBtn: 0,
+	                                                    skin: 'layer-skin-lv',
+	                                                    move: false
+	                                                });
+	                                                return false;
+	                                            });
+	                                        $("#dmsRead").on("click", function () {
+	                                            Control.dmsRead();
+	                                        });
+	                                        form.on('submit(rtunumWrite)', function (data) {
+                                                var index = layer.open({
+                                                    title: '提示',
+                                                    type: 1,
+                                                    offset: 'auto',
+                                                    id: 'layerDemo',
+                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                    btn: ['确定', '取消'],
+                                                    btnAlign: 'c' //按钮居中
+                                                    ,
+                                                    shade: 0.3,
+                                                    yes: function () {
+                                                        Control.rtunumWrite($("#rtunum").val());
+                                                        layer.close(index);
+                                                    },
+                                                    btn2: function () {
+                                                        layer.closeAll();
+                                                    },
+                                                    resize: false,
+                                                    closeBtn: 0,
+                                                    skin: 'layer-skin-lv',
+                                                    move: false
+                                                });
+                                                return false;
+                                            });
+                                        $("#rtunumRead").on("click", function () {
+                                            Control.rtunumRead();
+                                        });
+	                                        });
+	                                    </script>
+	                                
+	                                
+	                            </form>
+					    </div>
+					  </div>
+				  </div>
+				  </div>
+
+            <div class="layui-col-md4">
+            		<div style="position:fixed;width:31%;top:100px">
+            			<!--数据发送区 -->
+						<div class="layui-panel" style="padding:0px 20px;border-radius:15px;">
+					      <div style="margin-bottom: 20px;">
+					        <label class="layui-form-label"></label>
+					        <div class="layui-input-block">
+					          <textarea id = "receiveArea" name="desc" placeholder="" class="layui-textarea" readonly style="height: 500px;"></textarea>
+					        </div>
+					      </div>
+					      <div style="margin-bottom: 20px;">
+					        <div class="layui-input-block">
+					          <textarea id = "sendArea" name="desc" placeholder="" class="layui-textarea"></textarea>
+					        </div>
+					      </div>
+					      <div class="layui-input-block" style = "margin-left: calc(50% - 71px)">
+					        <button id="inputCommand" class="layui-btn" type="button">发送</button>
+					        <button id="clearCommand" type="reset" class="layui-btn layui-btn-primary">清空</button>
+					      </div>
+						</div>
+            		</div>
+					<script>
+						$('#inputCommand').on('click',function(){
+					      let command = $('#sendArea').val();
+					      Control.send(command);
+					    })
+					    $('#clearCommand').on('click',function(){
+					      records.splice(0,records.length)
+					      renderReceiveArea()
+					    })
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+					</script> 
+            	</div>
+
+    </div>
+    </div>
+</body>
+<script>
+    // 禁用回车键
+    document.onkeydown = function (e) {
+        var e = e || event;
+        if (e.keyCode == 13) {
+            return false;
+        }
+    };
+</script>
+
+</html>

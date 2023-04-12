@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <!-- for 360 分别代表用极速模式，兼容模式，IE模式打开-->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/lib/html5.js"></script>
+    <script type="text/javascript" src="/lib/respond.min.js"></script>
+    <script type="text/javascript" src="/lib/PIE_IE678.js"></script>
+    <![endif]-->
+
+    <title>监测设备 - 信德水工智慧水利管控系统</title>
+    
+    <link href="../Content/css/Topstyle.css" rel="stylesheet" />
+
+     <link href="../lib/AlertComfirm/sweet-alert.css" rel="stylesheet" />
+
+    <!--easyui样式文件(置于页面主样式之前，否则自定义树形样式无效)-->
+    <link href="../lib/easyui/themes/default/easyui.css" rel="stylesheet" />
+    <link href="../lib/easyui/themes/icon.css" rel="stylesheet" />
+    <link href="../lib/easyui/themes/metro/tree.css" rel="stylesheet" />
+   
+
+    <!--主要样式-->
+    <link href="../Content/css/maptipstyle.css" rel="stylesheet" />
+   
+    
+    <link href="../Content/css/style.css" rel="stylesheet" type="text/css" />
+     <link href="../Content/css/H-ui.css" rel="stylesheet" />  
+    <link href="../Content/skin/default/skin.css" rel="stylesheet" type="text/css" id="skin" />
+    <link href="../lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/easyui/themes/color.css" rel="stylesheet" />
+    <link href="../lib/easyui/themes/metro/easyui.css" rel="stylesheet" />
+    <link href="../lib/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+    <link href="../lib/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet" />    
+    <link href="../Content/css/main.css" rel="stylesheet" />
+    
+    <script src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.easyui.min.js"></script>
+        <script src="../lib/AlertComfirm/sweet-alert.js"></script>
+    <script src="../Scripts/user/Login.js"></script>
+    <script type="text/jscript">
+        $(function () {
+            Login.GetCookie();
+            //当浏览器窗口变化时对各窗口大小进行重置        
+           
+
+        });
+    </script>
+</head>
+<body>
+    <!--header 头部固定高度100px-->
+    <div class="header">
+        <!--logo-->
+        <div id="logochoose" >
+        </div>
+        <!--nav-->
+        <nav id="main_nav">
+            <ul>
+                <li class="lihome">
+                    <a href="../Home/Index.html">
+                        <img src="../Content/images/menu/home.png" />
+                        首页</a>
+                </li>
+
+                <li class="lidtalarm">
+                    <a href="../Warning/Index.html">
+                        <img src="../Content/images/menu/jcyj.png" />
+                        监测预警</a>
+                </li>
+                <li class="lidataline">
+                    <a href="../Sensor/Index.html">
+                        <img src="../Content/images/menu/jcsb.png" />
+                        监测设备</a>
+                </li>
+                <li class="liprofile">
+                    <a href="../Profile/Index.html">
+                        <img src="../Content/images/menu/gcgk.png" />
+                       工程概况</a>
+                </li>
+                 <li class="show_PDF">
+                	<a href="../showPDF/Index.html">
+                		<img src="../Content/images/menu/gcgk.png" />
+                		展示PDF
+                	</a>
+                </li>
+                 
+                <li class="lisysmgr">
+                    <a href="../SysManager/Index.html">
+                        <img src="../Content/images/menu/system.png" />
+                        后台管理</a></li>
+            </ul>
+        </nav>
+        <!--right_login-->
+        <div class="loginimg">
+            <div>
+                <ul class="logintxt">
+                    <li style="float: left; position: relative; width: 50px; height: 50px;">
+                        <img src="../Content/images/user.png" />
+                    </li>
+                    <li style="float: left;"><span id="usershowname" style="padding-left: 10px;"></span></li>
+                    <li>
+                        <img src="../Content/images/quit.png" onclick="Login.LogOut();" style="cursor: pointer;" /></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--内容 页面高度减去头部100px-->
+    <div class="maincontent" >
+        
+
+
+
+<script type="text/javascript" src="../lib/H-ui.js"></script>
+<script type="text/javascript" src="../lib/H-ui.admin.js"></script>
+<script src="../lib/layer/layer-v2.1/layer/layer.js"></script>
+<script src="../lib/layer/layer-v2.1/layer/extend/layer.ext.js"></script>
+<script type="text/javascript" src="../lib/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../lib/My97DatePicker/WdatePicker.js"></script>
+<script src="../Scripts/sensor/SensorIndex.js"></script>
+<script src="../lib/PDF/pdf.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".liprofile").addClass("current");
+        
+    });
+
+	var div = document.getElementById('logochoose');
+	var user = Login.GetUserName();
+	if(user == "TZGNSS6"){
+		div.className = 'logo_tz';
+	}else if(user == "LFTBGM01"){
+		div.className = 'logo_wh';
+	}else{
+		div.className = 'logo';
+	}
+	
+	
+   
+</script>
+
+<div id="content_profile" class="pd-10">	
+	<h3 class="active">平面布置图 </h3>
+	<h3>浸润线图</h3>
+	<h3>平面图</h3>
+	<h3>卫星图</h3>
+	<h3>全部设置布置</h3>
+	<h3>工程概况说明</h3>
+	
+	<div class="content"><img src="../Content/images/profile/profile_1.png" style="display:block;height:95%;margin:1% auto;"/></div>		
+	<div><img src="../Content/images/profile/profile_2.png" style="display:block;height:95%; margin:1% auto;"/></div>
+	<div><img src="../Content/images/profile/profile_3.jpg" style="display:block;height:95%; margin:1% auto;"/></div>
+	<div><img src="../Content/images/profile/profile_4.jpg" style="display:block;height:95%; margin:1% auto;"/></div>
+	<div><img src="../Content/images/profile/profile_5.jpg" style="display:block;height:95%; margin:1% auto;"/></div>
+	<div>
+		<h4 class="canvas-left">
+		页面选择：
+  		<button id="prev" class="btn btn-primary radius">上一页</button>
+  		<button id="next" class="btn btn-primary radius">下一页</button>
+  		&nbsp; &nbsp;
+  		<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+		</h4>
+	 
+		<h4 class="pdf-canvas">
+			<canvas id="the-canvas"></canvas>
+		</h4>
+  	</div>
+    
+</div>
+
+<script type="text/javascript">
+	//If absolute URL from the remote server is provided, configure the CORS
+	//header on that server.
+	var url = '../Content/PDF/LFTBLGM01_1.pdf';
+
+	//Loaded via <script> tag, create shortcut to access PDF.js exports.
+	var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+	//The workerSrc property shall be specified.
+	pdfjsLib.GlobalWorkerOptions.workerSrc = '../lib/PDF/pdf.worker.js';
+
+	var pdfDoc = null,
+ 		pageNum = 1,
+ 		pageRendering = false,
+ 		pageNumPending = null,
+ 		scale = 1.5,
+ 		canvas = document.getElementById('the-canvas'),
+ 		ctx = canvas.getContext('2d');
+
+	/**
+	* Get page info from document, resize canvas accordingly, and render page.
+	* @param num Page number.
+	*/
+	function renderPage(num) {
+		pageRendering = true;
+		// Using promise to fetch the page
+		pdfDoc.getPage(num).then(function(page) {
+ 			var viewport = page.getViewport({scale: scale});
+ 			canvas.height = viewport.height;
+ 			canvas.width = viewport.width;
+			//var pdf_canvas = document.getElementById('pdf-canvas');
+			//pdf_canvas.width = canvas.width;
+			//console.log(canvas.width);
+			//console.log(pdf_canvas.width);
+ 			// Render PDF page into canvas context
+ 			var renderContext = {
+   				canvasContext: ctx,
+  	 			viewport: viewport
+ 			};
+ 			var renderTask = page.render(renderContext);
+
+ 			// Wait for rendering to finish
+ 			renderTask.promise.then(function() {
+   				pageRendering = false;
+   				if (pageNumPending !== null) {
+     				// New page rendering is pending
+     				renderPage(pageNumPending);
+     				pageNumPending = null;
+   				}
+ 			});
+		});
+
+		// Update page counters
+		document.getElementById('page_num').textContent = num;
+	}
+
+	/**
+	* If another page rendering in progress, waits until the rendering is
+	* finised. Otherwise, executes rendering immediately.
+	*/
+	function queueRenderPage(num) {
+		if (pageRendering) {
+ 			pageNumPending = num;
+		} else {
+ 			renderPage(num);
+		}
+	}
+
+	/**
+	* Displays previous page.
+	*/
+	function onPrevPage() {
+		if (pageNum <= 1) {
+ 			return;
+		}
+		pageNum--;
+		queueRenderPage(pageNum);
+	}
+	document.getElementById('prev').addEventListener('click', onPrevPage);
+
+	/**
+	* Displays next page.
+	*/
+	function onNextPage() {
+		if (pageNum >= pdfDoc.numPages) {
+ 			return;
+		}
+		pageNum++;
+		queueRenderPage(pageNum);
+	}
+	document.getElementById('next').addEventListener('click', onNextPage);
+
+	/**
+	* Asynchronously downloads PDF.
+	*/
+	pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+		pdfDoc = pdfDoc_;
+		document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+		// Initial/first page rendering
+		renderPage(pageNum);
+	});
+
+
+</script>
+
+<script>
+window.onload = function() {
+	//console.log($('#content_profile h3').offsetHeight);
+	var oTab = document.getElementById("content_profile");
+	var aH3 = oTab.getElementsByTagName("h3");
+	var aDiv = oTab.getElementsByTagName("div");
+	for (var i = 0; i < aH3.length; i++) {
+		aH3[i].index = i;
+	 	aH3[i].onclick = function() {
+			for (var i = 0; i < aH3.length; i++) {
+				aH3[i].className = "";
+			 	aDiv[i].style.display = "none";
+				aDiv[this.index].className = "";
+				aDiv[this.index].className = "content";
+			}
+			this.className = "active";
+				aDiv[this.index].style.display = "block";
+		};
+	}
+};
+
+</script>
+
+
+    </div>
+</body>
+</html>
+
+

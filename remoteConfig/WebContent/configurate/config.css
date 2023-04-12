@@ -1,0 +1,184 @@
+.layui-form-label {
+    width: auto;
+}
+
+.layui-input-block {
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+legend {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.layui-colla-content {
+    color: black !important;
+}
+
+.layui-form-item {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.layui-card-body {
+    padding-top: 0;
+}
+
+table {
+    color: black !important;
+}
+
+.layui-body {
+    padding-bottom: 0px !important;
+}
+
+.layui-colla-title {
+    color: black !important;
+    background-color: #fff;
+}
+
+.body-withoutside {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.channel-title {
+    padding: 10px 0px 10px 10px;
+}
+
+.layui-tree-txt:hover {
+    color: #fff !important;
+}
+
+.checkbox-vertical {
+    border-radius: 3px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #d2d2d2;
+    color: #fff;
+}
+
+.checkbox-vertical:hover {
+    background-color: #c2c2c2;
+}
+
+.checkbox-checked {
+    background-color: #5FB878;
+}
+
+.checkbox-checked:hover {
+    background-color: #5FB878;
+}
+
+.tree-node-checked {
+    color:#3de46c !important;/*255*/
+}
+
+.tree-node-checked:hover {
+    color:  #3de46c !important;/*255*/
+}
+
+.layui-tree-txt span {
+    color: #5FB878;
+}
+
+.layui-tree-txt:hover span {
+    color: #7bf09c !important;
+}
+
+.tree-node-checked span {
+    color: #7bf09c !important;
+}
+
+.tree-node-checked:hover span {
+    color: #7bf09c !important;
+}
+
+.tree-type-btn {
+    cursor: pointer;
+    width: 100px;
+    float: left;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    color: rgb(255, 255, 255, .7);
+}
+
+.tree-type-btn:hover {
+    color: #fff;
+}
+
+.tree-type-btn-checked {
+    color: #fff;
+    background-color: rgba(0, 0, 0, .3)!important;
+}
+
+body .layer-skin-lv .layui-layer-btn .layui-layer-btn0 {
+    background-color: #009688;
+    border-color: #009688;
+}
+
+body .layer-skin-lv .layui-layer-btn .layui-layer-btn1 {
+    transition: border-color 0.5s, color 0.5s;
+    -webkit-transition: border-color 0.5s, color 0.5s;
+    border-color: #d2d2d2;
+    color: #666;
+}
+
+body .layer-skin-lv .layui-layer-btn .layui-layer-btn1:hover {
+    border-color: #009688;
+    color: #009688
+}
+
+.border-turn {
+    border-color: #d2d2d2 !important;
+    color: #666 !important;
+    transition: border-color 0.5s, color 0.5s;
+    -webkit-transition: border-color 0.5s, color 0.5s;
+}
+
+.border-turn:hover {
+    border-color: #009688 !important;
+    color: #009688 !important;
+}
+
+.channel-button {
+    height: 26px;
+    width: 26px;
+    border:1px solid #aaa;
+    border-radius: 13px;
+    position: absolute;
+    left: 137px;
+    top: 14px;
+}
+.layui-icon-logout {
+    position: absolute;
+    top: 3px;
+    left: 5px;
+}
+.channel-button-checked {
+    border-color:#009687a2 !important;
+    background-color: #00968727;
+}
+.channel-button-checked i {
+    color: #009688 !important;
+}
+
+.bg-offline {
+    background-color: #f2f2f2 !important;
+}
+
+.layui-icon-refresh {
+    color: #666;
+    cursor: pointer;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="background-color: #f2f2f2;overflow:hidden;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./config.css">
+
+    <script src="../Scripts/remote/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../Scripts/remote/treeData.js"></script>
+    <script src="../Scripts/remote/remoteDetail.js"></script>
+
+</head>
+
+
+<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+<div class="layui-side layui-bg-black" style="width: 230px;">
+    <div class="layui-side-scroll" style="width: auto;">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" style="height: 100%;width: auto;">
+            <li class="layui-nav-item layui-nav-itemed" style="height: 100%;box-sizing: border-box;padding-top: 15px;">
+                <input type="text" id="search" name="search" placeholder="搜索..." autocomplete="off" class="layui-input" style="margin: 0px 10px 10px 10px;height: 30px;width: 150px;border-radius: 15px;float:left">
+                <i class="layui-icon layui-icon-search" style="position: absolute;top: 10px;left: 135px;color: #333333;font-size: 16px;"></i>
+                <button id="fresh" type="button" style="text-align: center;margin: 0px 10px 10px 10px;float:right"class="layui-btn layui-btn-sm layui-btn-primary">
+                	<i class="layui-icon"style="color:white">&#xe669;</i></button>
+                <div id="treeType" style="height: 30px;font-size: 0px;width: 100%;padding: 0px 0px 0px 15px;">
+                    <div id="tab-terminalNum"class="tree-type-btn tree-type-btn-checked" >设备编号</div>
+                    <div class="tree-type-btn">TNS</div>
+                </div>
+                <dl class="layui-nav-child" style="max-height: calc(100% - 82px);overflow:auto;width: 220px;">
+                    <div id="deviceTree" style="padding-left: 20px;"></div>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<body>
+    <div id="configbody" class="layui-body" style="position: absolute !important;">
+        <iframe id="content_index" src="configwelc.html" frameborder="0" style="width: 100%;height: 100%;"></iframe>
+    </div>
+</body>
+<script>
+$("#fresh").on("click", function () {
+	location.reload();
+	//console.log("bbb");
+});
+    user = window.parent.user;
+    var mobile = function () {
+            if (document.documentElement.clientWidth < 769) {
+                $("#configbody").css("left","0px");
+                $(".layui-side").addClass("layui-hide");
+            }
+            else {
+                $("#configbody").css("left","230px");
+                $(".layui-side").removeClass("layui-hide");
+            };
+        };
+        window.onload = mobile;
+        window.onresize = mobile;
+</script>
+
+</html>

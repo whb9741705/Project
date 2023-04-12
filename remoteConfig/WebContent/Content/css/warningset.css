@@ -1,0 +1,131 @@
+li { list-style: none outside none; }
+
+ul, li { margin: 0px; padding: 0px; list-style-type: none; }
+
+a { text-decoration: none; }
+
+    a img { border: 0px; }
+
+    a:hover { text-decoration: none; }
+
+/* CSS Document */
+
+.content { /*margin: 0 auto;*/ width: 1080px; height: 800px; border: 1px solid #b6c5da; }
+
+.left { width: 200px; height: 100%; overflow: auto; float: left; border: 1px solid #b6c5da; }
+.xzqhtree { width: 200px; margin-top: 10px; }
+
+.right { border: 1px solid #b6c5da; height: 100%; margin-left: 200px; }
+
+.topcon { height: 320px; margin-bottom: 10px; overflow: hidden;}
+
+.fottercon { border-top: 1px dashed #b6c5da;height: 210px;  padding-left: 10px; padding-top: 20px;     overflow: hidden;}
+
+.fottercon1 { border-top: 1px dashed #b6c5da;  padding-left: 10px; padding-top: 20px;  padding-bottom: 20px;   overflow: hidden;}
+
+.top_left { width: 400px; height: 100%; float: left; }
+
+.top_right { float: right; width: 475px; border-left: 1px dashed #b6c5da; height: 100%; }
+
+.fotter_topleft { height: 100%; float: left; }
+
+.fotter_topright { float: right; width: 475px; height: 100%; }
+
+.title { background-image: url(../images/titlebg.png); width: 185px; height: 34px; background-repeat: no-repeat; text-align: center; margin: 0 auto; margin-top: 10px; }
+
+    .title span { font-size: 12px; color: #283869; line-height: 34px; text-align: center; width: 185px; display: block; }
+
+.top_leftimg { border: 1px solid #b6c5da; width: 375px; height: 233px; margin: 0 auto; display: block; margin-top: 10px; }
+
+.top_rightcontent { width: 470px; height: 230px; margin: 0 auto; display: block; margin-top: 5px; }
+
+
+.top_rightcontent ul li { padding:0 0 0 10px; border-bottom: 1px solid #b6c5da; height:auto;float:left;width: 350px;}
+
+.checkboxleft { 
+    float:left; height:60px;line-height:30px; 
+}
+ .checkboxleft input[type="checkbox"]{ float:left;height:60px; width:16px;line-height:30px; margin:0;  }
+ .checkboxleft span{ color: #283869; width: 200px;  float:left;  font-weight:bold;font-size: 12px; height:60px;line-height:60px;}
+ .lefttip { padding:0 0 0 5px;width: 100px; height:30px;line-height:30px; float:right; clear:both;}
+.checkboxright {padding:0; width:100px; float:left;height:auto; }
+.righttip { padding:0 0 0 5px;height:20px;line-height:20px; clear:both;}
+.rightcon {padding:0 0 5px 0; }
+.txtcon { line-height: 17px; display: block; color: #283869;width:320px;  height: 50px;resize: none; font-size: 12px;padding:4px;}
+.concheck {  width: 100px; float:left; height:30px;line-height:30px;}
+.concheck input[type="checkbox"]{ float:left;height:30px; width:14px;line-height:30px; margin:0;  }
+    .concheck label { font-size:12px;}
+
+
+table.gridtable { font-family: verdana,arial,sans-serif; font-size: 11px; color: #333333; border-width: 1px; border-color: #b6c5da; border-collapse: collapse; }
+
+    table.gridtable th { border-width: 1px; border-style: solid; border-color: #b6c5da; background-color: #eef7fe; height: 25px; font-size: 11px; text-align: center; }
+
+    table.gridtable td { border-width: 1px; border-style: solid; border-color: #b6c5da; text-align: center; height: 22px; }
+
+.titlety th { width: 80px; }
+
+.whitch { width: 250px; }
+
+.tabletitle { background-color: #eef7fe; border: 1px solid #b6c5da; height: 25px; margin: 0 auto; line-height: 25px; text-align: center; color: #283869; font-size: 13px; font-weight: bold; border-bottom: 0; }
+
+.righttxt { width: 330px; display: block; margin: 10px auto 0 auto;  font-size: 13px; line-height: 20px;color: #283869; }
+
+.telephone { width: 315px; border-bottom: 1px solid #b6c5da; border-left: 0; border-top: 0; border-right: 0; }
+
+
+
+.btnsave { background-image: url(../images/btnbgsave.png); /**width: 139px;**/ width: 142px; height: 37px; background-color: transparent; border: none; /**margin-top: 10px;**/ margin-top: 3px; color: #FFFFFF; margin-left: 110px; /**float: right;**/ cursor: pointer; }
+
+.btnclose { background-image: url(../images/btnbgclose.png); width: 139px; height: 37px; background-color: transparent; border: none; margin-top: 10px; color: #FFFFFF; float: right; cursor: pointer; }
+
+.tdinput { width: 80px; border: none; padding: 0; margin: 0; outline: none; }
+
+
+
+/* Tree样式 开始*/
+.guo { background: url("../images/icons/flag_orange.png") no-repeat; background-position: left center; }
+.sheng { background: url("../images/icons/flag_blue.png") no-repeat; background-position: left center; }
+.shi { background: url("../images/icons/flag_green.png") no-repeat; background-position: left center; }
+.xian { background: url("../images/icons/flag_purple.png") no-repeat; background-position: left center; }
+
+.P_Red { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Orange { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Yellow { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Blue { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Green { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+
+.Z_Red { background: url(".../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Orange { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Yellow { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Blue { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Green { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+
+
+.nsl { background: url("../images/icons/Z_NSL.png") no-repeat; background-position: left center; }
+.hp { background: url("../images/icons/Z_HP.png") no-repeat; background-position: left center; }
+.bt { background: url("../images/icons/Z_BT.png") no-repeat; background-position: left center; }
+.dlf { background: url("../images/icons/Z_DLF.png") no-repeat; background-position: left center; }
+.dmcj { background: url("../images/icons/Z_DMCJ.png") no-repeat; background-position: left center; }
+.dmtx { background: url("../images/icons/Z_DMTX.png") no-repeat; background-position: left center; }
+.bwdxp { background: url("../images/icons/Z_BWDXP.png") no-repeat; background-position: left center; }
+
+.led { background: url("../images/icons/led.png") no-repeat; background-position: left center; }
+.trumpet { background: url("../images/icons/trumpet.png") no-repeat; background-position: left center; }
+.video { background: url("../images/icons/SXT.png") no-repeat; background-position: left center; }
+
+
+.wy { background: url("../images/icons/WY.png") no-repeat; background-position: left center; }
+.yl { background: url("../images/icons/YL.png") no-repeat; background-position: left center; }
+.ds { background: url("../images/icons/CS.png") no-repeat; background-position: left center; }
+.nw { background: url("../images/icons/NW.png") no-repeat; background-position: left center; }
+.cs { background: url("../images/icons/CS_16.png") no-repeat; background-position: left center; }
+.hsl { background: url("../images/icons/HSL.png") no-repeat; background-position: left center; }
+.dxy {background: url("../images/icons/none.png")  no-repeat; background-position: left center;  }
+.deepwy {background: url("../images/icons/none.png") no-repeat;background-position: left center;  }
+.kxy {background: url("../images/icons/none.png") no-repeat;background-position: left center;  }
+
+.dxy {background: url("../images/icons/none.png") no-repeat; background-position: left center;  }
+.none {background: url("../images/icons/none.png") no-repeat; background-position: left center; }
+
+/* Tree样式 结束*/

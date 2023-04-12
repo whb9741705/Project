@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="background-color: #f2f2f2;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./config.css">
+    <script src="../Scripts/remote/jquery.js"></script>
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../Scripts/remote/remoteDetail.js"></script>
+    <script>
+        var node = window.parent.node;
+        var user = window.parent.user;
+    </script>
+    <script src="../Scripts/remote/websocket.js"></script>
+    <script src="../Scripts/remote/nodeData.js"></script>
+</head>
+
+
+<body>
+    <div style="padding: 30px;">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <!-- 设备信息 -->
+                <div class="layui-card">
+                    <div class="layui-card-header">设备信息
+                        <div style="float: right;">
+                            <span id="voltage" style="padding-right: 20px;">电池电压：undefined</span>
+                            <span id="isonline">未连接</span>
+                        </div>
+                    </div>
+                    <div class="layui-card-body">
+                        <table class="layui-table" lay-skin="nob" style="word-break:break-all">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td id="rid">N/A</td>
+                                    <td id="tns">N/A</td>
+                                    <td id="ip">N/A</td>
+                                    <td id="port">N/A</td>
+                                    <td id="svr">N/A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-collapse" lay-accordion style="background-color: white;">
+                    <!-- 基本参数设置 -->
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">基本参数设置</h2>
+                        <div class="layui-colla-content layui-show">
+                            <form class="layui-form" lay-filter="basicParams">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">设备编号</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <input id="tns" type="text" class="layui-input" name="tns" placeholder=""
+                                                autocomplete="off">
+                                        </div>
+                                        <div class="layui-btn-group" style="margin-right: 20px;">
+                                            <button id="tnsRead" type="button"
+                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                                            <button id="tnsWrite" type="button" class="layui-btn">写入</button>
+                                        </div>
+                                        <!-- <button id="tnsWrite" type="button" class="layui-btn" style="width: 132px;margin-right: 20px;">写入设备编号</button> -->
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">系统时间</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <input id="systemtime" type="text" class="layui-input" name="systemtime"
+                                                placeholder="" autocomplete="off" readonly>
+                                        </div>
+                                        <button id="systemtimeWrite" type="button" class="layui-btn"
+                                            style="width: 132px;margin-right: 20px;">写入系统时间</button>
+                                    </div>
+
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label" style="margin: 0px 14px;">日期</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <input id="date" type="text" class="layui-input" name="date"
+                                                placeholder="yyyy-MM-dd" autocomplete="off">
+                                        </div>
+                                        <div class="layui-btn-group" style="margin-right: 20px;">
+                                            <button id="dateRead" type="button"
+                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                                            <button id="dateWrite" type="button" class="layui-btn">写入</button>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        layui.use('laydate', function () {
+                                            var laydate = layui.laydate;
+                                            //执行一个laydate实例
+                                            laydate.render({
+                                                elem: '#date', //指定元素
+                                                btns: ['now', 'confirm']
+                                            });
+                                        });
+                                    </script>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label" style="margin: 0px 14px;">时间</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <input id="time" type="text" class="layui-input" name="time"
+                                                placeholder="hh:mm:ss" autocomplete="off">
+                                        </div>
+                                        <div class="layui-btn-group" style="margin-right: 20px;">
+                                            <button id="timeRead" type="button"
+                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                                            <button id="timeWrite" type="button" class="layui-btn">写入</button>
+                                        </div>
+
+                                    </div>
+                                    <script>
+                                        layui.use('laydate', function () {
+                                            var laydate = layui.laydate;
+
+                                            //执行一个laydate实例
+                                            laydate.render({
+                                                elem: '#time', //指定元素
+                                                type: 'time',
+                                                btns: ['now', 'confirm']
+                                            });
+                                        });
+                                    </script>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">工作模式</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <select id="wms" name="wms" lay-verify="required">
+                                                <option value="00" selected>正常模式</option>
+                                                <option value="01">应急模式</option>
+                                                <option value="02">低功耗模式</option>
+                                            </select>
+                                        </div>
+                                        <div class="layui-btn-group" style="margin-right: 20px;">
+                                            <button id="wmsRead" type="button"
+                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                                            <button id="wmsWrite" type="button" class="layui-btn">写入</button>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">采集间隔</label>
+                                        <div class="layui-input-inline" style="width: 114px;">
+                                            <input id="cst" type="text" class="layui-input" name="cst"
+                                                placeholder="hh:mm:ss" autocomplete="off">
+                                        </div>
+                                        <div class="layui-btn-group" style="margin-right: 20px;">
+                                            <button id="cstRead" type="button"
+                                                class="layui-btn layui-btn-primary border-turn">读取</button>
+                                            <button id="cstWrite" type="button" class="layui-btn">写入</button>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        layui.use('laydate', function () {
+                                            var laydate = layui.laydate;
+
+                                            //执行一个laydate实例
+                                            laydate.render({
+                                                elem: '#cst', //指定元素
+                                                type: 'time',
+                                                btns: ['confirm']
+                                            });
+                                        });
+                                    </script>
+                                    <!-- 提交 -->
+                                    <script>
+                                        $("#tnsRead").on("click", function () {
+                                            Control.tnsRead();
+                                        });
+                                        $("#tnsWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.tnsWrite($("#tns").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                        $("#systemtimeWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.timeWrite($("#systemtime").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+
+                                        $("#dateRead").on("click", function () {
+                                            Control.dateRead();
+                                        });
+                                        $("#dateWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.dateWrite($("#date").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                        $("#timeRead").on("click", function () {
+                                            Control.timeRead();
+                                        });
+                                        $("#timeWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.timeWrite($("#time").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                        $("#wmsRead").on("click", function () {
+                                            Control.wmsRead();
+                                        });
+                                        $("#wmsWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.wmsWrite($("#wms").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                        $("#cstRead").on("click", function () {
+                                            Control.cstRead();
+                                        });
+                                        $("#cstWrite").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.cstWrite($("#cst").val());
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                    <!-- 通道参数设置 -->
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">通道参数设置</h2>
+                        <div class="layui-colla-content">
+                            <form id="channel" class="layui-form" action="" lay-filter="channelParams">
+                                <!-- 全选模块 -->
+                                <script>
+                                    var analogCheckAll = $("#analogCheckAll");
+                                    analogCheckAll.on("click", function () {
+                                        $(this).addClass("checkbox-checked");
+                                        $(this).attr("checked", !this.checked);
+                                    });
+                                    layui.use(['form', 'jquery'], function () {
+                                        var form = layui.form;
+                                        var $ = layui.jquery;
+                                        var analogCheckOne = $("#channel [lay-filter='analogCheckOne']");
+                                        var analogCheckAll = $("#analogCheckAll");
+                                        var analogAllInput = $("#analog .layui-input-inline").find("input,select");
+                                        // 带符号的9位浮点数自动修正
+                                        var float_9Correct = function () {
+                                            var str = this.value;
+                                            if (str.length === 0 || !(new RegExp("^[0-9\+\-\.]+$").test(str))) {
+                                                return;
+                                            }
+
+                                            if (str.indexOf("+") === -1 && str.indexOf("-") === -1 && str.length < 9) {
+                                                str = "+" + str;
+                                            }
+                                            while (str.indexOf("0") === 1) {
+                                                if (str.indexOf(".") === 2) {
+                                                    break;
+                                                }
+                                                str = str.replace("0", "");
+                                            }
+                                            if (str.indexOf(".") === -1 && str.length < 9) {
+                                                str = str + ".";
+                                            }
+                                            if (str.indexOf(".") === 1) {
+                                                str = str.substring(0, 1) + "0" + str.substring(1,);
+                                            }
+
+                                            while (str.length < 9) {
+                                                str = str + "0";
+                                            }
+                                            this.value = str;
+                                        }
+                                        $("input").filter(function () {
+                                            return /^csp[1-6][kb]$|^avs[1-6][hl]$/.test(this.name);
+                                        }).blur(float_9Correct);
+
+                                        //模拟通道
+                                        // 全选按钮功能
+                                        analogCheckAll.on("click", function () {
+                                            var analogChecked = $(this).data("checked");
+                                            $(this).data("checked", !(analogChecked));
+                                            analogChecked = !analogChecked;
+                                            //全选按钮样式
+                                            if (analogChecked === true) {
+                                                $(this).addClass("checkbox-checked")
+                                            } else {
+                                                $(this).removeClass("checkbox-checked")
+                                            }
+                                            //通道按钮跟随全选
+                                            analogCheckOne.each(function (index, item) {
+                                                item.checked = analogChecked;
+                                            });
+                                            //参数输入框跟随全选
+                                            analogAllInput.each(function (index, item) {
+                                                item.disabled = !analogChecked;
+                                            })
+                                            if (analogChecked === true) {
+                                                analogAllInput.filter(function () {
+                                                    return /^csp[1-6][kb]$/.test(this.name);
+                                                }).attr("lay-verify", "float_9");
+                                            } else {
+                                                analogAllInput.attr("lay-verify", "");
+                                            };
+                                            form.render();
+                                        });
+                                        // 通道按钮功能
+                                        form.on('checkbox(analogCheckOne)', function (data) {
+                                            var checked = $("#channel [lay-filter='analogCheckOne']:checked");
+                                            //通道按钮激活全选按钮
+                                            if (checked.length > 0) {
+                                                analogCheckAll.data("checked", true);
+                                                analogCheckAll.addClass("checkbox-checked")
+                                            } else {
+                                                analogCheckAll.data("checked", false);
+                                                analogCheckAll.removeClass("checkbox-checked");
+                                            }
+                                            //参数输入框跟随通道按钮
+                                            var inputs = $(this).siblings().find("input,select");
+                                            inputs.each(function (index, item) {
+                                                item.disabled = !data.elem.checked;
+                                            });
+
+                                            //表单验证功能
+                                            if (this.checked === true) {
+                                                inputs.filter("input[name$='p']").attr("lay-verify", "cspp");
+                                                inputs.filter(function () {
+                                                    return /^csp[1-6][kb]$/.test(this.name);
+                                                }).attr("lay-verify", "float_9");
+                                            } else {
+                                                inputs.attr("lay-verify", "");
+                                            };
+                                            form.render();
+                                        })
+
+                                        // modbus通道
+                                        var modbusCheckOne = $("#channel [lay-filter='modbusCheckOne']");
+                                        var modbusCheckAll = $("#modbusCheckAll");
+                                        var modbusAllInput = $("#modbus .layui-input-inline").find("input,select");
+                                        modbusCheckAll.on("click", function () {
+                                            var modbusChecked = $(this).data("checked");
+                                            $(this).data("checked", !(modbusChecked));
+                                            modbusChecked = !modbusChecked;
+                                            //全选按钮样式
+                                            if (modbusChecked === true) {
+                                                $(this).addClass("checkbox-checked")
+                                            } else {
+                                                $(this).removeClass("checkbox-checked")
+                                            }
+                                            //通道按钮跟随全选
+                                            modbusCheckOne.each(function (index, item) {
+                                                item.checked = modbusChecked;
+                                            });
+                                            //参数输入框跟随全选
+                                            modbusAllInput.each(function (index, item) {
+                                                item.disabled = !modbusChecked;
+                                            })
+                                            form.render();
+                                        })
+                                        form.on('checkbox(modbusCheckOne)', function (data) {
+                                            var checked = $("#channel [lay-filter='modbusCheckOne']:checked");
+                                            //通道按钮激活全选按钮
+                                            if (checked.length > 0) {
+                                                modbusCheckAll.data("checked", true);
+                                                modbusCheckAll.addClass("checkbox-checked")
+                                            } else {
+                                                modbusCheckAll.data("checked", false);
+                                                modbusCheckAll.removeClass("checkbox-checked")
+                                            }
+                                            //参数输入框跟随通道按钮
+                                            var inputs = $(this).siblings().find("input,select");
+                                            inputs.each(function (index, item) {
+                                                item.disabled = !data.elem.checked;
+                                            });
+                                            //表单验证
+                                            if (this.checked === true) {
+                                                inputs.filter(function () {
+                                                    return /^csm[1-4]p[0-4]$/.test(this.name);
+                                                }).attr("lay-verify", "csmp");
+                                            } else {
+                                                inputs.attr("lay-verify", "");
+                                            };
+                                            form.render();
+                                        })
+                                    });
+                                </script>
+                                <!-- 模拟通道 -->
+                                <div id="analog" style="position: relative;">
+                                    <div style="width: 50px;position: absolute;height: 100%;">
+                                        <div
+                                            style="width: calc(100% - 10px);height: calc(100% - 20px);margin-top: 10px;">
+                                            <div data-checked="false" id="analogCheckAll" class="checkbox-vertical"
+                                                style="padding: 66px 13px;">模拟一脉冲通道</div>
+                                        </div>
+
+                                    </div>
+                                    <div style="padding-left: 50px;">
+                                        <!-- 通道1 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp1" title="通道1">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp1s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp1a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input"
+                                                        onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9]/g,'');">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp1p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label" title="系数">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp1k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp1b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道2 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp2" title="通道2">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp2s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp2a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp2p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp2k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp2b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道3 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp3" title="通道3">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp3s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp3a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp3p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp3k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp3b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道4 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp4" title="通道4">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp4s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp4a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp4p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp4k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp4b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- 通道5 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp5" title="通道5">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp5s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp5a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp5p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp5k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp5b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+
+                                        <!-- 通道6 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne" type="checkbox" name="csp6" title="通道6">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csp6s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.ON</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csp6a" lay-verify="required"
+                                                        autocomplete="off" maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 30px;">
+                                                    <input disabled type="text" name="csp6p" autocomplete="off"
+                                                        class="layui-input" maxlength="1">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">K</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp6k" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="csp6b" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <!-- 485通道 -->
+                                <div id="modbus" style="position: relative;">
+                                    <div style="width: 50px;position: absolute;height: 100%;">
+                                        <div
+                                            style="width: calc(100% - 10px);height: calc(100% - 20px);margin-top: 10px;">
+                                            <div data-checked="false" id="modbusCheckAll" class="checkbox-vertical"
+                                                style="text-align: center;padding: 10px 13px;word-wrap:break-word;">
+                                                RS485通道</div>
+                                        </div>
+                                    </div>
+                                    <div style="padding-left: 50px;">
+                                        <!-- 通道7 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="modbusCheckOne" type="checkbox" name="csm1" title="通道1">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csm1s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.MODBUS协议</option>
+                                                        <option value="2">2.IEEE754协议</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csm1a" autocomplete="off"
+                                                        maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1p0" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1p1" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1p2" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1p3" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1p4" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1b" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">M</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm1m" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">R</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm1r" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">N</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm1n" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- 通道8 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="modbusCheckOne" type="checkbox" name="csm2" title="通道2">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csm2s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.MODBUS协议</option>
+                                                        <option value="2">2.IEEE754协议</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csm2a" autocomplete="off"
+                                                        maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2p0" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2p1" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2p2" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2p3" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2p4" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2b" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">M</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm2m" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">R</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm2r" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">N</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm2n" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- 通道9 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="modbusCheckOne" type="checkbox" name="csm3" title="通道3">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csm3s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.MODBUS协议</option>
+                                                        <option value="2">2.IEEE754协议</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csm3a" autocomplete="off"
+                                                        maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3p0" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3p1" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3p2" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3p3" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3p4" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3b" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">M</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm3m" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">R</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm3r" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">N</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm3n" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- 通道10 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="modbusCheckOne" type="checkbox" name="csm4" title="通道4">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">采集</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="csm4s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1.MODBUS协议</option>
+                                                        <option value="2">2.IEEE754协议</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">编号</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <input disabled type="text" name="csm4a" autocomplete="off"
+                                                        maxlength="3" class="layui-input">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">P</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4p0" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4p1" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4p2" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4p3" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4p4" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">B</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4b" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">M</label>
+                                                <div class="layui-input-inline" style="width: 40px;">
+                                                    <input disabled type="text" name="csm4m" autocomplete="off"
+                                                        class="layui-input" maxlength="2">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">R</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm4r" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">N</label>
+                                                <div class="layui-input-inline" style="width: 60px;">
+                                                    <input disabled type="text" name="csm4n" autocomplete="off"
+                                                        class="layui-input" maxlength="4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style="margin-bottom: 10px;">
+
+
+                                <!-- 提交 -->
+                                <div class="layui-form-item">
+                                    <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+                                        <div class="layui-input-inline" style="width: 280px;">
+                                            <div class="layui-btn-group">
+                                                <button class="layui-btn layui-btn-primary border-turn" id="channelRead"
+                                                    type="button">读取参数</button>
+                                                <button class="layui-btn" lay-submit
+                                                    lay-filter="channelWrite">写入参数</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        layui.use('form', function () {
+                                            var form = layui.form;
+                                            //验证
+                                            form.verify({
+                                                csmp: function (value, item) {
+                                                    if (!new RegExp("^[0-9][0-7]$").test(value)) {
+                                                        layer.msg("第一位表字节数，第二位为0～7表精度", {
+                                                            time: 1500
+                                                        });
+                                                        return true;
+                                                    }
+                                                },
+                                                cspp: function (value, item) { //value：表单的值、item：表单的DOM对象
+                                                    // if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                                                    //     return true;
+                                                    // }
+                                                    if (!new RegExp("^[0-7]$").test(value)) {
+                                                        layer.msg("精度为0~7", {
+                                                            time: 1500
+                                                        });
+                                                        return true;
+                                                    }
+
+                                                },
+                                                float_9: function (value, item) {
+                                                    var count = 0;
+                                                    var i = 0
+                                                    while (value.indexOf(".", i) != -1) {
+                                                        i = value.indexOf(".", i) + 1;
+                                                        count++;
+                                                    }
+                                                    if (value.length < 1) {
+                                                        layer.msg("请输入参数", {
+                                                            time: 1500
+                                                        });
+                                                        return true;
+                                                    } else if (!(new RegExp("^[\+\-][0-9\.]{8,8}$").test(value) && count === 1)) {
+                                                        layer.msg("参数格式错误", {
+                                                            time: 1500
+                                                        });
+                                                        return true;
+                                                    }
+                                                }
+                                            });
+
+                                            //提交
+                                            //写入设备
+                                            form.on('submit(channelWrite)', function (data) {
+                                                var params = data.field;
+                                                var index = layer.open({
+                                                    title: '提示',
+                                                    type: 1,
+                                                    offset: 'auto',
+                                                    id: 'layerDemo',
+                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                    btn: ['确定', '取消'],
+                                                    btnAlign: 'c' //按钮居中
+                                                    ,
+                                                    shade: 0.3,
+                                                    yes: function () {
+                                                        Control.channelWrite(params);
+                                                        layer.close(index);
+                                                    },
+                                                    btn2: function () {
+                                                        layer.closeAll();
+                                                    },
+                                                    resize: false,
+                                                    closeBtn: 0,
+                                                    skin: 'layer-skin-lv',
+                                                    move: false
+                                                });
+
+                                                return false;
+                                            });
+                                        });
+                                        // 读取设备
+                                        $("#channelRead").on("click", function () {
+                                            var checked = $("#channel [lay-filter='analogCheckOne']:checked,[lay-filter='modbusCheckOne']:checked");
+                                            Control.channelRead(checked);
+                                        })
+                                    </script>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 报警参数 -->
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">报警参数设置</h2>
+                        <div class="layui-colla-content">
+                            <form id="avs" class="layui-form" action="" lay-filter="avsParams">
+                                <!-- 全选模块 -->
+                                <script>
+                                    var analogCheckAll2 = $("#analogCheckAll2");
+                                    analogCheckAll2.on("click", function () {
+                                        $(this).addClass("checkbox-checked");
+                                        $(this).attr("checked", !this.checked)
+                                    });
+                                    layui.use(['form', 'jquery'], function () {
+                                        var form = layui.form;
+                                        var $ = layui.jquery;
+                                        var analogCheckOne2 = $("#avs [lay-filter='analogCheckOne2']");
+                                        var analogCheckAll2 = $("#analogCheckAll2");
+                                        var analogAllInput2 = $("#analog2 .layui-input-inline").find("input,select");
+                                        //模拟通道
+                                        // 全选按钮功能
+                                        analogCheckAll2.on("click", function () {
+                                            var analogChecked2 = $(this).data("checked");
+                                            $(this).data("checked", !(analogChecked2));
+                                            analogChecked2 = !analogChecked2;
+                                            //全选按钮样式
+                                            if (analogChecked2 === true) {
+                                                $(this).addClass("checkbox-checked")
+                                            } else {
+                                                $(this).removeClass("checkbox-checked")
+                                            }
+                                            //通道按钮跟随全选
+                                            analogCheckOne2.each(function (index, item) {
+                                                item.checked = analogChecked2;
+                                            });
+                                            //参数输入框跟随全选
+                                            analogAllInput2.each(function (index, item) {
+                                                item.disabled = !analogChecked2;
+                                            })
+                                            form.render();
+                                        })
+                                        // 通道按钮功能
+                                        form.on('checkbox(analogCheckOne2)', function (data) {
+                                            var checked = $("#avs [lay-filter='analogCheckOne2']:checked");
+                                            //通道按钮激活全选按钮
+                                            if (checked.length > 0) {
+                                                analogCheckAll2.data("checked", true);
+                                                analogCheckAll2.addClass("checkbox-checked")
+                                            } else {
+                                                analogCheckAll2.data("checked", false);
+                                                analogCheckAll2.removeClass("checkbox-checked")
+                                            }
+                                            //参数输入框跟随通道按钮
+                                            var inputs = $(this).siblings().find("input,select")
+                                            inputs.each(function (index, item) {
+                                                item.disabled = !data.elem.checked;
+                                            });
+                                            //表单验证功能
+                                            if (this.checked === true) {
+                                                inputs.filter("input[name$='a']").attr("lay-verify", "");
+                                                inputs.filter("input[name$='h']").attr("lay-verify", "float_9");
+                                                inputs.filter("input[name$='l']").attr("lay-verify", "float_9");
+                                            } else {
+                                                inputs.filter("input[name$='p']").attr("lay-verify", "");
+                                                inputs.filter("input[name$='k']").attr("lay-verify", "");
+                                                inputs.filter("input[name$='b']").attr("lay-verify", "");
+                                            };
+                                            form.render();
+                                        })
+
+                                        // modbus通道
+                                        var modbusCheckOne2 = $("#avs [lay-filter='modbusCheckOne2']");
+                                        var modbusCheckAll2 = $("#modbusCheckAll2");
+                                        var modbusAllInput2 = $("#modbus .layui-input-inline").find("input,select");
+                                        modbusCheckAll2.on("click", function () {
+                                            var modbusChecked2 = $(this).data("checked");
+                                            $(this).data("checked", !(modbusChecked2));
+                                            modbusChecked2 = !modbusChecked2;
+                                            //全选按钮样式
+                                            if (modbusChecked2 === true) {
+                                                $(this).addClass("checkbox-checked")
+                                            } else {
+                                                $(this).removeClass("checkbox-checked")
+                                            }
+                                            //通道按钮跟随全选
+                                            modbusCheckOne2.each(function (index, item) {
+                                                item.checked = modbusChecked2;
+                                            });
+                                            //参数输入框跟随全选
+                                            modbusAllInput2.each(function (index, item) {
+                                                item.disabled = !modbusChecked2;
+                                            })
+                                            form.render();
+                                        })
+                                        form.on('checkbox(modbusCheckOne2)', function (data) {
+                                            var checked = $("#avs [lay-filter='modbusCheckOne2']:checked");
+                                            //通道按钮激活全选按钮
+                                            if (checked.length > 0) {
+                                                modbusCheckAll2.data("checked", true);
+                                                modbusCheckAll2.addClass("checkbox-checked")
+                                            } else {
+                                                modbusCheckAll2.data("checked", false);
+                                                modbusCheckAll2.removeClass("checkbox-checked")
+                                            }
+                                            //参数输入框跟随通道按钮
+                                            $(this).siblings().find("input,select").each(function (index, item) {
+                                                item.disabled = !data.elem.checked;
+                                            })
+                                            form.render();
+                                        })
+                                    });
+                                </script>
+                                <!-- 模拟通道 -->
+                                <div id="analog2" style="position: relative;">
+                                    <div style="width: 50px;position: absolute;height: 100%;">
+                                        <div
+                                            style="width: calc(100% - 10px);height: calc(100% - 20px);margin-top: 10px;">
+                                            <div data-checked="false" id="analogCheckAll2" class="checkbox-vertical"
+                                                style="padding: 100px 13px;">模拟通道</div>
+                                        </div>
+
+                                    </div>
+                                    <div style="padding-left: 50px;">
+                                        <!-- 通道1 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs1" title="通道1">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs1s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs1h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs1l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs1a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道2 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs2" title="通道2">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs2s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs2h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs2l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs2a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道3 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs3" title="通道3">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs3s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs3h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs3l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs3a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- 通道4 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs4" title="通道4">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs4s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs4h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs4l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs4a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- 通道5 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs5" title="通道5">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs5s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs5h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs5l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs5a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+
+                                        <!-- 通道6 -->
+                                        <div class="layui-form-item">
+                                            <input lay-filter="analogCheckOne2" type="checkbox" name="avs6" title="通道6">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警控制类型</label>
+                                                <div class="layui-input-inline" style="width: 50px;">
+                                                    <select disabled name="avs6s" lay-verify="required">
+                                                        <option value="0">0.OFF</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值上限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs6h" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警值下限</label>
+                                                <div class="layui-input-inline" style="width: 90px;">
+                                                    <input disabled type="text" name="avs6l" autocomplete="off"
+                                                        class="layui-input" maxlength="9">
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">报警广播地址</label>
+                                                <div class="layui-input-inline" style="width: 84px;">
+                                                    <input disabled type="text" name="avs6a" placeholder="00000000"
+                                                        autocomplete="off" class="layui-input" maxlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <hr style="margin-bottom: 10px;">
+
+
+                                <!-- 提交 -->
+                                <div class="layui-form-item">
+                                    <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+                                        <div class="layui-input-inline" style="width: 280px;">
+                                            <div class="layui-btn-group">
+                                                <button id="avsRead" class="layui-btn layui-btn-primary border-turn"
+                                                    type="button">读取参数</button>
+                                                <button class="layui-btn" lay-submit lay-filter="avsWrite">写入参数</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        //提交
+                                        layui.use('form', function () {
+                                            var form = layui.form;
+                                            //写入设备
+                                            form.on('submit(avsWrite)', function (data) {
+                                                var params = data.field;
+                                                var index = layer.open({
+                                                    title: '提示',
+                                                    type: 1,
+                                                    offset: 'auto',
+                                                    id: 'layerDemo',
+                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                    btn: ['确定', '取消'],
+                                                    btnAlign: 'c' //按钮居中
+                                                    ,
+                                                    shade: 0.3,
+                                                    yes: function () {
+                                                        Control.avsWrite(params);
+                                                        layer.close(index);
+                                                    },
+                                                    btn2: function () {
+                                                        layer.closeAll();
+                                                    },
+                                                    resize: false,
+                                                    closeBtn: 0,
+                                                    skin: 'layer-skin-lv',
+                                                    move: false
+                                                });
+                                                return false;
+                                            });
+                                        });
+                                        // 读取设备
+                                        $("#avsRead").on("click", function () {
+                                            var checked = $("#avs [lay-filter='analogCheckOne2']:checked");
+                                            Control.avsRead(checked);
+                                        })
+                                    </script>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 其它平台对接参数 -->
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">其它平台对接参数</h2>
+                        <div class="layui-colla-content">
+                            <form class="layui-form" action="">
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="margin-right: 20px;">数据推送平台</label>
+                                    <div id="dms" class="layui-input-block">
+                                        <input lay-filter="dms" type="checkbox" name="dizhi" title="四川省地质环境管理平台(01)">
+                                        <input lay-filter="dms" type="checkbox" name="shuili" title="四川省水利信息化平台(02)">
+                                    </div>
+                                    <div class="layui-inline" style="float: right;padding-right: calc(50% - 150px);">
+                                        <div class="layui-input-inline" style="width: 280px;">
+                                            <div class="layui-btn-group">
+                                                <button id="dmsRead" class="layui-btn layui-btn-primary border-turn"
+                                                    type="button">读取参数</button>
+                                                <button class="layui-btn" lay-submit lay-filter="dmsWrite">写入参数</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        layui.use(['form', 'jquery'], function () {
+                                            var form = layui.form;
+                                            var $ = layui.jquery;
+                                            form.on('checkbox(dms)', function (data) {
+                                                $(this).siblings("input").each(function (click) {
+                                                    this.checked = false;
+                                                });
+                                                form.render();
+                                            });
+
+                                            //写入设备
+                                            form.on('submit(dmsWrite)', function (data) {
+                                                var params = data.field;
+                                                var index = layer.open({
+                                                    title: '提示',
+                                                    type: 1,
+                                                    offset: 'auto',
+                                                    id: 'layerDemo',
+                                                    content: '<div style="padding: 20px 80px;">' + "确定写入吗？" + '</div>',
+                                                    btn: ['确定', '取消'],
+                                                    btnAlign: 'c' //按钮居中
+                                                    ,
+                                                    shade: 0.3,
+                                                    yes: function () {
+                                                        Control.dmsWrite(params);
+                                                        layer.close(index);
+                                                    },
+                                                    btn2: function () {
+                                                        layer.closeAll();
+                                                    },
+                                                    resize: false,
+                                                    closeBtn: 0,
+                                                    skin: 'layer-skin-lv',
+                                                    move: false
+                                                });
+                                                return false;
+                                            });
+                                        });
+                                        $("#dmsRead").on("click", function () {
+                                            Control.dmsRead();
+                                        });
+                                    </script>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 实时采集数据 -->
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">实时采集数据</h2>
+                        <div class="layui-colla-content">
+                            <form class="layui-form" action="" style="padding-left: 20px;">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block" style="width: auto;margin-bottom: 0px;">数据采集计数器</div>
+                                    <div class="layui-input-block" style="width: auto;">
+                                        <div class="layui-input-inline" style="width: auto;">
+                                            <label class="layui-form-label" style="width: 130px;">采集数据计数序号</label>
+                                            <label id="clre1" class="layui-form-label"></label>
+                                        </div>
+                                        <div class="layui-input-inline" style="width: auto;">
+                                            <label class="layui-form-label" style="width: 130px;">发送数据计数序号</label>
+                                            <label id="clre2" class="layui-form-label"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline" style="width: auto;margin-left: calc(50% - 150px);">
+                                        <div class="layui-btn-group">
+                                            <button id="clreRead" class="layui-btn layui-btn-primary border-turn"
+                                                type="button">读取计数</button>
+                                            <button id="clreClear" class="layui-btn" type="button">清空缓存</button>
+                                            <button id="clrsClear" class="layui-btn layui-btn-danger" type="button">计数清零</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        $("#clreRead").on("click", function () {
+                                            Control.clreRead();
+                                        });
+                                        $("#clreClear").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "确定清空缓存吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.clreClear();
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                        $("#clrsClear").on("click", function () {
+                                            var index = layer.open({
+                                                title: '提示',
+                                                type: 1,
+                                                offset: 'auto',
+                                                id: 'layerDemo',
+                                                content: '<div style="padding: 20px 80px;">' + "大约需要1分钟或更久，确定清零吗？" + '</div>',
+                                                btn: ['确定', '取消'],
+                                                btnAlign: 'c' //按钮居中
+                                                ,
+                                                shade: 0.3,
+                                                yes: function () {
+                                                    Control.clrsClear();
+                                                    layer.close(index);
+                                                },
+                                                btn2: function () {
+                                                    layer.closeAll();
+                                                },
+                                                resize: false,
+                                                closeBtn: 0,
+                                                skin: 'layer-skin-lv',
+                                                move: false
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 固件升级 -->
+                    <!-- <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">固件升级</h2>
+                        <div class="layui-colla-content">
+                            <form class="layui-form" action="">
+                                <div class="layui-form-item">
+                                    <button type="button" class="layui-btn" id="test1">
+                                            <i class="layui-icon">&#xe67c;</i>上传固件程序
+                                        </button>
+                                    <script>
+                                        layui.use('upload', function() {
+                                            var upload = layui.upload;
+
+                                            //执行实例
+                                            var uploadInst = upload.render({
+                                                elem: '#test1' //绑定元素
+                                                    ,
+                                                url: '/upload/' //上传接口
+                                                    ,
+                                                done: function(res) {
+                                                    //上传完毕回调
+                                                },
+                                                error: function() {
+                                                    //请求异常回调
+                                                }
+                                            });
+                                            upload.render({
+                                                elem: '#id',
+                                                url: '/api/upload/',
+                                                progress: function(n, elem, res, index) {
+                                                    var percent = n + '%' //获取进度百分比
+                                                    element.progress('demo', percent); //可配合 layui 进度条元素使用
+
+                                                    console.log(elem); //得到当前触发的元素 DOM 对象。可通过该元素定义的属性值匹配到对应的进度条。
+                                                    console.log(res); //得到 progress 响应信息
+                                                    console.log(index); //得到当前上传文件的索引，多文件上传时的进度条控制，如：
+                                                    element.progress('demo-' + index, n + '%'); //进度条
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                                <div class="layui-form-item">
+                                </div>
+                            </form>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 禁用回车键
+    document.onkeydown = function (e) {
+        var e = e || event;
+        if (e.keyCode == 13) {
+            return false;
+        }
+    };
+</script>
+
+
+</html>

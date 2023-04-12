@@ -1,0 +1,51 @@
+/* CSS Document */
+@charset "utf-8";
+/* CSS Document */
+
+*  .div1{
+        width:210px;
+        height:310px;
+        border:1px silver solid;
+        float:left;
+        }
+        .div1 img{
+        width:90%;
+        height:70%;
+        margin-top:10px;
+        margin-left:5%;
+        margin-right:5%;
+        }
+        .div1 p{
+        margin-top:3px;
+        margin-left:5%;
+        }
+        .button {
+    	background-color: #4CAF50; /* Green */
+	    border: none;
+    	color: white;
+	    padding: 15px 32px;
+    	text-align: center;
+   		text-decoration: none;
+    	display: inline-block;
+    	font-size: 16px;
+		}
+		.button1{
+		font-size: 10px;
+		background-color: #ecf2f7;
+		padding: 5px 5px;
+    	color: #666666;
+    	border: 2px solid #e7e7e7;
+    	width:100px;
+    	margin-left:5px;
+		}
+		.button1:hover {background-color: #e7e7e7;}
+		.button2{
+		font-size: 10px;
+		background-color: #ecf2f7;
+		padding: 5px 5px;
+    	color: #666666;
+    	border: 2px solid #e7e7e7;
+    	width:100px;
+    	margin-right:5px;
+		}
+		.button2:hover {background-color: #e7e7e7;}

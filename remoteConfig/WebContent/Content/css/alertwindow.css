@@ -1,0 +1,155 @@
+.theme-popover-mask { z-index: 1000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; opacity: 0.4; filter: alpha(opacity=40); display: none; }
+.theme-popover { z-index: 2000; position: fixed; top: 50%; left: 50%; width: 660px; height: 440px; margin: -220px 0 0 -330px; border-radius: 5px; border: solid 2px #666; background-color: #fff; display: none; box-shadow: 0 0 10px #666; }
+.theme-poptit { border-bottom: 1px solid #ddd; padding: 12px; position: relative; }
+.theme-popbod { padding: 60px 15px; color: #444; height: 148px; }
+.theme-popbom { padding: 15px; background-color: #f6f6f6; border-top: 1px solid #ddd; border-radius: 0 0 5px 5px; color: #666; }
+.theme-popbom a { margin-left: 8px; }
+.theme-poptit .close { float: right; color: #999; padding: 5px; margin: -2px -5px -5px; font: bold 14px/14px simsun; text-shadow: 0 1px 0 #ddd; }
+.theme-poptit .close:hover { color: #444; }
+
+.alarm { color: #444; width: 100%; height: 50px; margin: 0; padding: 0; overflow: hidden; }
+.alarm ul { margin: 20px 20px 0 20px; height: 30px; line-height: 30px; list-style: none; }
+
+.alarm ul li { float: left; width: auto; height: 30px; padding: 0; margin: 0; }
+.alarm ul li label { float: left; width: 65px; text-align: right; }
+.alarm ul li select { float: left; }
+.alarmdatatable { width: 100%; height: 320px; margin: 0; padding: 0; overflow: hidden; }
+
+.alarmtablecon { margin: 10px 20px 0 20px; height: 310px; }
+
+
+.datestyle { width: 290px; height: 30px; border: 1px solid #DBDBDB; border-radius: 4px; }
+
+
+.theme-popoverpos { z-index: 9999; position: fixed; top: 50%; left: 50%; width: 730px; height: 640px; margin: -320px 0 0 -360px; border-radius: 5px; border: solid 2px #666; background-color: #fff; display: none; box-shadow: 0 0 10px #666; }
+
+
+.postioncontent { width: 750px; height: auto; min-height: 570px; border: 1px solid #87a1c5; background-color: #fff; margin: 20px auto auto auto; }
+.postioncontent-pop { width: 750px; height: auto; /*min-height: 570px;*/ border: 1px solid #E5E5E5; background-color: #fff; margin: 20px auto 10px auto; clear: both; overflow: auto; }
+.topheadtitle .close { float: right; color: #fff; padding: 5px; margin: 3px; font: bold 14px/14px simsun; text-shadow: 0 1px 0 #ddd; }
+.topheadtitle .close:hover { color: #444; }
+.topheadtitle { height: 35px; background-color: #506aa5; line-height: 35px; text-align: left; /* left: 10px; */ padding-left: 10px; font-weight: bold; font-size: 14px; font-family: "微软雅黑", "宋体", Arial, sans-serif; color: #fff; margin-bottom: 10px; text-align: center; }
+.tophead { height: 35px; line-height: 35px; text-align: left; /* left: 10px; */ padding-left: 10px; font-weight: bold; font-size: 14px; font-family: "微软雅黑", "宋体", Arial, sans-serif; color: #506aa5; border-bottom: 1px dashed #B5C2DE; margin-left: 10px; margin-right: 10px; margin-bottom: 5px; }
+.newtophead { height: 35px; width: 710px; border-bottom: 1px dashed #B5C2DE; line-height: 35px; text-align: left; /* left: 10px; */ padding-left: 10px; font-weight: bold; font-size: 14px; font-family: "微软雅黑", "宋体", Arial, sans-serif; color: #506aa5; /* padding: 10px; */ margin-left: 10px; margin-right: 10px; margin-bottom: 5px; }
+.mytable table { border: 0px solid #e3e197; width: 100%; /*--720px--*/ color: Black; padding: 0px; border-collapse: collapse; margin: 0px auto; word-break: break-all; }
+.mytable th, .mytable td { height: 35px; font-family: "宋体", Arial, sans-serif; font-size: 12px; letter-spacing: 0px; padding: 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; word-break: break-all; font-weight: 100; }
+.mytable th { width: 90px; text-align: right; color: #004080; }
+.mytable td { width: 230px; text-align: left; color: #666666; font-weight: lighter; }
+
+.postxt { display: block; border: 1px solid #a9c9e2; margin: 0px; padding: 0px 0px 0px 2px; height: 25px; line-height: 25px; width: 230px; }
+.txtselect { width: 234px; border: 1px solid #a9c9e2; margin: 0px; padding: 0px; height: 25px; line-height: 25px; }
+#currentimg { width: 720px; height: auto; padding: 0px; margin: 0px; }
+
+#currentimg ul { width: 690px; padding: 0px; height: auto; min-height: 100px; margin: 15px auto 15px 20px; line-height: 100px; list-style-type: none; }
+
+#currentimg ul li { height: 100px; width: 100px; float: left; margin-right: 15px; cursor: pointer; }
+#currentimg ul li img { float: left; margin-right: 15px; cursor: pointer; }
+.alink { float: right; color: #004080; font-weight: normal; margin-right: 42px; }
+.find { color: #0099FF; font-size: 12px; padding-left: 10px; cursor: pointer; }
+
+
+
+.sensordetail_insitu, .sensordetail_jk, .sensordetail_glz { z-index: 2000; position: fixed; top: 40%; left: 50%; width: 750px; height: auto; min-height: 460px; margin: -230px 0 0 -360px; background-color: #fff; display: none; }
+
+.sensordetail_insitu-pop, .sensordetail_jk-pop, .sensordetail_glz-pop { width: 750px; height: auto; min-height: 460px; background-color: #fff; border: 1px solid #E5E5E5; margin: 20px auto 10px auto; clear: both; overflow: auto; }
+
+/*.postioncontent-pop {width: 750px; height:auto; min-height: 570px; border: 1px solid #E5E5E5; background-color: #fff; margin: 20px auto 10px auto; clear:both;overflow:auto; }*/
+.sencurrentimg { width: 720px; height: auto; padding: 0px; margin: 0px; }
+
+.sencurrentimg ul { width: 690px; padding: 0px; height: auto; min-height: 100px; margin: 15px auto 15px 20px; line-height: 100px; list-style-type: none; }
+
+.sencurrentimg ul li { height: 100px; width: 100px; float: left; margin-right: 15px; cursor: pointer; }
+.sencurrentimg ul li img { float: left; margin-right: 15px; cursor: pointer; }
+
+
+/*checkbox集合样式*/
+.parambox { width: 607px; height: 60px; border: 1px solid #a9c9e2; margin-top: 5px; }
+.parambox .item { width: 90px; float: left; height: 20px; line-height: 20px; cursor: pointer; margin: 5px 5px 0px 0px; }
+.parambox .item .titem { z-index: 1; position: absolute; width: 90px; display: block; }
+.parambox .titem label { height: 20px; line-height: 20px; }
+
+/*Validform自定义样式*/
+.Validform_checktip { margin-left: 0; }
+.info { border: 1px solid #ccc; padding: 2px 20px 2px 5px; color: #666; position: absolute; display: none; line-height: 20px; background-color: #fff; }
+.dec { bottom: -8px; display: block; height: 8px; overflow: hidden; position: absolute; left: 10px; width: 17px; }
+.dec s { font-family: simsun; font-size: 16px; height: 19px; left: 0; line-height: 21px; position: absolute; text-decoration: none; top: -9px; width: 17px; }
+.dec .dec1 { color: #ccc; }
+.dec .dec2 { color: #fff; top: -10px; }
+
+
+
+
+/*监测点详情页面*/
+.jcdcontent-pop { width: 1000px; height: 630px; border: 1px solid #E5E5E5; background-color: #fff; margin: 10px auto 10px auto; clear: both;overflow:hidden;}
+.conleft { width: 230px; height: 630px; float: left; border-right: 1px dashed #B5C2DE; padding: 0; margin: 0; }
+
+.leftitle { height: 30px; width: 220px; border-bottom: 1px dashed #B5C2DE; line-height: 30px; text-align: left; padding-left: 10px; font-weight: bold; font-size: 14px; font-family: "微软雅黑", "宋体", Arial, sans-serif; color: #506aa5; }
+.leflist { height: 610px; width: 230px; padding: 0; margin: 0; }
+
+.conright { width: 750px; height: 630px; float: right; padding: 0; margin: 0; }
+
+.righttop { height: 30px;width: 750px; line-height: 30px; margin: 10px 0px 10px 0px;  padding-left: 10px;  text-align: left; }
+.righttopright { width: 160px; float: rught; height: 20px;  }
+.righttopright1 { width: 280px; float: right; height: 20px; margin: 5px 5px auto auto; }
+.rightdown { width: 700px; height: 520px; margin: 10px 0px 0px 0px;padding: 0;  text-align: left;  }
+.righttop2 { width: 700px; height:auto;line-height: 30px; margin: 0; padding:10px;  border: 1px solid #95b8e7; }
+.chartcontainer { width: 700px;height:380px;margin: 10px 0px 10px 0px; padding: 10px; border: 1px solid #95b8e7; }
+.tablecontainer { 
+    width: 720px;height:380px;margin: 10px 0px 10px 0px;  border: 1px solid #95b8e7;
+}
+.tjcontainer { 
+      width: 100%;height:300px;margin: 10px 0px 10px 0px;  border: 1px solid #95b8e7;
+
+}
+
+/* Tree样式 开始*/
+.guo { background: url("../images/icons/flag_orange.png") no-repeat; background-position: left center; }
+.sheng { background: url("../images/icons/flag_blue.png") no-repeat; background-position: left center; }
+.shi { background: url("../images/icons/flag_green.png") no-repeat; background-position: left center; }
+.xian { background: url("../images/icons/flag_purple.png") no-repeat; background-position: left center; }
+
+.P_Red { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Orange { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Yellow { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Blue { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+.P_Green { background: url("../images/icons/P_G_12.png") no-repeat; background-position: left center; }
+
+.Z_Red { background: url(".../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Orange { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Yellow { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Blue { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+.Z_Green { background: url("../images/icons/Z_G_20.png") no-repeat; background-position: left center; }
+
+
+.nsl { background: url("../images/icons/Z_NSL.png") no-repeat; background-position: left center; }
+.hp { background: url("../images/icons/Z_HP.png") no-repeat; background-position: left center; }
+.bt { background: url("../images/icons/Z_BT.png") no-repeat; background-position: left center; }
+.dlf { background: url("../images/icons/Z_DLF.png") no-repeat; background-position: left center; }
+.dmcj { background: url("../images/icons/Z_DMCJ.png") no-repeat; background-position: left center; }
+.dmtx { background: url("../images/icons/Z_DMTX.png") no-repeat; background-position: left center; }
+.bwdxp { background: url("../images/icons/Z_BWDXP.png") no-repeat; background-position: left center; }
+
+.led { background: url("../images/icons/led.png") no-repeat; background-position: left center; }
+.trumpet { background: url("../images/icons/trumpet.png") no-repeat; background-position: left center; }
+.video { background: url("../images/icons/SXT.png") no-repeat; background-position: left center; }
+
+
+.wy { background: url("../images/icons/WY.png") no-repeat; background-position: left center; }
+.yl { background: url("../images/icons/YL.png") no-repeat; background-position: left center; }
+.ds { background: url("../images/icons/CS.png") no-repeat; background-position: left center; }
+.nw { background: url("../images/icons/NW.png") no-repeat; background-position: left center; }
+.cs { background: url("../images/icons/CS_16.png") no-repeat; background-position: left center; }
+.hsl { background: url("../images/icons/HSL.png") no-repeat; background-position: left center; }
+.dxy {background: url("../images/icons/none.png")  no-repeat; background-position: left center;  }
+.deepwy {background: url("../images/icons/none.png") no-repeat;background-position: left center;  }
+.kxy {background: url("../images/icons/none.png") no-repeat;background-position: left center;  }
+
+.dxy {background: url("../images/icons/none.png") no-repeat; background-position: left center;  }
+.none {background: url("../images/icons/none.png") no-repeat; background-position: left center; }
+
+/* Tree样式 结束*/
+
+/*广播站弹出样式*/
+.gbzcontent-pop { width: 440px; height: 260px; border: 1px solid #E5E5E5; background-color: #fff; margin: 10px auto 10px auto; clear: both; overflow: auto; }
+/*清除滚动条*/
+.clearsco { overflow: hidden; }

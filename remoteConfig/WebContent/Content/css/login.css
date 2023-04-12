@@ -1,0 +1,378 @@
+/* CSS Document */
+@charset "utf-8";
+/* CSS Document */
+
+* {
+    font-size: 9pt;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: '微软雅黑';
+    margin: 0 auto;
+    min-width: 980px;
+    background-color: #f2f2f2;
+}
+
+ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    border: 0;
+}
+
+dl, dt, dd, span {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+a, a:focus {
+    text-decoration: none;
+    color: #000;
+    outline: none;
+}
+
+a:hover {
+    color: #00a4ac;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+cite {
+    font-style: normal;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+/*cloud*/
+
+#mainBody {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
+html,body{
+	height: 100%;
+	margin: 0;
+    padding: 0;
+}
+
+.background{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    /* background: url(../images/login/background.png) no-repeat; */
+    background-size: 100% 100%;
+    z-index: 1;
+    
+}
+
+
+/*login*/
+.logintop {
+    height: 47px;
+    position: absolute;
+    top: 0;
+    background: url(../images/login/loginbg1.png) repeat-x;
+    z-index: 100;
+    width: 100%;
+}
+
+.logintop span {
+    color: rgb(0, 0, 0);
+    line-height: 47px;
+    background: url(../images/login/loginsj.png) no-repeat 21px 18px;
+    text-indent: 44px;
+    color: #000000;
+    float: left;
+}
+
+.logintop ul {
+    float: right;
+    padding-right: 30px;
+}
+
+.logintop ul li {
+    float: left;
+    margin-left: 20px;
+    line-height: 47px;
+}
+
+.logintop ul li a {
+    color: #afc5d2;
+}
+
+.logintop ul li a:hover {
+    color: #fff;
+}
+
+.loginbody {
+    width: 384px;
+    height: 280px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-color: #ffffff;
+    border-radius:30px;
+}
+.loginbodym {
+    width: 90%;
+    height: 250px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-color: #ffffff;
+    border-radius:30px;
+}
+
+.loginuser {
+    width: 68%;
+    height: 15%;
+    left: 10%;
+    top: 17%;
+    position: absolute;
+    background: url(../images/login/loginuser.png) no-repeat;
+    background-size: 100% 100%;
+    border: none;
+    line-height: 48px;
+    padding-left: 44px;
+    font-size: 14px;
+   	z-index: 100;
+    
+}
+
+.loginpwd {
+    width: 68%;
+    height: 15%;
+    left: 10%;
+    top: 40%;
+    position: absolute;
+    background: url(../images/login/loginpassword.png) no-repeat;
+    background-size: 100% 100%;
+    border: none;
+    line-height: 48px;
+    padding-left: 44px;
+    font-size: 14px;
+	z-index: 100;
+    
+}
+
+.systemlogo {
+    /* background: url(../images/login/loginlogo.png) no-repeat center center; */
+    width: 37%;
+    height: 10%;
+    left:32%;
+    top:24%;
+    position: absolute;
+    
+}
+
+.userlogin {
+    width: 100px;
+    height: 35px;
+    left: 50%;
+    top: 22%;
+    transform:translate(-50%,0);
+    position: absolute;
+    background: url(../images/login/userlogin.png) no-repeat;
+}
+.rempwd{
+	left: 15%;
+    top: 62%;
+    position: absolute;
+}
+
+.loginbtn {
+	left: 7%;
+    top: 75%;
+    position: absolute;
+    width:80%;height:35px; font-size:14px; font-weight:bold; color:#fff;cursor:pointer; line-height:35px; background-color:#12a389; margin-left:15px;border-radius:4px;
+}
+
+.loginbm {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: url(../images/login/loginbg2.png) repeat-x;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+}
+
+.loginbm a {
+    font-weight: bold;
+    color: #0b3a58;
+}
+
+.loginbm a:hover {
+    color: #fff;
+}
+
+
+
+label {
+    font: 16px/20px, 'microsoft yahei',Verdana,Arial;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    background: url(../images/login/1.png) no-repeat 0 center;
+    border: none;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: url(../images/login/2.png) no-repeat 0 center;
+    border: none;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    background: url(../images/login/3.png) no-repeat 0 center;
+    border: none;
+}
+
+
+/*mycssstyle*/
+.yonghuming{
+	position:absolute;
+	top:60px;
+	left: 40px;	
+	font-size:18px;
+	font-family:"隶书","楷体";
+}
+
+.mima{
+	position:absolute;
+	top:120px;
+	left: 58px;
+	font-size:18px;
+	font-family:"隶书","楷体";
+}
+
+.inputname{
+	width: 230px;
+	height: 40px;
+	top: 50px;
+	left:110px;
+	position:absolute;
+	background-color: #ffffff;
+	border:1px solid #0080ff;
+}
+.inputnamem{
+	width: 50%;
+	height: 40px;
+	top: 50px;
+	left:110px;
+	position:absolute;
+	background-color: #ffffff;
+	border:1px solid #0080ff;
+}
+
+.inputpassword{
+	width: 230px;
+	height: 40px;
+	top: 110px;
+	left:110px;
+	position:absolute;
+	background-color: #ffffff;
+	border:1px solid #0080ff;
+}
+.inputpasswordm{
+	width: 50%;
+	height: 40px;
+	top: 110px;
+	left:110px;
+	position:absolute;
+	background-color: #ffffff;
+	border:1px solid #0080ff;
+}
+
+#reminput{
+	position:absolute;
+	top:180px;
+	left: 30px;
+	font-family:"隶书","楷体";
+}
+
+input[type="checkbox"] + label {
+    cursor: pointer;
+    font-size: 1em;
+}
+[id="checkbox"] + label {
+	position:absolute;
+    background-color: #ffffff;
+    border: 1px solid #666666;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 6px;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    left:25px;
+    top:18px;
+}
+[id="checkbox"] + label:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+[id="checkbox"]:checked + label {
+    background-color: #056dfa;
+    border: 1px solid #056dfa;
+}
+#enterbutton{
+	width: 120px;
+	height: 30px;
+	top:190px;
+	left: 180px;
+	position:absolute;	
+}
+#enterbuttonm{
+	width: 35%;
+	height: 30px;
+	top:190px;
+	left: 180px;
+	position:absolute;	
+}
+
+.denglubutton{
+	background-color:#1c80e3;color:#ffffff;border-radius:5px;font-size:20px;height:30px;width:98%;line-height:30px;left:1%;position:absolute; font-family:"隶书","楷体";
+}

@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <!-- for 360 分别代表用极速模式，兼容模式，IE模式打开-->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/lib/html5.js"></script>
+    <script type="text/javascript" src="/lib/respond.min.js"></script>
+    <script type="text/javascript" src="/lib/PIE_IE678.js"></script>
+    <![endif]-->
+
+    <title>首页 - 信德水工智慧水利管控系统</title>
+    
+    <link href="../Content/css/Topstyle.css" rel="stylesheet" />
+
+     <link href="../lib/AlertComfirm/sweet-alert.css" rel="stylesheet" />
+
+    <!--easyui样式文件(置于页面主样式之前，否则自定义树形样式无效)-->
+    <link href="../lib/easyui/themes/default/easyui.css" rel="stylesheet" />
+    <link href="../lib/easyui/themes/icon.css" rel="stylesheet" />
+    <link href="../lib/easyui/themes/metro/tree.css" rel="stylesheet" />
+  
+
+    <!--主要样式-->
+    <link href="../Content/css/maptipstyle.css" rel="stylesheet" />
+    <link href="../Content/css/main.css" rel="stylesheet" />
+<style>
+  .content-window-card {
+            position: relative;
+            box-shadow: none;
+            bottom: 0;
+            left: 0;
+            width: auto;
+            padding: 0;
+        }
+
+        .content-window-card p {
+            height: 2rem;
+        }
+
+        .custom-info {
+            border: solid 1px silver;
+        }
+
+        div.info-top {
+            position: relative;
+            background: none repeat scroll 0 0 #F9F9F9;
+            border-bottom: 1px solid #CCC;
+            border-radius: 5px 5px 0 0;
+        }
+
+        div.info-top div {
+            display: inline-block;
+            color: #333333;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 31px;
+            padding: 0 10px;
+        }
+
+        div.info-top img {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition-duration: 0.25s;
+        }
+
+        div.info-top img:hover {
+            box-shadow: 0px 0px 5px #000;
+        }
+
+        div.info-middle {
+        color:white;
+          height:200px;
+            font-size: 12px;
+            padding: 10px 6px;
+            line-height: 20px;
+            display:block;
+        }
+        div.info-middle1{
+        color:black;
+        blackground:white;
+        height:280px;
+            font-size: 12px;
+            padding: 10px 6px;
+            line-height: 20px;
+            display:block;
+        }
+        div.pos_abs{
+        positon:absolute;
+        top:130px;
+        color:black;
+        height:200px;
+        margin-left:5%;
+        margin-right:5%;
+        blackground:white;
+        display:block;
+        }
+div.pos_abs1{
+        positon:absolute;
+        top:130px;
+        color:black;
+        height:200px;
+        margin-left:5%;
+        margin-right:5%;
+        blackground:white;
+        display:none;
+        }
+        div.info-bottom {
+            height: 30px;
+            width: 100%;
+            clear: both;
+            text-align: center;
+              border: solid 1px silver;
+        }
+
+        div.info-bottom img {
+            position: relative;
+            z-index: 104;
+        }
+
+        span {
+            margin-left: 5px;
+            font-size: 11px;
+        }
+
+        .info-middle img {
+            float: left;
+            margin-right: 6px;
+        }
+        .anniu{
+        height:30px;
+        width:100px;
+        }
+ 
+ </style>
+ 
+ 
+    <script src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script src="../lib/jquery.easyui.min.js"></script>
+        <script src="../lib/AlertComfirm/sweet-alert.js"></script>
+    <script src="../Scripts/user/Login.js"></script>
+    <script type="text/javascript"
+            src="https://webapi.amap.com/maps?v=1.4.9&key=fa720b0f1e1d3868b0ba29d56f615efb"></script>
+      <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+     <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script type="text/jscript">
+        $(function () {
+            Login.GetCookie();
+            //当浏览器窗口变化时对各窗口大小进行重置        
+           
+
+        });
+    </script>
+</head>
+<body>
+    <!--header 头部固定高度100px-->
+    <div class="header">
+        <!--logo-->
+        <div id="logochoose" >
+        </div>
+        <!--nav-->
+        <nav id="main_nav">
+            <ul>
+                <li class="lihome">
+                    <a href="../Home/Index.html">
+                        <img src="../Content/images/menu/home.png" />
+                        首页</a>
+                </li>
+
+                <li class="lidataline">
+                    <a href="../Sensor/Index.html">
+                        <img src="../Content/images/menu/jcsb.png" />
+                        监测设备</a>
+                </li>
+
+
+                <li class="lidtalarm">
+                    <a href="../Warning/Index.html">
+                        <img src="../Content/images/menu/jcyj.png" />
+                        监测预警</a>
+                </li>
+                
+                 <li class="livideo">
+                    <a href="../Video/Index.html">
+                        <img src="../Content/images/menu/gcgk.png" />
+                        视频</a>
+                </li>
+                <li class="liprofile">
+                    <a href="../Profile/Index.html">
+                        <img src="../Content/images/menu/gcgk.png" />
+                       工程概况</a>
+                </li>
+                             
+                <li class="lisysmgr">
+                    <a href=../SysManager/Index.html>
+                        <img src="../Content/images/menu/system.png" />
+                        后台管理</a></li>
+                        
+            </ul>
+        </nav>
+        <!--right_login-->
+        <div class="loginimg">
+            <div>
+                <ul class="logintxt">
+                    <li style="float: left; position: relative; width: 50px; height: 50px;">
+                        <img src="../Content/images/user.png" />
+                    </li>
+                    <li style="float: left;"><span id="usershowname" style="padding-left: 10px;"></span></li>
+                    <li>
+                        <img src="../Content/images/quit.png" onclick="Login.LogOut();" style="cursor: pointer;" /></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--内容 页面高度减去头部100px-->
+    <div class="maincontent">
+        
+
+
+
+<!--树形导航-->
+<div id="menu">
+    <!--top-->
+    <div class="top">
+        <div class="lefttitle">
+            <img src="../Content/images/home/zydh.png" />
+            <span>资源导航</span>
+        </div>
+
+        <div class="tree_canvas" id="tab-system" >
+            <!--行政区域树-->
+            <div class="tabCon" style="display: block; height: 98%; width:98%; overflow:auto;">
+                <div class="tree">
+                    <ul id="xzqhtree" class="easyui-tree" style="border: none; margin: 0; padding: 0;">
+                    </ul>
+                </div>
+            </div>
+        </div>
+      
+
+    </div>
+</div>
+
+<!--地图区域-->
+<div id="content">
+   
+        <div id="map_canvas" style="">
+        </div>
+        <!--mapright-->
+        <div class="mapright" id="maptiphide" ondblclick="MapChangeToogle();" style="top: -3px; width: 162px;">
+            <ul style="float: left; width: 100px;">
+                <li class="maprighttop">底图切换</li>
+            </ul>
+            <div style="width: 32px; height: 50px; float: right; cursor: pointer;" onclick="MapChangeToogle();"></div>
+        </div>
+         <!--maprighttopcontent-->
+        <div class="mapright" id="maptipshow" ondblclick="MapChangeToogle();" style="top: -3px; width: 0; height: auto;">
+            <ul style="width: 226px; float: left;">
+                <li class="maprighttop2">
+                    <ul>
+                        <li>
+                            <label>
+                                <input name="Fruit" type="radio" value="0" onclick="ChangeToRoad();" checked="checked"/>
+                                道路
+                            </label>
+                        </li>
+                     
+                        <li>
+                            <label>
+                                <input name="Fruit" type="radio" value="2" onclick="ChangeToMix();"  />
+                                卫星
+                            </label>
+                        </li>
+                        
+                    </ul>
+                </li>
+            </ul>
+            <div style="width: 32px; height: 50px; float: right; cursor: pointer;" onclick="MapChangeToogle();"></div>
+        </div>
+        <!--mapright-->
+        <div class="mapright" style="width: 162px; top: 50px;">
+          
+
+        </div>
+
+    
+</div>
+<script type="text/javascript">
+	var div = document.getElementById('logochoose');
+	var user = Login.GetUserName();
+		div.className = 'logo_zm';	
+		$(".livideo").hide();
+		$(".liprofile").hide();
+	
+    $(function () {
+         $('#xzqhtree').tree({ 
+             url:"../User/InitTree",
+             loadFilter:function(data){
+                 if(data.text){
+                     return data.text ;	
+                 }else{
+                     return data ;
+                 }
+             },
+             onClick: function(node){
+
+          		// SensorIndex.LoadGrid(node);
+         var search=mapIndex.searchMarker(node);
+          		console.log(search);
+          		 //实例化信息窗体
+         		    var title = '传感器详细信息',
+         		        content = [];
+         		  //  content.push("<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>");
+         		  //  content.push("传感器实时数据："+search.recentDate);
+         		  bottom1=[];
+         		  bottom2=[];
+         		 var sensorNO=search.sensorNum;//传感器编号
+         		 var ssensor=sensorNO.substr(0,10);
+         		content.push("<img src='../css/"+ssensor+"/"+sensorNO+".jpg' height='200' width='260' onerror='imgerrorfun();'>");
+      		   var title = '编号：'+sensorNO+'传感器信息';
+      		   //获取实时数据共有几个数据
+      		   var str=search.recentDate;
+      		   var position=0;
+      		   var num=-1;
+      		   var index=0;
+      		   while(position!=-1){
+      			   position=str.indexOf(",",index);
+      			   num+=1;
+      			   index=position+1;
+      		   }
+                 var recentDataNumber=num+1;//实时数据的个数
+                 console.log(recentDataNumber);
+                 var alermState=search.alermState;
+                 console.log(search.alermState);
+                 
+                 if(alermState=="regular")
+              	   {
+              	   alermState="正常";
+              	   }
+                 else if(alermState=="yellow")
+              	   {
+              	   alermState="黄色预警";
+              	   }
+                 else if(alermState=="blue")
+              	   {alermState="蓝色预警";}
+                 else if(alermState=="red")
+              	   {alermState="红色预警";}
+                 else if(alermState=="orange"){
+              	   alermState="橙色预警";
+                 }
+                 else if (alermState==""){
+              	   alermState="无预警信息";
+                 }
+                 else if (alermState==null){
+                	   alermState="无预警信息";
+                   }
+                 
+                 console.log(alermState);
+                 //获取type
+                 var sensorType=search.sensorType;
+      		   bottom1.push("传感器类型："+search.sensorType+"       编号："+search.sensorNum);
+      		   bottom1.push("");
+      		   
+      		   if(search.sensorType=="倾斜"){
+    			   var qingxie=search.recentDate.split(",");
+    			   var qingxie_data=qingxie[0]+"°,"+qingxie[1]+"°";
+    			   bottom2.push("传感器实时数据："+qingxie_data);
+    		   }
+    		   else if(search.sensorType=="水位")
+    			   {
+    			   var shuiwei_data=search.recentDate+"m";
+    			   bottom2.push("传感器实时数据："+shuiwei_data);
+    			   }
+    		   else if(search.sensorType=="沉降"){
+    			   var chenjiang=search.recentDate.split(",");
+    			   var chenjiang_data=chenjiang[0]+"mm,"+chenjiang[1]+"℃";
+    			   bottom2.push("传感器实时数据："+chenjiang_data);
+    		   }
+    		   else if(search.sensorType=="深孔测斜"){
+    			   var shenkong=search.recentDate.split(",");
+    			   var shenkong_data=shenkong[0]+"mm,"+shenkong[1]+"mm";
+    			   bottom2.push("传感器实时数据："+shenkong_data);
+    		   }
+    		   else if(search.sensorType=="GNSS"){
+    			   var gnss=search.recentDate.split(",");
+    			   var gnss_data=gnss[0]+"mm,"+gnss[1]+"mm,"+gnss[2]+"mm"
+    			   bottom2.push("传感器实时数据："+gnss_data);
+    		   }
+    		   else{
+    			   var data=search.recentDate+"mm";
+    			   bottom2.push("传感器实时数据："+data);
+    		   }
+    		   
+      		  // bottom2.push("传感器实时数据："+search.recentDate);
+      		   bottom2.push("");
+      		   bottom2.push("时间:"+search.realTime);
+      		   bottom2.push("");
+      		    bottom2.push("报警状态："+alermState);
+      		    bottom1.push("地理位置:"+search.terminalName);
+      		    bottom1.push("");
+      		    bottom1.push(""); 
+      		  
+        		   // bottom1.push("传感器实时数据："+search.recentDate)
+         //  bottom1.push("监测仪器："+search.sensorType+"     编号："+search.sensorNum);
+		//   bottom1.push("传感器实时数据："+search.recentDate);
+		//   bottom1.push("报警状态："+search.alermState);
+		 //  bottom1.push("时间:"+search.realTime);
+		//   bottom1.push("地点:"+search.terminalName);
+         		       var infoWindow = new AMap.InfoWindow({
+         		    	    isCustom: true,  //使用自定义窗体
+         		    	    content: createInfoWindow(title, content,bottom1.join("<br/>"),bottom2.join("<br/>"),sensorNO,sensorType),
+         		    	    offset: new AMap.Pixel(16, -45)
+         		    	});
+         	       // infoWindow.open(map, e.target.getPosition());
+         	        var position=new AMap.LngLat(search.longtitude,search.latitude);
+         	       infoWindow.open(map, position);
+          	}
+             });
+    });
+</script>
+
+<script type="text/javascript" src="../Scripts/maps/mapIndex.js"></script>
+  <script type="text/javascript">
+  console.log("hahahahah");
+  var map = new AMap.Map("content", {
+      resizeEnable: true,
+   //  center: [121.1154323816,28.8211955333],
+   //  zoom: 16
+  }); 
+  var Satellite=new AMap.TileLayer.Satellite({
+	  map:map});
+var Road=new AMap.TileLayer.RoadNet({
+	 map:map
+ });
+ Satellite.hide();
+ Road.hide();
+ 
+  var lnglats=mapIndex.getdata();
+  var lnglats1=lnglats.split("],[")
+ // console.log(lnglats1);
+//  console.log(lnglats1[77]);
+    //addMarker();
+   
+  var detail=mapIndex.getDetail();
+  console.log(detail);
+  //地图初始化时，在地图上添加一个marker标记,鼠标点击marker可弹出自定义的信息窗体
+	var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+	function dutoxiaoshu(){
+		//var ddu=lnglats11[0].split("°");
+		console.log(arguments[0]);
+		var ddu=arguments[0].split("°");
+		var du=ddu[0];
+		console.log("ddu[1]="+ddu[1])
+		var ffen=ddu[1].split("′");
+		var fen=ffen[0];
+		console.log("ffen[1]="+ffen[1]);
+		var mmiao=ffen[1].split('″');
+		var miao=mmiao[0];
+		console.log(du);
+		console.log(fen);
+		console.log(miao);
+		var result=du*1+fen/60*1+miao/3600*1
+		console.log(result);
+		//var rresult=result.toString();
+		return parseFloat(result).toString();
+		
+	} 
+	
+
+  
+		if(user == "admin"){
+			mapIndex.updateGNSSofLFTB();//更新gnss数据入sensors表
+			   loop1: for (var i = 1, marker; i < lnglats1.length-2; i++) 
+				 {     
+						console.log(lnglats1[i]);
+						var lnglats11 = lnglats1[i].split(",");
+						console.log(lnglats11[0]);
+						console.log(i);
+						
+						
+								
+								
+							
+						while(lnglats11[0] == ""||lnglats11[0] ==null||lnglats11[0] =="undefined")
+							{
+							 lnglats11 = lnglats1[i+1].split(",");
+							i++;
+							if(i==lnglats1.length-1)
+								{
+								break loop1;}
+						}
+							
+                        if(lnglats11[0].indexOf("°")!=-1){//lnglats11[0]=103°34′51.45″
+							
+							//console.log(dutoxiaoshu(lnglats11[0]));
+							lnglats11[0]=dutoxiaoshu(lnglats11[0]);
+							lnglats11[1]=dutoxiaoshu(lnglats11[1]);
+							
+						}
+					    var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+					    console.log(i);
+						console.log(lnglats11);
+					    var marker = new AMap.Marker({
+					          position: lnglats111,
+					          map: map,
+					          extData:i
+					    });
+					    marker.on('click', markerClick);
+					  //  marker.emit('click', {target: marker});
+					}
+			
+			
+				
+				
+			
+		}
+
+		else if(user == "CDXC"){
+			//0028-LC-2A
+			//select count(*)+1  from sensors where terminalNum<(select max(terminalNum) from sensors where sensorNum like '%0028%');
+            //select count(*)+1  from sensors where terminalNum<(select min(terminalNum) from sensors where sensorNum like '%0028%');
+			var NO=mapIndex.findSensor("0028-XC");
+			//var NO=mapIndex.findSensor("0023-CQ");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+           loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+
+		else if(user == "JZSK"){
+			//0028-LC-2A
+			//select count(*)+1  from sensors where terminalNum<(select max(terminalNum) from sensors where sensorNum like '%0028%');
+            //select count(*)+1  from sensors where terminalNum<(select min(terminalNum) from sensors where sensorNum like '%0028%');
+			var NO=mapIndex.findSensor("0028-JZ");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "CD1"){
+			//0028-LC-2A
+			//select count(*)+1  from sensors where terminalNum<(select max(terminalNum) from sensors where sensorNum like '%0028%');
+            //select count(*)+1  from sensors where terminalNum<(select min(terminalNum) from sensors where sensorNum like '%0028%');
+			var NO=mapIndex.findSensor("0028-LC");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "SP3"){
+			var NO=mapIndex.findSensor("0837-SP");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				 //   marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "NMG4"){
+			var NO=mapIndex.findSensor("0476-AH-5A");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "LFTBGM01"){
+			mapIndex.updateGNSSofLFTB();
+
+			var NO=mapIndex.findSensor("0878-GX");
+			var NO1=NO.split(":[");
+			//console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			//console.log(NO2[0]);//{"end":"20"
+			//console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			//console.log(NO3[1]);//"20"
+		//	console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+		//	console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+		//	console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "DJY2"){
+			var NO=mapIndex.findSensor("0028-GX");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				 //   marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "TZGNSS6"){
+			var NO=mapIndex.findSensor("0576-TZ");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				 //   marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		else if(user == "JC01"){
+			//0028-LC-2A
+			//select count(*)+1  from sensors where terminalNum<(select max(terminalNum) from sensors where sensorNum like '%0028%');
+            //select count(*)+1  from sensors where terminalNum<(select min(terminalNum) from sensors where sensorNum like '%0028%');
+			var NO=mapIndex.findSensor("0837-JC-5A");
+			var NO1=NO.split(":[");
+			console.log(NO1[1]);
+			var NO2=NO1[1].split(",");
+			console.log(NO2[0]);//{"end":"20"
+			console.log(NO2[1]);//"begin":"1"}]}
+			var NO3=NO2[0].split(":");
+			console.log(NO3[1]);//"20"
+			console.log(NO3[1].length);
+			if(NO3[1].length==4){
+				var NNO3=2*1;
+			}
+			else if(NO3[1].length==5){
+				var NNO3=3*1;
+			}
+			else if(NO3[1].length==3){
+				var NNO3=1*1;
+			}
+			
+			var end=NO3[1].substr(1,NNO3)*1;
+			console.log(end);
+			var NO4=NO2[1].split(":");
+			console.log(NO4[1]);//"1"}]}
+			var NO5=NO4[1].split("");
+			for(var sss=1;sss<=NO5.length;sss++){
+				if(NO5[sss]=="}"){
+					break;
+				}
+			}
+			console.log(sss);
+			var begin=NO4[1].substr(1,sss-2)*1;
+			console.log(begin);
+			
+			 loop1: for (var i = begin, marker; i < end+1; i++) 
+			 {     
+					console.log(lnglats1[i]);
+					var lnglats11 = lnglats1[i].split(",");
+					console.log(lnglats11[0]);
+					console.log(i);
+					
+						
+					while(lnglats11[0] == ""||lnglats11[0] ==null)
+						{
+						 lnglats11 = lnglats1[i+1].split(",");
+						i++;
+						if(i==end+1)
+							{
+							break loop1;}
+					}
+						
+					
+				var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+				console.log(i);
+					console.log(lnglats11);
+				    var marker = new AMap.Marker({
+				          position: lnglats111,
+				          map: map,
+				          extData:i
+				    });
+				    marker.on('click', markerClick);
+				  //  marker.emit('click', {target: marker});
+				    
+				 
+				   
+				   
+				}
+		}
+		
+		
+	//for (var i = 1, marker; i < 3; i++)  {
+	//	console.log(lnglats1[i]);
+	//	var lnglats11 = lnglats1[i].split(",");
+	//	var lnglats111 = [lnglats11[0]*1,lnglats11[1]*1];	 
+	
+		//console.log(lnglats11);
+//	    var marker = new AMap.Marker({
+//	          position: lnglats111,
+//	          map: map,
+//	          extData:i
+//	    });
+	//    marker.on('click', markerClick);
+	//    marker.emit('click', {target: marker});  	   
+	//}
+	function imgerrorfun(){ 
+         var img=event.srcElement; 
+         img.src="../css/timg.jpg"; 
+         img.onerror=null;  
+    } 
+	
+	
+	
+	
+	
+	  function markerClick(e) {
+		 //实例化信息窗体
+		console.log(e.target.getPosition().toString());
+		 var position=e.target.getPosition().toString();
+		console.log(lnglats1);
+		 for(var j=1;lnglats1[j]!==position;j++);
+		 console.log(j);
+		    var title = '传感器详细信息',
+		        content = [];
+		    
+	
+		    
+		    //content.push("传感器实时数据："+detail.rows[j-1].recentDate);
+		   
+		  //  content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+		   buttom1=[];
+		   buttom2=[];
+		   var sensorNO=detail.rows[j-1].sensorNum;//传感器编号
+		   var ssensor=sensorNO.substr(0,10);
+		   console.log(ssensor);
+		   content.push("<img src='../css/"+ssensor+"/"+sensorNO+".jpg' height='200' width='260' onerror='imgerrorfun();'>");
+		   
+		   var title = '编号：'+sensorNO+'传感器信息';
+		   //获取实时数据共有几个数据
+		   var str=detail.rows[j-1].recentDate;
+		   var position=0;
+		   var num=-1;
+		   var index=0;
+		   while(position!=-1){
+			   position=str.indexOf(",",index);
+			   num+=1;
+			   index=position+1;
+		   }
+           var recentDataNumber=num+1;//实时数据的个数
+           console.log(recentDataNumber);
+           var alermState=detail.rows[j-1].alermState;
+           console.log(detail.rows[j-1].alermState);
+           
+           if(alermState=="regular")
+        	   {
+        	   alermState="正常";
+        	   }
+           else if(alermState=="yellow")
+        	   {
+        	   alermState="黄色预警";
+        	   }
+           else if(alermState=="blue")
+        	   {alermState="蓝色预警";}
+           else if(alermState=="red")
+        	   {alermState="红色预警";}
+           else if(alermState=="orange"){
+        	   alermState="橙色预警";
+           }
+           else if(alermState ==null || "".equals(alermState))
+           {
+        	   alermState="无预警信息";
+           }
+           
+           console.log(alermState);
+           //获取type
+           var sensorType=detail.rows[j-1].sensorType;
+		   buttom1.push("传感器类型："+detail.rows[j-1].sensorType+"       编号："+detail.rows[j-1].sensorNum);
+		   buttom1.push("");
+		   if(detail.rows[j-1].sensorType=="倾斜"){
+			   var qingxie=detail.rows[j-1].recentDate.split(",");
+			   var qingxie_data=qingxie[0]+"°,"+qingxie[1]+"°";
+			   buttom2.push("传感器实时数据："+qingxie_data);
+		   }
+		   else if(detail.rows[j-1].sensorType=="水位")
+			   {
+			   var shuiwei_data=detail.rows[j-1].recentDate+"m";
+			   buttom2.push("传感器实时数据："+shuiwei_data);
+			   }
+		   else if(detail.rows[j-1].sensorType=="沉降"){
+			   var chenjiang=detail.rows[j-1].recentDate.split(",");
+			   var chenjiang_data=chenjiang[0]+"mm,"+chenjiang[1]+"℃";
+			   buttom2.push("传感器实时数据："+chenjiang_data);
+		   }
+		   else if(detail.rows[j-1].sensorType=="深孔测斜"){
+			   var shenkong=detail.rows[j-1].recentDate.split(",");
+			   var shenkong_data=shenkong[0]+"mm,"+shenkong[1]+"mm";
+			   buttom2.push("传感器实时数据："+shenkong_data);
+		   }
+		   else if(detail.rows[j-1].sensorType=="GNSS"){
+			   var gnss=detail.rows[j-1].recentDate.split(",");
+			   var gnss_data=gnss[0]+"mm,"+gnss[1]+"mm,"+gnss[2]+"mm"
+			   buttom2.push("传感器实时数据："+gnss_data);
+		   }
+		   else{
+			   var data=detail.rows[j-1].recentDate+"mm";
+			   buttom2.push("传感器实时数据："+data);
+		   }
+		   //buttom2.push("传感器实时数据："+detail.rows[j-1].recentDate);
+		   buttom2.push("");
+		   buttom2.push("时间:"+detail.rows[j-1].realTime);
+		   buttom2.push("");
+		    buttom2.push("报警状态："+alermState);
+		    buttom1.push("地理位置:"+detail.rows[j-1].terminalName);
+		    buttom1.push("");
+		    buttom1.push("");
+		    
+		   
+		       var infoWindow = new AMap.InfoWindow({
+		    	    isCustom: true,  //使用自定义窗体
+		    	    content: createInfoWindow(title, content,buttom1.join("<br/>"),buttom2.join("<br/>"),sensorNO,sensorType),
+		    	    offset: new AMap.Pixel(16, -45)
+		    	});
+	        infoWindow.open(map, e.target.getPosition());
+	   }
+	
+	 
+	 
+	 //构建自定义信息窗体
+	  function createInfoWindow(title, content,bottom1,bottom2,sensorNO,sensorType) {
+	     var info = document.createElement("div");
+	     info.className = "custom-info input-card content-window-card";
+
+	     //可以通过下面的方式修改自定义窗体的宽高
+	     info.style.width = "300px";
+	     info.style.background="white";
+	     // 定义顶部标题
+	     var top = document.createElement("div");
+	     var titleD = document.createElement("div");
+	     var closeX = document.createElement("img");
+	     top.className = "info-top";
+	     titleD.innerHTML = title;
+	     closeX.src = "https://webapi.amap.com/images/close2.gif";
+	     closeX.onclick = closeInfoWindow;
+
+	     top.appendChild(titleD);
+	     top.appendChild(closeX);
+	     info.appendChild(top);
+
+	     // 定义中部内容
+	   
+	     //
+	     var middle1=document.createElement("div");
+	     middle1.className = "info-middle1";
+	     middle1.innerHTML = bottom1;
+//
+
+ var changepicture=document.createElement("div");
+	    changepicture.className="pos_abs1";
+	    changepicture.setAttribute("id","picture");
+	    changepicture.style.backgroundColor = "white";
+	    middle1.appendChild(changepicture);
+	    changepicture.innerHTML=content;
+//
+ var changedata=document.createElement("div");
+	    changedata.className="pos_abs";
+	    changedata.setAttribute("id","data");
+	    middle1.appendChild(changedata);
+	    middle1.style.backgroundColor = '#E3E3E3';
+	    changedata.style.backgroundColor = "white";
+	    changedata.innerHTML=bottom2;
+	    
+	     
+	     $("#data").hide();
+	     $("#picture").show();
+	     info.appendChild(middle1);
+	     
+	     // 定义底部内容
+	     var bottom = document.createElement("div");
+	     bottom.className = "info-bottom";
+	     bottom.style.backgroundColor = 'white';
+	   //  bottom.style.position = 'relative';
+	    // bottom.style.top = '0px';
+	  //   bottom.style.margin = '0 auto';
+	   //  var sharp = document.createElement("img");
+	  //   sharp.src = "https://webapi.amap.com/images/sharp.png";
+	  //   bottom.appendChild(sharp);
+	 // bottom.innerHTML=bottom1;
+	     info.appendChild(bottom);
+	     //
+	     var button11=document.createElement("input");
+		    // button.setAttribute("type","button");
+		    button11.type="button";
+		     button11.setAttribute("value","详细信息")
+		     button11.setAttribute("class","anniu");
+		     button11.onclick=function(){
+		    	 getdetail();
+		     };
+		     bottom.appendChild(button11);
+		    // var button22=document.createElement("input");
+		   //  button22.type="button";
+		   //  button22.setAttribute("value","历史数据");
+		  //   button22.setAttribute("class","anniu");
+		 //    button22.onclick=function(){
+		//    	 var sensorType1=encodeURI(encodeURI(sensorType));
+		 //   	 window.open('./Map/history.html?'+sensorNO+'?'+sensorType1,'报警记录','newwindow', 'height=100, width=100, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+		//     };
+		//     bottom.appendChild(button22);
+		     var button33=document.createElement("input");
+		     button33.type="button";
+		     button33.setAttribute("value","报警记录");
+		     button33.setAttribute("class","anniu");
+		     console.log(sensorNO);
+		     //button33.onclick=function(){
+		   // 	 window.open("./Map/alert.html",'报警记录','height=100,width=400,top=500,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');  
+		 //    };
+		     bottom.appendChild(button33);
+		     button33.onclick=function(){
+		   window.open('../Map/alert.html?'+sensorNO,'报警记录','newwindow', 'height=100, width=100, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+		    
+	     }
+	     
+		     
+		     var button44=document.createElement("input");
+			    // button.setAttribute("type","button");
+			    button44.type="button";
+			     button44.setAttribute("value","图片")
+			     button44.setAttribute("class","anniu");
+			     button44.onclick=function(){
+			    	 getpicture();
+			     };
+			     bottom.appendChild(button44);
+		     
+	     //接收参数label var label=getQueryString("label");
+	     
+	     return info;
+	     
+	 }
+	//关闭信息窗体
+	 function closeInfoWindow() {
+	     map.clearInfoWindow();
+	 }
+
+	 function getdetail(){
+		  $("#data").show();
+		     $("#picture").hide();
+		     document.getElementById("data").style.display="block";
+		     document.getElementById("picture").style.display="none";
+		}
+	 
+	 function getpicture(){
+		 $("#picture").show();
+	     $("#data").hide();
+	     document.getElementById("data").style.display="none";
+	     document.getElementById("picture").style.display="block";
+	}
+				   map.setFitView();
+				   
+				   function ChangeToSatellite()   {
+						  Satellite.show();
+						  Road.hide();
+					  }
+					  function ChangeToMix(){
+						  Satellite.show();
+						  Road.show();
+					  }
+					 function ChangeToRoad(){
+						 Road.show();
+						 Satellite.hide();
+					 }  
+		  
+</script>
+
+    
+
+
+
+
+
+<!--弹框-->
+<script type="text/javascript" src="../lib/layer/1.9.3/layer.js"></script>
+<script type="text/javascript" src="../lib/H-ui.js"></script>
+<script type="text/javascript" src="../lib/H-ui.admin.js"></script>
+
+<!--加到页面最后，否则js效果无效-->
+<script type="text/javascript">
+
+    //地图右侧tipbar点击动画效果
+    $(".mapbar").click(function () {
+
+        var barContent = $(this).attr("id") + "content";
+        $(".barcontent:not(#" + barContent + ")").parent().slideUp(500);
+        $("#" + $(this).attr("id") + "content").parent().slideDown(500);
+    });
+
+    //改变bartip样式
+    var css1 = true;
+    function changeCss(c) {
+        if (c) {
+            $(".maprightone").css("backgroundImage", "url(../Content/images/home/righttab_1_2.png)");
+            $(".maprighttwo").css("backgroundImage", "url(../Content/images/home/righttab_2_2.png)");
+            $(".maprightthree").css("backgroundImage", "url(../Content/images/home/righttab_3_2.png)");
+            $(".mapleft").removeClass("mapleft2").addClass("mapleft1");
+            css1 = false;
+        } else {
+            $(".maprightone").css("backgroundImage", "url(../Content/images/home/righttab_1.png)");
+            $(".maprighttwo").css("backgroundImage", "url(../Content/images/righttab_2.png)");
+            $(".maprightthree").css("backgroundImage", "url(../Content/images/home/righttab_3.png)");
+            $(".mapleft").removeClass("mapleft1").addClass("mapleft2");
+            css1 = true;
+        }
+    };
+    //切换地图底层tip
+    function MapChangeToogle() {
+
+        if ($("#maptipshow").width() == 0) {
+            $("#maptiphide").animate({
+                width: "0"
+            }, 400, function () {
+                $("#maptipshow").animate({
+                    width: "264px"
+                }, 400);
+            });
+        } else {
+            $("#maptipshow").animate({
+                width: "0"
+            }, 400, function () {
+                $("#maptiphide").animate({
+                    width: "162px"
+                }, 400);
+            });
+        }
+    }
+</script>
+<script>
+  function getParameter(paramer){
+
+  var url=window.location.href.split("?")[1];            /*获取url里"?"后面的值*/
+  if(url.indexOf("&")>0){                                      /*判断是否是一个参数还是多个参数*/
+     urlParamArry=url.split("&");                            /*分开每个参数，并放到数组里*/
+     for(var i=0; i<urlParamArry.length; i++){
+     var paramerName=urlParamArry[i].split("=");   /*把每个参数名和值分开，并放到数组里*/
+     if(paramer==paramerName[0]){                     /*匹配输入的参数和数组循环出来的参数是否一样*/
+          return paramerName[1];                           /*返回想要的参数值*/
+     }
+  }
+}else{                                                              /*判断只有个参数*/
+   var paramerValue=url.split("=")[1];
+   return paramerValue;
+  }
+
+}
+  var zname = decodeURI( getParameter('zname'));
+  var dname = getParameter('dname');
+  var ename = getParameter('ename');
+  console.log(zname);
+  console.log(dname);
+  console.log(ename);
+  var sensorNO=zname+dname+ename;
+  console.log(sensorNO);
+  //   window.onload = JCDEQ.GetEQTree(etype,eqbh);
+          		// SensorIndex.LoadGrid(node);
+         var search=mapIndex.map_Marker(sensorNO);
+          		console.log(search);
+          		 //实例化信息窗体
+         		    var title = '传感器详细信息',
+         		        content = [];
+         		  //  content.push("<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>");
+         		  //  content.push("传感器实时数据："+search.recentDate);
+         		  bottom1=[];
+         		  bottom2=[];
+         		 var sensorNO=search.sensorNum;//传感器编号
+         		 var ssensor=sensorNO.substr(0,10);
+         		content.push("<img src='../css/"+ssensor+"/"+sensorNO+".jpg' height='200' width='260' onerror='imgerrorfun();'>");
+      		   var title = '编号：'+sensorNO+'传感器信息';
+      		   //获取实时数据共有几个数据
+      		   var str=search.recentDate;
+      		   var position=0;
+      		   var num=-1;
+      		   var index=0;
+      		   while(position!=-1){
+      			   position=str.indexOf(",",index);
+      			   num+=1;
+      			   index=position+1;
+      		   }
+                 var recentDataNumber=num+1;//实时数据的个数
+                 console.log(recentDataNumber);
+                 var alermState=search.alermState;
+                 console.log(search.alermState);
+                 
+                 if(alermState=="regular")
+              	   {
+              	   alermState="正常";
+              	   }
+                 else if(alermState=="yellow")
+              	   {
+              	   alermState="黄色预警";
+              	   }
+                 else if(alermState=="blue")
+              	   {alermState="蓝色预警";}
+                 else if(alermState=="red")
+              	   {alermState="红色预警";}
+                 else if(alermState=="orange"){
+              	   alermState="橙色预警";
+                 }
+                 else if (alermState==""){
+              	   alermState="无预警信息";
+                 }
+                 else if (alermState==null){
+                	   alermState="无预警信息";
+                   }
+                 
+                 console.log(alermState);
+                 //获取type
+                 var sensorType=search.sensorType;
+      		   bottom1.push("传感器类型："+search.sensorType+"       编号："+search.sensorNum);
+      		   bottom1.push("");
+      		   
+      		   if(search.sensorType=="倾斜"){
+    			   var qingxie=search.recentDate.split(",");
+    			   var qingxie_data=qingxie[0]+"°,"+qingxie[1]+"°";
+    			   bottom2.push("传感器实时数据："+qingxie_data);
+    		   }
+    		   else if(search.sensorType=="水位")
+    			   {
+    			   var shuiwei_data=search.recentDate+"m";
+    			   bottom2.push("传感器实时数据："+shuiwei_data);
+    			   }
+    		   else if(search.sensorType=="沉降"){
+    			   var chenjiang=search.recentDate.split(",");
+    			   var chenjiang_data=chenjiang[0]+"mm,"+chenjiang[1]+"℃";
+    			   bottom2.push("传感器实时数据："+chenjiang_data);
+    		   }
+    		   else if(search.sensorType=="深孔测斜"){
+    			   var shenkong=search.recentDate.split(",");
+    			   var shenkong_data=shenkong[0]+"mm,"+shenkong[1]+"mm";
+    			   bottom2.push("传感器实时数据："+shenkong_data);
+    		   }
+    		   else if(search.sensorType=="GNSS"){
+    			   var gnss=search.recentDate.split(",");
+    			   var gnss_data=gnss[0]+"mm,"+gnss[1]+"mm,"+gnss[2]+"mm"
+    			   bottom2.push("传感器实时数据："+gnss_data);
+    		   }
+    		   else{
+    			   var data=search.recentDate+"mm";
+    			   bottom2.push("传感器实时数据："+data);
+    		   }
+    		   
+      		  // bottom2.push("传感器实时数据："+search.recentDate);
+      		   bottom2.push("");
+      		   bottom2.push("时间:"+search.realTime);
+      		   bottom2.push("");
+      		    bottom2.push("报警状态："+alermState);
+      		    bottom1.push("地理位置:"+search.terminalName);
+      		    bottom1.push("");
+      		    bottom1.push(""); 
+      		  
+        		   // bottom1.push("传感器实时数据："+search.recentDate)
+         //  bottom1.push("监测仪器："+search.sensorType+"     编号："+search.sensorNum);
+		//   bottom1.push("传感器实时数据："+search.recentDate);
+		//   bottom1.push("报警状态："+search.alermState);
+		 //  bottom1.push("时间:"+search.realTime);
+		//   bottom1.push("地点:"+search.terminalName);
+         		       var infoWindow = new AMap.InfoWindow({
+         		    	    isCustom: true,  //使用自定义窗体
+         		    	    content: createInfoWindow(title, content,bottom1.join("<br/>"),bottom2.join("<br/>"),sensorNO,sensorType),
+         		    	    offset: new AMap.Pixel(16, -45)
+         		    	});
+         	       // infoWindow.open(map, e.target.getPosition());
+         	        var position=new AMap.LngLat(search.longtitude,search.latitude);
+         	       infoWindow.open(map, position);
+          	
+  
+</script>
+    </div>
+</body>
+</html>
+
+

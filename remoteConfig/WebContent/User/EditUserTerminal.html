@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- for 360 分别代表用极速模式，兼容模式，IE模式打开-->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,member-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="../Content/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/icheck/skins/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <script src="../lib/layui/layui.js"></script>
+</head>
+<body>
+    <div class="pd-10">
+        <form action="../User/UserChangeTerminalEdit" method="post" class="form form-horizontal" id="form-member-edit">
+        	<div class="row cl">                
+                <div class="formControls col-5">                    
+                     <input type="hidden" id="terminalNum0" name="terminalNum0" />
+                </div>
+            </div>
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">从属用户</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="user" name="user" style="font-size:18px; font-family:宋体;" readonly/></input>
+				</div>
+            </div>
+        	<div class="row cl">
+        		<div class="col-1"></div>
+                <label class="form-label col-3"><span class="c-red">*</span>出厂设备编号</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="terminalNum" name="terminalNum" nullmsg="出场设备编号不能为空"datatype="*1-50" required="required"/>
+				</div>
+            </div>
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3"><span class="c-red">*</span>测站编码</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="TNS" name="TNS" nullmsg="TNS不能为空" datatype="*1-12" required="required"/>
+				</div>
+            </div>
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">MCU编号（RID）</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="RID" name="RID" nullmsg="MCU编号（RID）不能为空"/>
+				</div>
+            </div>
+            
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">终端类型</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="TerminalType" name="TerminalType" />
+                </div>
+            </div> 
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">备注</label>
+                <div class="formControls col-5">                    
+                     <input type="text" class="input-text" id="description" name="description" />
+                </div>
+            </div>      
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">经度：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="Longitude" name="Longitude" />
+                </div>
+            </div> 
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">纬度：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="Latitude" name="Latitude" />
+                </div>
+            </div> 
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <label class="form-label col-3">测站编码（四川水文协议）：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="SCSW_Num" name="SCSW_Num" />
+                </div>
+
+            </div>                              
+            <div class="row cl">
+            	<div class="col-1"></div>
+                <div class="col-3-2 col-offset-4">
+                    <input class="layui-btn layui-btn-normal" type="submit"  id="SaveButton" name="SaveButton" value="&nbsp;&nbsp;保存&nbsp;&nbsp;" />
+               		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               		<input class="layui-btn layui-btn-warm" type="button" id="CancelButton" class="CancelButton" value="&nbsp;&nbsp;取消&nbsp;&nbsp;"style>              		              
+                </div>
+              
+            </div>
+        </form>
+    </div>
+
+    <script src="../Scripts/jquery-1.11.3.min.js"></script>
+   <script src="../lib/icheck/icheck.min.js"></script>
+
+    <script type="text/javascript" src="../lib/Validform/5.3.2/Validform.min.js"></script>
+
+    <script type="text/javascript" src="../lib/layer/1.9.3/layer.js"></script>
+    <script type="text/javascript" src="../lib/H-ui.js"></script>
+    <script type="text/javascript" src="../lib/H-ui.admin.js"></script>
+
+    <script type="text/javascript">
+    
+    
+    function oneValues(){
+		 var url = window.location.search; //获取url中"?"符后的字串
+	        var theRequest = new Object();
+	        if (url.indexOf("?") != -1) {
+	            var str = url.substr(1);
+	            //alert(str);
+	            strs = str.split("&");
+	            for (var i = 0; i < strs.length; i++) {
+	                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);//获取中文参数转码<span style="font-family: Arial, Helvetica, sans-serif;">decodeURI</span>，（unescape只针对数字，中文乱码)
+	            }
+	        }
+	        return theRequest;
+		}
+
+        $(function () {    
+        	
+        	var request = new Object();
+    	    request = oneValues();
+        	var input = document.getElementById("user");
+        		input.value = request['user'];
+			var input = document.getElementById("terminalNum0");
+				input.value=request['terminalNum'];
+			var input = document.getElementById("terminalNum");
+				input.value=request['terminalNum'];
+				var terminalNum=input.value;
+				$.ajax({
+	                type: 'GET',
+	                url: '../User/GetUserTerminalChange',
+	                async: false,
+	                cache: false,
+	                data: { terminalNum : terminalNum },
+	                success: function (result) {
+	                	var result= eval("(" + result + ")");               	
+	                    $("#user").val(result['user']);  
+	                    $("#terminalNum0").val(result['terminalNum']); 
+	                    $("#terminalNum").val(result['terminalNum']); 
+	                    $("#RID").val(result['RID']); 
+	                    $("#TNS").val(result['TNS']); 
+	                    $("#TerminalType").val(result['TerminalType']); 
+	                    $("#description").val(result['description']); 
+	                    $("#Longitude").val(result['Longitude']); 
+	                    $("#Latitude").val(result['Latitude']); 
+	                    $("#SCSW_Num").val(result['SCSW_Num']);
+	                }
+	            });
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+            //验证表单
+            $("#form-member-edit").Validform({
+                tiptype: 2,
+                ajaxPost: true,
+                callback: function (data) {
+                	if (data.tnssuccess) { 
+                    	if(data.success)
+                        {
+                    		layer.msg('修改用户终端信息成功!', { 
+                    			icon: 1, 
+                            	time: 1000,
+                            	end:function(){
+                            		var index = parent.layer.getFrameIndex(window.name);
+                                    //parent.$('.btn-success').click();
+                                    parent.$('#list_data').datagrid('reload');
+                                    parent.layer.close(index);
+                            	}});
+                    	}else{
+                    		layer.msg('修改失败,请检查录入项是否规范!', { icon: 2, time: 1000 });
+                    	}
+                    } else {
+                        layer.msg('修改失败,TNS不能重复,请检查!', { icon: 2, time: 1000 });
+                    }
+                	
+                }
+            });
+            
+            $("#CancelButton").click(function(){
+            	var index = parent.layer.getFrameIndex(window.name);
+                //parent.$('.btn-success').click();
+                parent.$('#list_data').datagrid('reload');
+                parent.layer.close(index);
+            });                        
+
+        });
+       
+    </script>
+
+</body>
+</html>

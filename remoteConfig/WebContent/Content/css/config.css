@@ -1,0 +1,16 @@
+#switch_button {
+    float: left;
+    border-radius: 15px;
+    width: 60px;
+    height: 30px;
+    background-color: #a3d760;
+}
+
+#handle {
+    border: 1px solid #c7d8df;
+    float: left;
+    width: 28px;
+    height: 28px;
+    border-radius: 15px;
+    background-color: #e8f0fe;
+}

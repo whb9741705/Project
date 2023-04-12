@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="utf-8">
+    <title>layuiAdmin 后台管理员</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <script src="../lib/layui/layui.js"></script>
+    <script src="../Scripts/remote/jquery.js"></script>
+</head>
+
+<body style="min-width: 1300px;">
+
+<div class="layui-side layui-bg-black" style="width: 230px;">
+    <div class="layui-side-scroll" style="width: auto;">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" style="height: 100%;width: auto;">
+            <li class="layui-nav-item layui-nav-item user" id="user"><a href="javascript:;">用户列表</a></li>
+  			<li class="layui-nav-item layui-nav-item terminal" id="terminal"><a href="javascript:;">设备管理</a></li>
+		</ul>
+    </div>
+</div>
+
+<body>
+    <div id="UserManagebody" class="layui-body" style="position: absolute !important;">
+        <iframe id="content_index" src="UserManage.html" frameborder="0" style="width: 100%;height: 100%;"scrolling="no"></iframe>
+    </div>
+</body>
+
+    
+
+
+    <script>
+    var config = document.getElementById('config');
+    var useradmin = document.getElementById('useradmin');
+    var changepwd = document.getElementById('change_pwd');
+    var content = document.getElementById('content_index');
+    var user = document.getElementById('user');
+    $(".user").on("click", function () {
+        content.src = "UserManage.html";
+    });
+    $(".terminal").on("click", function () {
+        content.src = "TerminalConfigure.html";
+    });
+    layui.use(['element', 'layer', 'util'], function () {
+        var element = layui.element,
+            layer = layui.layer,
+            util = layui.util,
+            $ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+
+            menuRight: function () {
+                layer.open({
+                    type: 1,
+                    content: '<div style="padding: 15px;">测艺科技</div>',
+                    area: ['260px', '100%'],
+                    offset: 'rt' //右上角
+                    ,
+                    anim: 5,
+                    shadeClose: true
+                });
+            }
+        });
+
+    });
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#user-back-manage'
+                , height: 312
+                , url: '/remote/user' //数据接口
+                , page: true //开启分页
+                , cols: [[ //表头
+                    { field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' }
+                    , { field: 'username', title: '用户名', width: 80 }
+                    , { field: 'sign', title: '角色', width: 80 }
+                ]]
+            });
+
+        });
+    </script>
+</body>
+
+</html>

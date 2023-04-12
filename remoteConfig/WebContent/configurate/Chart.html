@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="../Scripts/echarts.min.js" ></script>
+<title>Insert title here</title>
+</head>
+<body>
+  <div id='lineChart' style='width:900px;height:400px;margin:50px auto'></div>
+  <script>
+	
+    const lineChart = echarts.init(document.getElementById('lineChart'));
+    const lineOption = {
+      title: {
+          text: '网站访问渠道统计'
+      },
+      tooltip: {
+          trigger: 'axis',
+          formatter: function(params) {
+            var text = '--'
+            if (params && params.length) {
+              text = params[0].data[0] // 提示框顶部的日期标题
+              params.forEach(item => {
+                const dotHtml = item.marker // 提示框示例的小圆圈,可以在这里修改
+                text += `</br>${dotHtml}${item.seriesName} : ${item.data[1] ? item.data[1] : '-'}`
+              })
+            }
+            return text
+          }
+      },
+      legend: {
+          data: []
+      },
+      grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+      },
+      toolbox: {
+          feature: {
+              saveAsImage: {}
+          }
+      },
+      xAxis: {
+          type: 'time', // type为time时,不要传xAxis.data的值,x轴坐标的数据会根据传入的时间自动展示
+          boundaryGap: false, // false横坐标两边不需要留白
+          axisLabel: { // 坐标轴标签样式设置
+            formatter: function(value, index) { // 坐标轴文字展示样式处理
+              const date = new Date(value)
+              const texts = [date.getFullYear(), (date.getMonth() + 1), date.getDate()]
+              return texts.join('-')
+              // echarts自带的日期格式化方法
+              // return echarts.format.formatTime('yyyy-MM-dd', value)
+            }
+          }
+      },
+      yAxis: {
+          type: 'value',
+          name: '访问人数'
+      },
+      series: []
+    };
+    // 获取动态数据的函数
+    getData()
+    function getData() {
+      const data = [
+        {
+          type: 'email',
+          name: '邮件营销',
+          data: [
+            ['2020-10-1 01:00:00', 450],
+            ['2020-10-2 02:00:00 ', 350],
+            ['2020-10-3 03:00:00', 290],
+            ['2020-10-4 04:00:00', 380],
+            ['2020-10-5 05:00:00', 540],
+            ['2020-10-8 08:00:00', 430],
+            ['2020-10-9 09:00:00', 330],
+            ['2020-10-10 10:00:00', 280],
+            ['2020-10-11 11:00:00', 340],
+            ['2020-10-12 12:00:00', 455],
+            ['2020-10-13 13:00:00', 330],
+          ]
+        },
+      ]
+      const series = []
+      const legendData = []
+      data.forEach(item => {
+        const obj = {
+          name: item.name,
+          type: 'line',
+          data: item.data
+        }
+        legendData.push(item.name)
+        series.push(obj)
+      })
+      lineOption.legend.data = legendData
+      lineOption.series = series
+      // 第二个参数true表示清空之前的echarts设置,重新设置option,适用于legend等数据变化
+      // 如果只是渲染数据变化可以不传,lenged等不会重新渲染
+      lineChart.setOption(lineOption, true)
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html style="background-color: #f2f2f2;overflow:hidden;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>设备远程配置平台</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="./config.css">
+
+    <script src="../lib/layui/layui.js"></script>
+
+    <script src="../Scripts/remote/jquery.js"></script>
+
+    <script src="../Scripts/user/Login.js"></script>
+</head>
+<script>
+    $(function () {
+        Login.GetCookie();
+        user = Login.GetUserName();
+        document.getElementById("username").innerHTML = user;
+        if(user!="admin")
+        {
+        	$("#item_user").hide();
+        }
+    })
+</script>
+
+<body style="min-width: 1300px;">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部区域 -->
+        <div class="layui-header">
+            <a class="layui-logo layui-bg-black layui-hide-xs" href="index.html" style="width: 230px;">设备配置平台</a>
+            <ul id="nav_tab" class="layui-nav layui-layout-left layui-hide-xs" style="left: 230px;">
+            
+				<li class="layui-nav-item map layui-this"><a href="javascript:;">设备地图</a></li>
+                <li class="layui-nav-item config"><a href="javascript:;">设备配置</a></li>
+                <li class="layui-nav-item user" id="item_user"><a href="javascript:;">后台管理</a></li>
+                <!-- <li class="layui-nav-item user"><a href="javascript:;">用户管理</a></li> -->
+                <!-- <li class="layui-nav-item"><a href="javascript:;">访问历史</a></li> -->
+                <!-- <li class="layui-nav-item">
+                    <a href="javascript:;">还没想好</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">1</a></dd>
+                        <dd><a href="">2</a></dd>
+                        <dd><a href="">3</a></dd>
+                    </dl>
+                </li> -->
+            </ul>
+            <ul id="nav_tab" class="layui-nav layui-hide layui-show-xs-inline-block">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">菜单</a>
+                    <dl class="layui-nav-child">
+                    	<dd class="map layui-this" id ="map" ><a href="javascript:;">设备地图</a></dd>
+                        <dd class="config" id ="config"><a href="javascript:;">设备配置</a></dd>
+                        <dd class="user" id="user"><a href="javascript:;">用户管理</a></dd>
+                        <dd><a href="javascript:;">访问历史</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+
+                <li class="layui-nav-item">
+                    <a id="username" >bin</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">设置</a></dd>
+                        <dd><a id="change_pwd" href="javascript:;">修改密码</a></dd>
+                        <dd><a href="../login.html">退出</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                    <a href="javascript:;">
+                        <i class="layui-icon layui-icon-more-vertical"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- 内容主体区域 -->
+        <div class="body-withoutside">
+            <iframe id="content_index" src="mapTree.html" frameborder="0" style="width: 100%;height: 100%;"></iframe>
+        </div>
+    </div>
+    <script>
+        //JS 
+        //body部分的页面跳转功能
+        // $(function() {
+        //     var tab = $("#nav_tab a");
+        //     console.log(tab);
+        // });
+        var config = document.getElementById('config');
+        var username = document.getElementById('username');
+        var changepwd = document.getElementById('change_pwd');
+        var content = document.getElementById('content_index');
+       
+        $(".map").on("click", function () {
+            content.src = "mapTree.html";
+        });
+        $(".config").on("click", function () {
+            content.src = "tree.html";
+        });
+        $(".user").on("click", function () {
+            content.src = "user.html";
+        });
+        changepwd.onclick = function () {
+            content.src = "password.html";
+        }
+       
+        layui.use(['element', 'layer', 'util'], function () {
+            var element = layui.element,
+                layer = layui.layer,
+                util = layui.util,
+                $ = layui.$;
+            
+            //头部事件
+            util.event('lay-header-event', {
+
+                menuRight: function () {
+                    layer.open({
+                        type: 1,
+                        content: '<div style="padding: 15px;">测艺科技</div>',
+                        area: ['260px', '100%'],
+                        offset: 'rt' //右上角
+                        ,
+                        anim: 5,
+                        shadeClose: true
+                    });
+                }
+            });
+
+        });
+
+        // var hideLogo = function () {
+        //     if (document.documentElement.clientWidth < 769) {
+        //         $("#nav_tab").css("left","20px");
+        //     }
+        //     else {
+        //         $("#nav_tab").css("left","200px");
+        //     };
+        // };
+        // window.onload = hideLogo;
+        // window.onresize = hideLogo;
+    </script>
+</body>
+
+</html>

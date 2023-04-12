@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- for 360 分别代表用极速模式，兼容模式，IE模式打开-->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,member-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="../Content/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="../lib/icheck/skins/all.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="pd-10">
+        <form action="../User/UserAddSensorEdit" method="post" class="form form-horizontal" id="form-member-edit">
+        	<div class="row cl">
+                <label class="form-label col-3">请选择终端：</label>
+                <div class="formControls col-5">
+                    <select id="TerminalList" name="TerminalList" class="input-text">                                                                                             
+                     </select>
+				</div>
+                <div class="col-4"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>传感器编号(后3位)：</label>
+                <div class="formControls col-5">                    
+                     <input type="text" class="input-text" id="sensorNum" name="sensorNum" datatype="*3-3" nullmsg="传感器编号不能为空"/>
+                </div>
+                <div class="col-4"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>灾害点名称：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="stationName" name="stationName" nullmsg="灾害点名称不能为空"/>
+                </div>
+                <div class="col-4"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>监测点名称：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="terminalName" name="terminalName" nullmsg="监测点名称不能为空" />
+                </div>
+                <div class="col-4"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>仪器名称：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="sensorName" name="sensorName" nullmsg="仪器名称不能为空"/>
+                </div>
+                <div class="col-4"></div>
+            </div>    
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>仪器类型：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="sensorType" name="sensorType" nullmsg="仪器类型不能为空"/>
+                </div>
+                <div class="col-4"></div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>监测单位：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="sensorUnit" name="sensorUnit" nullmsg="监测单位不能空"/>
+                </div>
+                <div class="col-4">注意：多个单位之间用英文逗号隔开</div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3">精度：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="sensorAccurate" name="sensorAccurate" />
+                </div>
+                <div class="col-4"></div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">经度：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="longitude" name="longitude" />
+                </div>
+                <div class="col-4">注意：小数点后的最后一位不能为0</div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3">纬度：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="latitude" name="latitude" />
+                </div>
+                <div class="col-4">注意：小数点后的最后一位不能为0</div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>资源导航标签：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="treenum" name="treenum" datatype="*" nullmsg="资源导航标签不能为空"/>
+                </div>                           
+            </div> 
+            <div class="row cl"> 
+            	<div class="formControls " style="left:5%; width:90%;" id="YLshuoming">(<span class="c-red">雨量预警说明：</span>每种预警中都有四个预警值，按顺序分别为5分钟降雨，1小时累计降雨，6小时累计降雨，24小时累计降雨；4个预警值请用英文逗号隔开)</div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-3">蓝色预警值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="blueAlert" name="blueAlert" nullmsg="预警值不能为空"/>
+                </div>
+                <div class="col-4">请用英文逗号隔开，若没有请输入null,多个传感器可以用null与数字组合，例如null,1</div>               
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3">黄色预警值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="yellowAlert" name="yellowAlert" nullmsg="预警值不能为空"/>
+                </div>  
+                <div class="col-4">请用英文逗号隔开，若没有请输入null,多个传感器可以用null与数字组合，例如null,1</div>             
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3">橙色预警值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="orangeAlert" name="orangeAlert" nullmsg="预警值不能为空"/>                    
+                </div>
+                <div class="col-4">请用英文逗号隔开，若没有请输入null,多个传感器可以用null与数字组合，例如null,1</div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3">红色预警值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="redAlert" name="redAlert" nullmsg="预警值不能为空"/>
+                </div>
+                <div class="col-4">请用英文逗号隔开，若没有请输入null,多个传感器可以用null与数字组合，例如null,1</div>                
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3" for="PhoneNumber">报警短信电话（主）：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text"  placeholder="" id="PhoneNumber"  name="PhoneNumber" datatype="*4-15" nullmsg="电话号码不能为空" />
+                </div>  
+              	<div class="col-4">报警短信电话（主）不能为空且最多只能填一个电话号码，若无号码，请填入null，若为null，报警短信电话（从）也不能收到报警短信</div>
+            </div>
+            
+           <div class="row cl">
+                <label class="form-label col-3" for="PhoneNumber1">报警短信电话（从）：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text"  placeholder="" id="PhoneNumber1" name="PhoneNumber1"  datatype="*4-150" nullmsg="此处不能为空" />
+                </div>               
+             	<div class="col-4">报警短信电话（从）不能为空，若无号码，请填入null，多个电话之间用，隔开，最多能填写10个电话</div>
+            </div>          
+           	 
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>上限值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="upperLimits" name="upperLimits" value="null" datatype="*1-100" nullmsg="上限值不能为空"/>
+                </div>
+                <div class="col-4">若无上限值，请填写null</div>
+            </div> 
+            <div class="row cl">
+                <label class="form-label col-3"><span class="c-red">*</span>下限值：</label>
+                <div class="formControls col-5">
+                    <input type="text" class="input-text" id="lowerLimits" name="lowerLimits" value="null" datatype="*1-100" nullmsg="下限值不能为空"/>
+                </div>
+                <div class="col-4">若无下限值，请填写null</div>
+            </div>                                  
+            <div class="row cl">
+                <div class="col-3-2 col-offset-4">
+                    <input class="btn btn-primary radius" type="submit"  id="SaveButton" name="SaveButton" value="&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;" />
+               		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               		<input class="btn btn-primary radius" type="button" id="CancelButton" class="CancelButton" value="&nbsp;&nbsp;取消&nbsp;&nbsp;">              		              
+                </div>
+              
+            </div>
+        </form>
+    </div>
+
+    <script src="../Scripts/jquery-1.11.3.min.js"></script>
+   <script src="../lib/icheck/icheck.min.js"></script>
+
+    <script type="text/javascript" src="../lib/Validform/5.3.2/Validform.min.js"></script>
+
+    <script type="text/javascript" src="../lib/layer/1.9.3/layer.js"></script>
+    <script type="text/javascript" src="../lib/H-ui.js"></script>
+    <script type="text/javascript" src="../lib/H-ui.admin.js"></script>
+
+    <script type="text/javascript">
+    	var TerminalList = null;
+        $(function () {       	
+        	$.ajax({
+                type: 'GET',
+                url: '../User/GetAddUserSensorTerminalList',
+                async: false,
+                cache: false,
+                success: function (result) {
+                	var result= eval("(" + result + ")"); 
+                	TerminalList = result;                   
+                }
+            });
+        	
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+            //验证表单
+            $("#form-member-edit").Validform({
+                tiptype: 2,
+                ajaxPost: true,
+                callback: function (data) {
+                    if (data.success) {                   	
+                        layer.msg('修改用户传感器信息成功!', { 
+                        	icon: 1, 
+                        	time: 1000,
+                        	end:function(){
+                        		var index = parent.layer.getFrameIndex(window.name);
+                                //parent.$('.btn-success').click();
+                                parent.$('#list_data').datagrid('reload');
+                                parent.layer.close(index);
+                        	}});
+                        
+                    } else {
+                        layer.msg('修改失败,请检查录入项是否规范!', { icon: 1, time: 1000 });
+                    }
+
+                }
+            });
+            
+            $("#CancelButton").click(function(){
+            	var index = parent.layer.getFrameIndex(window.name);
+                //parent.$('.btn-success').click();
+                parent.$('#list_data').datagrid('reload');
+                parent.layer.close(index);
+            });                        
+
+        });
+        function load_conditions(){   	 
+    		for(var i = 0;i < TerminalList.terminalList.length; i ++){    		
+    			//console.log(TerminalList.terminalList[i]);
+    			$("#TerminalList").append('<option value="'+TerminalList.terminalList[i]+'">'+TerminalList.terminalList[i]+'</option>');
+    		}
+    	}
+    	window.onload = function(){
+    		load_conditions();
+    	}
+    </script>
+
+</body>
+</html>

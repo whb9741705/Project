@@ -1,0 +1,47 @@
+/* CSS Document */
+/* ��ͼ������ʽ */
+
+@charset "utf-8";
+
+/* ��ͼ���� */
+.tip { margin: 0px; padding: 0px; width: 368px; height: 300px; background-image: url(../images/maptip/maptip.png); background-repeat: no-repeat; overflow: hidden; font: 12px Verdana,����; }
+
+.tiptitle { padding: 0; width: 340px; height:40px;line-height:40px;  text-align: left; vertical-align: bottom; margin: 10px auto 0px auto; font-size: 14px; font-weight: bold; color: #506aa5;}
+
+.titlename { float: left; width: 100%; }
+
+.titlemore { width: 50px; font-size: 12px; float: right; font-weight: normal; cursor: pointer; }
+
+.tipcon { margin: 0 auto 0 auto; padding:5px 0 0 0; width: 340px; height: auto; min-height: 90px; color: #676767;  font: 12px Verdana,����; border-bottom: 1px solid #DBE1EC;  border-top: 1px dashed #E2E7F1; }
+
+
+.tipcon span { color: black; width:60px; text-align:right; float:left;}
+/*.tipcontxt1  {text-align:left;color:red;width:130px; height: 24px; line-height: 24px;float:left; }
+.tipcontxt2  {text-align:left;color:red;width:140px; height: 24px; line-height: 24px;float:left; }*/
+
+.cn1 { margin: 0px; padding: 0px; width: 100%; height: 24px; line-height: 24px; }
+.cn1left { margin: 0px; padding: 0px; width: 180px; float: left;  }
+
+.cn1right { margin: 0px; padding: 0px; width: 160px; float: right; }
+
+.cn1right a { color: #23bfa3; text-decoration: underline; }
+
+.cn2 { width:100%; margin: 0px; padding: 0px;  height: 48px; line-height: 24px; text-align: left; word-break: break-all; overflow:hidden; }
+
+.runstate { width: 338px; height: 64px; background-color: #F9FCFF; border: 1px solid #D3E1F1; margin: 10px auto 10px auto; }
+.cn3 { width: 100%; margin: 0px; padding: 0px 0px 0px 10px; height: 30px; line-height: 30px; text-align: left; vertical-align:middle; }
+
+
+.tipico { width: 340px; height: 40px; margin: 8px auto 0px auto; font-size: 12px; }
+
+.tipico ul { margin: 0; padding: 0px; height: 30px; width: 100%; list-style-type: none; }
+
+.tipico ul li { margin: 0px; padding: 0px; float: left; cursor: pointer; width: 85px; }
+
+.tipico ul li img { width: 20px; height: 20px; float: left; }
+
+.tipico ul li a { color: #506aa5; line-height: 20px; text-decoration: none; }
+
+.tipico ul li a:hover { color: #3da570; text-decoration: none; }
+
+.huise { color: #BDBDBD; }

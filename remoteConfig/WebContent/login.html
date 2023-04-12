@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" charset="utf-8">
+    <link href="./lib/juery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="./Content/css/login.css" rel="stylesheet" />
+    <script src="./Scripts/jquery-1.11.3.min.js"></script>
+ 	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./Scripts/user/Login.js"charset="utf-8" ></script>
+    
+    <title>远程配置系统</title>
+    <script>
+     
+        $(function () {     
+            
+            Login.check_remember();           
+        });              
+        
+        function remember(){
+    		var remFlag = $("#checkbox").is(':checked');
+    		if(remFlag==true)
+    			$("#ifrem").val("true");
+    		else
+    			$("#ifrem").val("false");    		
+    	}
+    	
+    </script>
+</head>
+<body >
+    <div id="mainBody">
+    	<div class="background"></div>       
+    </div>
+    <div class="logintop">
+        <span>欢迎登录远程配置系统</span>
+        <!-- <ul>
+            <li style="display: none"><a href="#">返回首页</a></li>
+        </ul> -->
+    </div>
+    <span class="systemlogo">
+        <p style="font-size: 22px;margin-left: calc(50% - 90px);">远 程 配 置 系 统</p>
+        
+    </span>
+    <div id="logindiv" class="loginbody">
+        
+           <!--  <ul>
+                <li>           
+                    <input type="text" placeholder="用户名" class="loginuser" id="iusername" value="" />               
+                </li>
+                <li>            
+                    <input type="password" placeholder="密码" class="loginpwd" id="ipassword" value="" />                
+                    <span style="color:red;" id="errtip"></span>
+                </li>
+                <li>
+                <div class="rempwd">
+                <input type="checkbox" id="rempwd"/><label for="rempwd" id="lab">记住密码</label>
+                 </div>
+                     
+                </li>
+                <li>                
+                    <input name="" type="button" onclick="Login.Login();" class="loginbtn" value="登录" />
+
+                </li>
+            </ul>-->
+	     <form action="" method="post" id="form-login"> 
+			<p class="yonghuming">用户名</p>
+		 		<input type="text" name="username" id="username" class="inputnamem"> 	 	
+		 	<p class="mima">密码</p>
+				<input type="password" name="password" id="password" class="inputpasswordm">	 	
+		 	<div id="reminput"> 
+		 		<input type="checkbox" value="remnum" id="checkbox" onclick="remember();" style="display: none;">
+		 		<label for="checkbox"></label>
+		 		<input type="hidden" name="ifrem" id="ifrem" value = "false">
+	    		<span style="font-size:15px; line-height:51px; margin:auto 42px;">记住密码</span>
+		 	</div>
+		 	<div id="enterbuttonm"> 
+		 		<button class="btn-primary radius denglubutton" onclick="Login.Login();return false;">登录</button>
+		 	</div>
+		</form>
+
+        
+    </div>
+    <!-- <script>
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    	document.getElementById('logindiv').className='loginbodym';
+    	$(".systemlogo").hide();
+    }
+    </script> -->
+</body>
+</html>
+

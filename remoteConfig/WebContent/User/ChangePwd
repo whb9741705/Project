@@ -1,0 +1,89 @@
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/lib/html5.js"></script>
+<script type="text/javascript" src="/lib/respond.min.js"></script>
+<script type="text/javascript" src="/lib/PIE_IE678.js"></script>
+<![endif]-->
+
+<link href="../Content/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="../Content/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="../lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+
+<nav class="breadcrumb">
+    <i class="Hui-iconfont">&#xe60d;</i> 用户管理 
+    <span class="c-gray en">&gt;</span> 修改密码 
+
+</nav>
+<div class="pd-20">
+	<form action="/User/Change" method="post" class="form form-horizontal" id="form-change-password">
+		<div class="row cl">
+			<label class="form-label col-4"><span class="c-red">*</span>账户：</label>
+			<div class="formControls col-4" id='divId'> temp </div>
+            <input id="userid" name="userid" type="hidden" value="22"  />
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-4"><span class="c-red">*</span>新密码：</label>
+			<div class="formControls col-4">
+				<input type="password" class="input-text" autocomplete="off" placeholder="不修改请留空"   name="newpassword" id="newpassword" datatype="*6-18"  />
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-4"><span class="c-red">*</span>确认密码：</label>
+			<div class="formControls col-4">
+				<input type="password" class="input-text" autocomplete="off" placeholder="不修改请留空" name="newpassword2" id="newpassword2" recheck="newpassword" datatype="*6-18" errormsg="您两次输入的密码不一致！" />
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-8 col-offset-4">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;"/>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="../Scripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="../lib/layer/1.9.3/layer.js"></script>
+<script type="text/javascript" src="../lib/H-ui.js"></script> 
+<script type="text/javascript" src="../lib/H-ui.admin.js"></script>
+
+<script type="text/javascript">
+   function get_cookie(Name) {
+    	   var search = Name + "="//查询检索的值
+    	   var returnvalue = "";//返回值
+    	   if (document.cookie.length > 0) {
+    	     sd = document.cookie.indexOf(search);
+    	     if (sd!= -1) {
+    	        sd += search.length;
+    	        end = document.cookie.indexOf(";", sd);
+    	        if (end == -1)
+    	         end = document.cookie.length;
+    	         //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+    	        returnvalue=unescape(document.cookie.substring(sd, end))
+    	      }
+    	   } 
+    	   return returnvalue;
+    	}
+$(function(){
+     $('#divId').html(get_cookie("username"));
+	$("#form-change-password").Validform({
+	    tiptype: 2,
+	    ajaxPost: true,
+	    callback: function (data) {
+	        if (data.success) {
+	            layer.alert('密码修改成功，请重新登录!', { icon: 3, title: '提示' }, function (index) {
+	                //do something
+	                layer.close(index);
+	                window.top.location = "../User/Logout";
+	            });
+	        }
+	    }
+	});
+});
+</script>
